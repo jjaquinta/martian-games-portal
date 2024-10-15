@@ -1,13 +1,50 @@
+/*************************************
+GENERAL
+*************************************/
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin-left: 15px;
+	margin-right: 15px;
+	margin-top: 12px;
+	padding: 0;
+	font: 12px/1.4em "Lucida Grande", Verdana, sans-serif;
+	color: #DDD;
+	overflow-y: scroll;
+	text-rendering: optimizeLegibility;
+	background-color: #000000;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.header-text {
+  font-size: 9pt;  /* Adjust font size as needed */
+  color: #888;          /* Light gray color */
+  text-align: center;  /* Center align the text */
+  margin-top: 1em;      /* Add some margin from top content */
+}
+
+.footer-text {
+  font-size: 0.8rem;  /* Adjust font size as needed */
+  color: #888;          /* Light gray color */
+  text-align: center;  /* Center align the text */
+  margin-top: 1em;      /* Add some margin from top content */
+}
+
+.footer-text a {
+  color: inherit;  /* Inherit the color from the .footer-text class */
+  text-decoration: none;  /* Remove underline from links */
+}
+
+.footer-text a:hover {
+  text-decoration: underline;  /* Underline links on hover */
+}
+
+
+.mglink a {
+  color: #FFF;
+  text-decoration: none; /* remove underline */
+}
+
+.mglink a:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Slightly darker background */
+  color: #eee; /* Adjust text color for contrast */
+  text-decoration: underline;  /* Underline links on hover */
+  ext-decoration-color: #00f; /* Underline color */
 }

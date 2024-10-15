@@ -1,16 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { UserContext } from './UserContext';
 import NavItem from './navitem';
 
 const Navigator = () => {
-  const navItems = [
-    { id: 'me/history/games', name: 'Games' },
-    { id: 'me/history/nicknames', name: 'Nicknames' },
-    { id: 'me/history/xp', name: 'XP' },
-    { id: 'me/history/rank', name: 'Rank' },
-  ];
+  const { userData } = useContext(UserContext); // Access the user data from context
   const navItemsPub = [
-    { id: 'public/login', name: 'Login' },
-    { id: 'public/logout', name: 'Logout' },
     { id: 'public/policies', name: 'Policies' },
     { id: 'public/admincoc', name: 'Mod Conduct' },
     { id: 'public/contact', name: 'Contact' },
@@ -42,30 +36,44 @@ const Navigator = () => {
     <aside style={{ width: '10%' }}>
       <ul>
         <li>Public<ul>
+          {!userData?.player && (
+            <NavItem key='public/login' navID='public/login' navName='Login' />
+          )}
+          {userData?.player && (
+            <NavItem key='public/logout' navID='public/logout' navName='Logout' />
+          )}
           {navItemsPub.map(item => (
             <NavItem key={item.id} navID={item.id} navName={item.name} />
           ))}</ul>
         </li>
-        <li>Me<ul>
-          {navItemsMe.map(item => (
-            <NavItem key={item.id} navID={item.id} navName={item.name} />
-          ))}</ul>
-        </li>
-        <li>Game<ul>
-          {navItemsGame.map(item => (
-            <NavItem key={item.id} navID={item.id} navName={item.name} />
-          ))}</ul>
-        </li>
-        <li>Admin<ul>
-          {navItemsAdmin.map(item => (
-            <NavItem key={item.id} navID={item.id} navName={item.name} />
-          ))}</ul>
-        </li>
-        <li>Beta<ul>
-          {navItemsBeta.map(item => (
-            <NavItem key={item.id} navID={item.id} navName={item.name} />
-          ))}</ul>
-        </li>
+        {userData?.player && (
+          <li>Me<ul>
+            {navItemsMe.map(item => (
+              <NavItem key={item.id} navID={item.id} navName={item.name} />
+            ))}</ul>
+          </li>
+        )}
+        {userData?.player && (
+          <li>Game<ul>
+            {navItemsGame.map(item => (
+              <NavItem key={item.id} navID={item.id} navName={item.name} />
+            ))}</ul>
+          </li>
+        )}
+        {userData?.player && (
+          <li>Admin<ul>
+            {navItemsAdmin.map(item => (
+              <NavItem key={item.id} navID={item.id} navName={item.name} />
+            ))}</ul>
+          </li>
+        )}
+        {userData?.player && (
+          <li>Beta<ul>
+            {navItemsBeta.map(item => (
+              <NavItem key={item.id} navID={item.id} navName={item.name} />
+            ))}</ul>
+          </li>
+        )}
       </ul>
     </aside>
   );
