@@ -20,6 +20,7 @@ const PublicYouTube = () => {
     <li><a href="https://www.youtube.com/@user-gm6lg2yf1b">Sophiaspace1999</a></li>
     <li><a href="https://www.youtube.com/@soquentinegames2750">SOQUENTINEgames</a></li>
     <li><a href="https://www.youtube.com/@Superstar-ro3mf">Superstar</a></li>
+    <li><a href="https://www.youtube.com/@ViratKohliTankOff">ViratKohliTankOff</a></li>
 </ul>
 <h3>Tank Off 2</h3>
 <ul>

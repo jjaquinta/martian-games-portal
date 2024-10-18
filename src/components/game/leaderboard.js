@@ -89,7 +89,7 @@ const GameLeaderboard = () => {
 
   return (
     <div>
-      <h2 id="leaderboard"> {userData.game} </h2>
+      <h2 id="leaderboard"> {userData.game} Leaderboard</h2>
       <table>
         <tbody>
           <tr>

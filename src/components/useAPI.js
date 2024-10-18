@@ -149,11 +149,54 @@ export const useApi = () => {
     }
   };
 
+  const lookupUser = async (id, login, nickname, level, ip) => {
+    const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/players`;
+
+    const bodyParams = {};
+    if (id !== null) { bodyParams.id = id; }
+    if (login !== null) { bodyParams.login = login; }
+    if (nickname !== null) { bodyParams.nickname = nickname; }
+    if (level !== null) { bodyParams.level = level; }
+    if (ip !== null) { bodyParams.ip = ip; }
+    bodyParams.makeUser = true;
+    bodyParams.limit = 200;
+    const body = new URLSearchParams(bodyParams).toString();
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Bearer '+api_token
+        },
+        body: body,
+      });
+
+      if (response.status === 200) {
+        const data = await response.json();
+        console.error('LookupUsers request succeeded with a record count of ', data.length);
+        setUserData((prevUserData) => ({
+          ...prevUserData,
+          lookupUserData: data, // Add the reports data to userData
+        }));
+  
+        return { success: true, data };
+      } else {
+        console.error('LookupUsers request failed with status', response.status);
+        return { success: false, status: response.status };
+      }
+    } catch (error) {
+      console.error('Error making lookupUsers request', error);
+      return { success: false, error };
+    }
+  };
+
   return {
     login,
     reports,
     reportsMe,
     reportsYou,
     updateLeaderboard,
+    lookupUser,
   };
 };
