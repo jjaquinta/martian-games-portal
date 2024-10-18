@@ -8,7 +8,7 @@ const Header = () => {
     return `${process.env.PUBLIC_URL}/images/${imageName}`;
   }
 
-  const getImage = () => {
+  const getBanner = () => {
     switch (gameName) {
       case "TankOff Classic":
         return getImagePath('toc.png');
@@ -27,16 +27,30 @@ const Header = () => {
     }
   };
 
+  const getLogo = () => {
+    return userData?.busy ? getImagePath('busy.gif') : getImagePath('logo.png');
+  }
+
   return (
-    <div className="header-text">
-      <img src={getImage()} alt="Game Logo" />
-      {userData.player ? (
-          <span className="header-text"><br/>Welcome, {userData.player.nickname}!
-          ({userData.player.login})</span>
-        ) : (
-          <span className="header-text"><br/></span>
-        )}
-    </div>
+    <table>
+      <tr>
+        <td className="header-logo">
+          <img src={getLogo()} alt="Game Logo"/>
+        </td>
+        <td className="header-text">
+          <img src={getBanner()} alt="Game banner" />
+          {userData?.error ? (
+            <span className="header-error"><br/>{userData.error}</span>
+          ) : userData?.success ? (
+              <span className="header-success"><br/>{userData.success}</span>
+          ) : userData?.player ? (
+            <span className="header-text"><br/>Welcome, {userData.player.nickname}! ({userData.player.login})</span>
+          ) : (
+            <span className="header-text"><br/></span>
+          )}
+        </td>
+      </tr>
+    </table>
   );
 };
 

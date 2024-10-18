@@ -60,14 +60,14 @@ const Navigator = () => {
             ))}</ul>
           </li>
         )}
-        {userData?.player && (
+        {userData?.user?.deputy && (
           <li>Admin<ul>
             {navItemsAdmin.map(item => (
               <NavItem key={item.id} navID={item.id} navName={item.name} />
             ))}</ul>
           </li>
         )}
-        {userData?.player && (
+        {userData?.user?.beta && (
           <li>Beta<ul>
             {navItemsBeta.map(item => (
               <NavItem key={item.id} navID={item.id} navName={item.name} />

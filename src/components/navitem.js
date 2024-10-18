@@ -1,9 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useApi } from './useAPI';
 
 const NavItem = ({ navID, navName }) => {
   // Initialize the navigate function from react-router-dom
   const navigate = useNavigate();
+  const { setSuccess } = useApi(); 
 
   const navigateTo = (id) => {
     console.log(`Navigating to ${id}`);
@@ -12,9 +14,24 @@ const NavItem = ({ navID, navName }) => {
 
   return (
     <li>
-      <a href="#" onClick={(e) => { e.preventDefault(); navigateTo(navID); }}>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          navigateTo(navID);
+          setSuccess("");
+        }}
+        style={{
+          background: 'none',
+          color: 'inherit',
+          border: 'none',
+          padding: 0,
+          font: 'inherit',
+          cursor: 'pointer',
+          textDecoration: 'underline',
+        }}
+      >
         {navName}
-      </a>
+      </button>
     </li>
   );
 };

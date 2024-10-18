@@ -7,6 +7,36 @@ let api_token = "";
 export const useApi = () => {
   const { setUserData,userData } = useContext(UserContext); // Access the UserContext
 
+  const setError = async(theError) => {
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      error: theError,
+    }));
+    if ((theError != null) && (theError !== "")) {
+      console.error(theError);
+    }
+  }
+
+  const setSuccess = async(theSuccess) => {
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      success: theSuccess,
+    }));
+    if ((theSuccess != null) && (theSuccess !== "")) {
+      console.error(theSuccess);
+    }
+  }
+
+  const setBusy = async(isbusy) => {
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      busy: isbusy,
+    }));
+    if (isbusy) {
+      setError("");
+    }
+  }
+
   // Function to handle login logic
   const login = async (game, username, password, navigate) => {
     const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/login`;
@@ -18,6 +48,7 @@ export const useApi = () => {
     }).toString();
 
     try {
+      setBusy(true);
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -25,6 +56,7 @@ export const useApi = () => {
         },
         body: body,
       });
+      setBusy(false);
 
       if (response.status === 200) {
         //response.headers.forEach((value, key) => {
@@ -48,11 +80,12 @@ export const useApi = () => {
 
         return { success: true };
       } else {
-        console.error('Login failed with status', response.status);
+        setError('Login failed with status '+response.status);
         return { success: false, status: response.status };
       }
     } catch (error) {
-      console.error('Error making login request', error);
+      setBusy(false);
+      setError('Error making login request '+error);
       return { success: false, error };
     }
   };
@@ -68,6 +101,7 @@ export const useApi = () => {
     const body = new URLSearchParams(bodyParams).toString();
 
     try {
+      setBusy(true);
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -76,17 +110,19 @@ export const useApi = () => {
         },
         body: body,
       });
+      setBusy(false);
 
       if (response.status === 200) {
         const data = await response.json();
-
+        setSuccess("Reports fetched");
         return { success: true, data };
       } else {
-        console.error('Reports request failed with status', response.status);
+        setError('Reports request failed with status '+response.status);
         return { success: false, status: response.status };
       }
     } catch (error) {
-      console.error('Error making reports request', error);
+      setBusy(false);
+      setError('Error making reports request '+error);
       return { success: false, error };
     }
   };
@@ -122,6 +158,7 @@ export const useApi = () => {
     const body = new URLSearchParams(bodyParams).toString();
 
     try {
+      setBusy(true);
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -130,6 +167,7 @@ export const useApi = () => {
         },
         body: body,
       });
+      setBusy(false);
 
       if (response.status === 200) {
         const data = await response.json();
@@ -137,14 +175,15 @@ export const useApi = () => {
           ...prevUserData,
           leaderboard: data, // Add the reports data to userData
         }));
-  
+        setSuccess("Leaderboard retrieved");  
         return { success: true, data };
       } else {
-        console.error('Reports request failed with status', response.status);
+        setError('Leader request failed with status '+response.status);
         return { success: false, status: response.status };
       }
     } catch (error) {
-      console.error('Error making reports request', error);
+      setBusy(false);
+      setError('Error making leader request '+error);
       return { success: false, error };
     }
   };
@@ -163,6 +202,7 @@ export const useApi = () => {
     const body = new URLSearchParams(bodyParams).toString();
 
     try {
+      setBusy(true);
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -171,22 +211,101 @@ export const useApi = () => {
         },
         body: body,
       });
+      setBusy(false);
 
       if (response.status === 200) {
         const data = await response.json();
-        console.error('LookupUsers request succeeded with a record count of ', data.length);
         setUserData((prevUserData) => ({
           ...prevUserData,
           lookupUserData: data, // Add the reports data to userData
         }));
-  
+        setSuccess("User lookup complete.");
         return { success: true, data };
       } else {
-        console.error('LookupUsers request failed with status', response.status);
+        setError('LookupUsers request failed with status '+response.status);
         return { success: false, status: response.status };
       }
     } catch (error) {
-      console.error('Error making lookupUsers request', error);
+      setBusy(false);
+      setError('Error making lookupUsers request '+error);
+      return { success: false, error };
+    }
+  };
+  
+  const lookupLobbyChat = async (limit) => {
+    const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/lobbychat`;
+
+    const bodyParams = {};
+    if (limit !== null) { bodyParams.limit = limit; }
+    const body = new URLSearchParams(bodyParams).toString();
+
+    try {
+      setBusy(true);
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Bearer '+api_token
+        },
+        body: body,
+      });
+      setBusy(false);
+
+      if (response.status === 200) {
+        const data = await response.json();
+        setUserData((prevUserData) => ({
+          ...prevUserData,
+          lookupLobbyChat: data,
+        }));
+        setSuccess("Lobby chat retrieved");
+        return { success: true, data };
+      } else {
+        setError('LookupLobbyChat request failed with status '+response.status);
+        return { success: false, status: response.status };
+      }
+    } catch (error) {
+      setBusy(false);
+      setError('Error making lookupLobbyChat request '+error);
+      return { success: false, error };
+    }
+  };
+  
+  const changePassword = async (login, newpassword, newnickname) => {
+    const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/setpassword`;
+
+    const bodyParams = {};
+    if (login !== null) { bodyParams.login = login; }
+    if (newpassword !== null) { bodyParams.password = newpassword; }
+    if (newnickname !== null) { bodyParams.nickname = newnickname; }
+    const body = new URLSearchParams(bodyParams).toString();
+
+    try {
+      setBusy(true);
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Bearer '+api_token
+        },
+        body: body,
+      });
+      setBusy(false);
+
+      if (response.status === 200) {
+        const data = await response.json();
+        setUserData((prevUserData) => ({
+          ...prevUserData,
+          player: data,
+        }));
+        setSuccess("Password changed");
+        return { success: true, data };
+      } else {
+        setError('setPassword request failed with status '+response.status);
+        return { success: false, status: response.status };
+      }
+    } catch (error) {
+      setBusy(false);
+      setError('Error making setPassword request '+error);
       return { success: false, error };
     }
   };
@@ -198,5 +317,8 @@ export const useApi = () => {
     reportsYou,
     updateLeaderboard,
     lookupUser,
+    lookupLobbyChat,
+    changePassword,
+    setSuccess,
   };
 };

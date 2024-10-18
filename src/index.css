@@ -19,6 +19,26 @@ body {
   text-align: center;  /* Center align the text */
   margin-top: 1em;      /* Add some margin from top content */
 }
+.header-error {
+  font-size: 10pt;           /* Slightly larger font size for readability */
+  color: #ff4c4c;            /* Bright red for contrast */
+  text-align: center;        /* Center align the text */
+  margin-top: 1em;           /* Add margin from top content */
+  text-shadow: 1px 1px 2px #333; /* Optional text shadow for better readability */
+}
+.header-success {
+  font-size: 10pt;           /* Slightly larger font size for readability */
+  color: #4cff4c;            /* Bright red for contrast */
+  text-align: center;        /* Center align the text */
+  margin-top: 1em;           /* Add margin from top content */
+  text-shadow: 1px 1px 2px #333; /* Optional text shadow for better readability */
+}
+.header-logo {
+  font-size: 9pt;  /* Adjust font size as needed */
+  color: #888;          /* Light gray color */
+  text-align: left;  /* Center align the text */
+  margin-top: 1em;      /* Add some margin from top content */
+}
 
 .footer-text {
   font-size: 0.8rem;  /* Adjust font size as needed */

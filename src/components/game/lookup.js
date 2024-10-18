@@ -33,6 +33,7 @@ const GameLookup = () => {
 
         <div style={{height: 10}}></div>
         <form onSubmit={handleSubmit}>
+          <input type="submit" value="Refresh" />
           {userData?.user?.deputy && (<input
               type="text"
               name="lookupID"
@@ -68,7 +69,6 @@ const GameLookup = () => {
               value={lookupIP}
               onChange={(e) => setLookupIP(e.target.value)}
             />)}                        
-            <input type="submit" value="Refresh" />
         </form>
         {Array.isArray(lookupUserData) ? (
           lookupUserData.length === 0 ? (
