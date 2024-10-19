@@ -10,16 +10,6 @@ const Navigator = () => {
     { id: 'public/contact', name: 'Contact' },
     { id: 'public/youtube', name: 'YouTube' },
   ];
-  const navItemsMe = [
-    { id: 'me/stats', name: 'Stats' },
-    { id: 'me/password', name: 'Password' },
-    { id: 'me/history/nicknames', name: 'Nicknames' },
-    { id: 'me/history/xp', name: 'XP' },
-    { id: 'me/history/rank', name: 'Rank' },
-    { id: 'me/reports', name: 'Reports' },
-    { id: 'me/actions', name: 'Actions' },
-    { id: 'me/cases', name: 'Cases' },
-  ];
   const navItemsGame = [
     { id: 'game/leaderboard', name: 'Leaderboard' },
     { id: 'game/lookup', name: 'Lookup' },
@@ -48,9 +38,17 @@ const Navigator = () => {
         </li>
         {userData?.player && (
           <li>Me<ul>
-            {navItemsMe.map(item => (
-              <NavItem key={item.id} navID={item.id} navName={item.name} />
-            ))}</ul>
+             <NavItem key='me/stats' navID='me/stats' navName='Stats' />
+             <NavItem key='me/password' navID='me/password' navName='Password' />
+             <li>History<ul>
+             <NavItem key='me/history/nicknames' navID='me/history/nicknames' navName='Nicknames' />
+             <NavItem key='me/history/xp' navID='me/history/xp' navName='XP' />
+             <NavItem key='me/history/rank' navID='me/history/rank' navName='Rank' />
+             </ul></li>
+             <NavItem key='me/reports' navID='me/reports' navName='Reports' />
+             <NavItem key='me/actions' navID='me/actions' navName='Actions' />
+             <NavItem key='me/cases' navID='me/cases' navName='Cases' />
+             </ul>
           </li>
         )}
         {userData?.player && (

@@ -40,12 +40,11 @@ export const useApi = () => {
   };
 
   // Centralized function for making API requests
-  const apiRequest = async (func, bodyParams, onSuccess, errorMsg) => {
+  const apiRequest = async (url, method, bodyParams, onSuccess, onError) => {
     const body = new URLSearchParams(bodyParams).toString();
     try {
       setBusy(true);
-      const method = "POST";
-      const response = await fetch(`https://maincastle.serveminecraft.net:8089/tankoff/api/${func}`, {
+      const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -57,15 +56,19 @@ export const useApi = () => {
 
       if (response.status === 200) {
         const data = await response.json();
-        onSuccess(data, response);
+        onSuccess(data);
         return { success: true, data };
       } else {
+        const errorMsg = `${url} request failed with status ${response.status}`;
         setError(errorMsg);
+        onError && onError(response.status);
         return { success: false, status: response.status };
       }
     } catch (error) {
       setBusy(false);
+      const errorMsg = `Error making ${url} request: ${error}`;
       setError(errorMsg);
+      onError && onError(error);
       return { success: false, error };
     }
   };
@@ -73,13 +76,14 @@ export const useApi = () => {
   // Function to handle login logic
   const login = async (game, username, password, navigate) => {
     const bodyParams = { loginid: username, password, game };
-    const url = `login`;
+    const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/login`;
 
     return apiRequest(
       url,
+      'POST',
       bodyParams,
-      (data, response) => {
-        const token = response.headers.get('token');
+      (data) => {
+        const token = data.token;
         api_token = token;
         setUserData({
           player: data.player,
@@ -89,20 +93,23 @@ export const useApi = () => {
         });
         navigate(`/me/stats`);
       },
-      "Login failed"
+      (error) => {
+        console.error("Login failed", error);
+      }
     );
   };
 
   // Function to handle reports logic
   const reports = async (limit, login, reportLogin) => {
     const bodyParams = { limit, login, reportLogin };
-    const url = `reports`;
+    const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/reports`;
 
     return apiRequest(
       url,
+      'POST',
       bodyParams,
       (data) => setSuccess("Reports fetched"),
-      "Reports request failed"
+      (error) => console.error("Reports request failed", error)
     );
   };
 
@@ -122,61 +129,66 @@ export const useApi = () => {
 
   const updateLeaderboard = async (country, mode, recent) => {
     const bodyParams = { cc: country, orderdown: mode, recent, limit: 200 };
-    const url = `users`;
+    const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/users`;
 
     return apiRequest(
       url,
+      'POST',
       bodyParams,
       (data) => updateUserData({ leaderboard: data }),
-      "Leaderboard request failed"
+      (error) => console.error("Leaderboard request failed", error)
     );
   };
 
   const lookupUser = async (id, login, nickname, level, ip) => {
     const bodyParams = { id, login, nickname, level, ip, makeUser: true, limit: 200 };
-    const url = `players`;
+    const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/players`;
 
     return apiRequest(
       url,
+      'POST',
       bodyParams,
       (data) => updateUserData({ lookupUserData: data }),
-      "User lookup request failed"
+      (error) => console.error("User lookup request failed", error)
     );
   };
 
   const lookupLobbyChat = async (limit) => {
     const bodyParams = { limit };
-    const url = `lobbychat`;
+    const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/lobbychat`;
 
     return apiRequest(
       url,
+      'POST',
       bodyParams,
       (data) => updateUserData({ lookupLobbyChat: data }),
-      "Lobby chat lookup request failed"
+      (error) => console.error("Lobby chat lookup request failed", error)
     );
   };
 
   const lookupAudits = async (login, limit) => {
     const bodyParams = { login, limit };
-    const url = `audits`;
+    const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/audits`;
 
     return apiRequest(
       url,
+      'POST',
       bodyParams,
       (data) => updateUserData({ lookupAudits: data }),
-      "Audit lookup request failed"
+      (error) => console.error("Audit lookup request failed", error)
     );
   };
 
   const changePassword = async (login, newpassword, newnickname) => {
     const bodyParams = { login, password: newpassword, nickname: newnickname };
-    const url = `setpassword`;
+    const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/setpassword`;
 
     return apiRequest(
       url,
+      'POST',
       bodyParams,
       (data) => updateUserData({ player: data }),
-      "Password change request failed"
+      (error) => console.error("Password change request failed", error)
     );
   };
 
