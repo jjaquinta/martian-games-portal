@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useApi } from '../useAPI';
 
 const PublicLogin = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [game, setGame] = useState('TankOff Classic'); // Default game
+  const [username, setUsername] = useState(localStorage.getItem('username'));
+  const [password, setPassword] = useState();
+  const [game, setGame] = useState(() => localStorage.getItem('game') || 'TankOff Classic');
   const navigate = useNavigate();
   const { login } = useApi(); // Call the hook and extract the login function
 

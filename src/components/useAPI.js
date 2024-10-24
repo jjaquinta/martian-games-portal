@@ -81,6 +81,9 @@ export const useApi = () => {
       (data, response) => {
         const token = response.headers.get('token');
         api_token = token;
+        // Persist game and username in localStorage
+        localStorage.setItem('game', game);
+        localStorage.setItem('username', username);
         setUserData({
           player: data.player,
           user: data.user,
@@ -132,8 +135,8 @@ export const useApi = () => {
     );
   };
 
-  const lookupUser = async (id, login, nickname, level, ip) => {
-    const bodyParams = { id, login, nickname, level, ip, makeUser: true, limit: 200 };
+  const lookupUser = async (id, login, nickname, level, ip, orderup, orderdown) => {
+    const bodyParams = { id, login, nickname, level, ip, makeUser: true, limit: 200, orderup, orderdown };
     const url = `players`;
 
     return apiRequest(

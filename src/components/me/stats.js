@@ -6,7 +6,6 @@ import { MGServices } from '../MGServices';
 const MeStats = () => {
   const { userData } = useContext(UserContext); // Access the user data from context
   const countryName = MGServices.getCountryName(userData.player.countryCode);
-  const level = MGServices.toLevel(userData.player.xp);
 
   return (
     <div>
@@ -27,11 +26,11 @@ const MeStats = () => {
             </tr>
           ) : (<tr/>)}
           <tr>
-              <th style={{ textAlign: 'right' }}>Level:</th><td>{level}</td>
+              <th style={{ textAlign: 'right' }}>Level:</th><td>{userData.player.level}</td>
               <th style={{ textAlign: 'right' }}>Joined:</th><td>{userData.player.timeJoined}</td>
           </tr>
           <tr>
-              <th style={{ textAlign: 'right' }}>XP:</th><td>{userData.player.xp.toLocaleString()}</td>
+              <th style={{ textAlign: 'right' }}>XP:</th><td>{userData.player.experience.toLocaleString()}</td>
               <th style={{ textAlign: 'right' }}>Last Login:</th><td>{userData.player.lastLogin}</td>
           </tr>
           <tr>

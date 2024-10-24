@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import NavLink from '../navlink';
 
 const PublicPolicies = () => {
   const [input1, setInput1] = useState(225000000);
@@ -66,7 +67,7 @@ const PublicPolicies = () => {
       <h1>Policies</h1>
       <p>
         For clarity and transparency, a number of policies used for moderation will be listed on this page. Most have been discussed on the
-        <a href="/index.jsp#links"> discord channel</a>, and are formed with comments and guidance from the community.
+        <NavLink key='public/contact' navID='public/contact' navName=' discord channel' />, and are formed with comments and guidance from the community.
         If you have any questions, or would like to suggest new policies or changes, please participate on the discord channel.
       </p>
 
@@ -85,7 +86,7 @@ const PublicPolicies = () => {
 
 <h2 id="policy1"> Account Restoration </h2>
 <p>
-    People are banned, from time to time, for community damaging behavior on Tank-Off.
+    People are banned, from time to time, for community damaging behavior on Martian Games.
     However, people can learn from their mistakes, and sometimes should be given a second chance.
     If you have a banned account, acknowledge and are remorseful for you past behavior,
     you can apply to be reinstated. The process is as follows:

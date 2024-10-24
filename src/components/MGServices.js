@@ -39,8 +39,12 @@ export class MGServices {
     return this.countryCodes[code] || code;
   }
 
-  static toLevel(xp) {
-    return Math.floor(Math.sqrt(xp) / 50.0);
+  static toLevel(game, xp) {
+    let level = Math.floor(Math.sqrt(xp) / 50.0);
+    if (game === "AirWars2") {
+      level = Math.floor(level/2);
+    }
+    return level;
   }
 
   static toDate(time) {

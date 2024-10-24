@@ -10,18 +10,34 @@ const GameLookup = () => {
   const [lookupNickname, setLookupNickname] = useState('');
   const [lookupLevel, setLookupLevel] = useState('');
   const [lookupIP, setLookupIP] = useState('');
+  const [orderUp, setOrderUp] = useState('');
+  const [orderDown, setOrderDown] = useState('');
   const { lookupUser } = useApi(); // Call the hook and extract the login function
   const lookupUserData = userData && userData.lookupUserData ? userData.lookupUserData : [];
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e != null) {
+      e.preventDefault();
+    }
   
     // Call the login function from the custom hook
-    const result = await lookupUser(lookupID, lookupLogin, lookupNickname, lookupLevel, lookupIP);
+    const result = await lookupUser(lookupID, lookupLogin, lookupNickname, lookupLevel, lookupIP, orderUp, orderDown);
 
     if (!result.success) {
       console.error('Login failed:', result.error || result.status);
     }
+  };
+  
+  const sortUp = (column) => {
+    setOrderUp(column);
+    setOrderDown('');
+    handleSubmit();
+  };
+  
+  const sortDown = (column) => {
+    setOrderDown(column);
+    setOrderUp('');
+    handleSubmit();
   };
 
   return (
@@ -91,13 +107,97 @@ const GameLookup = () => {
             <table id="matches">
               <thead>
                 <tr>
-                    {userData?.user?.deputy && (<th>Login</th>)}
-                    <th>Nickname</th>
-                    <th>XP</th>
-                    <th>Level</th>
-                    {userData?.user?.deputy && (<th>IP</th>)}
+                    {userData?.user?.deputy && (<th>
+                      Login
+                      <span
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => sortUp('login')}
+                      >
+                        &#9650;
+                      </span>
+                      <span
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => sortDown('login')}
+                      >
+                        &#9660;
+                      </span>
+                    </th>)}
+                    <th>
+                      Nickname 
+                      <span
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => sortUp('nickname')}
+                      >
+                        &#9650;
+                      </span>
+                      <span
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => sortDown('nickname')}
+                      >
+                        &#9660;
+                      </span>
+                    </th>
+                    <th>
+                      XP
+                      <span
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => sortUp('xp')}
+                      >
+                        &#9650;
+                      </span>
+                      <span
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => sortDown('xp')}
+                      >
+                        &#9660;
+                      </span>
+                    </th>
+                    <th>
+                      Level
+                      <span
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => sortUp('xp')}
+                      >
+                        &#9650;
+                      </span>
+                      <span
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => sortDown('xp')}
+                      >
+                        &#9660;
+                      </span>
+                    </th>
+                    {userData?.user?.deputy && (<th>
+                      IP
+                      <span
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => sortUp('ip')}
+                      >
+                        &#9650;
+                      </span>
+                      <span
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => sortDown('ip')}
+                      >
+                        &#9660;
+                      </span>
+                    </th>)}
                     <th>Banned</th>
-                    <th>Country</th>
+                    <th>
+                      Country
+                      <span
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => sortUp('cc')}
+                      >
+                        &#9650;
+                      </span>
+                      <span
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => sortDown('cc')}
+                      >
+                        &#9660;
+                      </span>
+                    </th>
                 </tr>
               </thead>
               <tbody>

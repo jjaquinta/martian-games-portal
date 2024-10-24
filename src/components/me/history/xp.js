@@ -18,7 +18,7 @@ const MeHistoryXP = () => {
                       <tr key={index}>
                           <td>{MGServices.toDate(entry.timestamp)}</td>
                           <td>{entry.xp}</td>
-                          <td>{MGServices.toLevel(entry.xp)}</td>
+                          <td>{MGServices.toLevel(userData.game, entry.xp)}</td>
                       </tr>
                       ))}
                 </tbody>

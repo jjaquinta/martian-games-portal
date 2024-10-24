@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
-import { MGServices } from '../MGServices';
 
 // Initialize country codes and names
 const COUNTRY_CODES = [];
@@ -171,8 +170,8 @@ const GameLeaderboard = () => {
               <tr key={index}>
                 <td valign="top">{index+1}</td>
                 <td valign="top">{rec.current.nickname}</td>
-                <td align="right" valign="top">{rec.current.xp.toLocaleString()}</td>
-                <td align="right" valign="top">{MGServices.toLevel(rec.current.xp)}</td>
+                <td align="right" valign="top">{rec.current.experience.toLocaleString()}</td>
+                <td align="right" valign="top">{rec.current.level}</td>
                 <td align="right" valign="top">{rec.xpPerDay.toLocaleString()}</td>
                 <td align="right" valign="top">{rec.xpPerWeek.toLocaleString()}</td>
                 <td align="right" valign="top">{rec.lapsed ? 'inactive' : ''}</td>

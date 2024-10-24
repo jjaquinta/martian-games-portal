@@ -16,9 +16,9 @@ const MeActions = () => {
 
   return (
     <div>
-        <h1>{userData.game} Admin Actions</h1>
+        <h1>{userData.game} Actions</h1>
         <p>
-            See what actions the administrators have taken with regards to this account.
+            See what actions have taken with regards to this account.
         </p>
 
         <div style={{height: 10}}></div>
