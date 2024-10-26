@@ -1,23 +1,43 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
+import './Dashboard.css'; // Import the CSS file for dashboard styles
+import martianGamesImage from './audio/martian_games.jpg'; // Import the image
 
 function Dashboard() {
   const { userData } = useContext(UserContext);
 
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <nav>
-        <ul>
-          {!userData && <li><Link to="/portal/public/login">Login</Link></li>}
-          {userData && <li><Link to="/portal/logout">Logout</Link></li>}
-          <li><Link to="/portal/public/policies">Policies</Link></li>
-          <li><Link to="/portal/public/mod-conduct">Mod Conduct</Link></li>
-          <li><Link to="/portal/public/contact">Contact</Link></li>
-          <li><a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a></li>
-        </ul>
-      </nav>
+    <div className="dashboard-background" style={{ backgroundImage: `url(${martianGamesImage})` }}>
+      <div className="dashboard-container">
+        <h1 className="dashboard-title">martian games portal</h1>
+        <nav className="dashboard-nav">
+          <ul className="dashboard-list">
+            {!userData && (
+              <li className="dashboard-item">
+                <Link to="/portal/public/login" className="dashboard-button">Login</Link>
+              </li>
+            )}
+            {userData && (
+              <li className="dashboard-item">
+                <Link to="/portal/logout" className="dashboard-button">Logout</Link>
+              </li>
+            )}
+            <li className="dashboard-item">
+              <Link to="/portal/public/policies" className="dashboard-button">Policies</Link>
+            </li>
+            <li className="dashboard-item">
+              <Link to="/portal/public/mod-conduct" className="dashboard-button">Mod Conduct</Link>
+            </li>
+            <li className="dashboard-item">
+              <Link to="/portal/public/contact" className="dashboard-button">Contact</Link>
+            </li>
+            <li className="dashboard-item">
+              <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" className="dashboard-button">YouTube</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </div>
   );
 }
