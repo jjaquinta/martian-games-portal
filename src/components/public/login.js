@@ -16,38 +16,33 @@ const PublicLogin = () => {
   const { login } = useApi();
   const { setUserData } = useContext(UserContext);
   
-  // Create audio instance outside of useEffect
-  const audioRef = useRef(new Audio(loginAudio)); // Use a ref to keep the audio instance
+  const audioRef = useRef(new Audio(loginAudio));
+  const videoRef = useRef(null);
 
-  // Play background music when the component mounts
   useEffect(() => {
     const audio = audioRef.current;
-    audio.loop = true; // Loop the audio
+    audio.loop = true;
 
-    // Cleanup function to stop the audio when the component unmounts
     return () => {
       audio.pause();
-      audio.currentTime = 0; // Reset audio to the beginning
+      audio.currentTime = 0;
     };
-  }, []); // Empty dependency array to run only on mount
-
-  // Video reference
-  const videoRef = useRef(null);
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
 
-    // Ensure the video is loaded before setting the timeout
-    const handleLoadedMetadata = () => {
-      // Play the video and ensure it loops
-      video.play();
+    const handleTimeUpdate = () => {
+      if (video.currentTime >= 9) {
+        video.currentTime = 0; // Reset to the beginning
+        video.play(); // Restart smoothly
+      }
     };
 
-    // Add event listener for when the video metadata is loaded
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    video.addEventListener('timeupdate', handleTimeUpdate);
 
     return () => {
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('timeupdate', handleTimeUpdate);
     };
   }, []);
 
@@ -71,17 +66,16 @@ const PublicLogin = () => {
     }
   };
 
-  // Function to play audio
   const playAudio = () => {
     const audio = audioRef.current;
     audio.play().catch((error) => {
-      console.error('Error playing audio:', error); // Log any errors
+      console.error('Error playing audio:', error);
     });
   };
 
   return (
-    <div className="login-container" onClick={playAudio}> {/* Play audio on click */}
-      <video ref={videoRef} autoPlay loop muted className="background-video" preload="auto">
+    <div className="login-container" onClick={playAudio}>
+      <video ref={videoRef} autoPlay muted className="background-video" preload="auto">
         <source src={bgVideo} type="video/mp4" />
         Your browser does not support the video tag.
       </video>

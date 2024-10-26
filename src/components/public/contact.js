@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const PublicContact = () => {
   return (
 <div>
@@ -19,5 +20,6 @@ const PublicContact = () => {
 </div>
   );
 };
+
 
 export default PublicContact;

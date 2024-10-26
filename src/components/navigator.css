@@ -1,0 +1,22 @@
+/* src/components/PublicPolicies.css or your CSS file */
+
+.glow {
+    color: #00aaff; /* Change text color to light blue */
+    text-shadow: 0 0 5px rgba(0, 170, 255, 0.7), 0 0 10px rgba(0, 170, 255, 0.5); /* Glowing effect */
+    transition: text-shadow 0.3s ease; /* Smooth transition */
+}
+
+/* src/navigator.css */
+
+.navigator {
+  height: calc(100vh - [header height] - [footer height]); /* Adjust this value based on your header and footer height */
+  overflow-y: auto; /* Allow scrolling if the content overflows */
+}
+
+.navigator .nav-link {
+  margin-bottom: 10px; /* Space between links */
+}
+
+.navigator .glow {
+  color: rgb(2, 0, 12); /* Text color for the active link */
+}

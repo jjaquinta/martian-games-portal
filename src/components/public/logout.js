@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {  useEffect,useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 
@@ -6,20 +6,13 @@ const PublicLogout = () => {
   const { setUserData } = useContext(UserContext);
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setUserData({ });
-    navigate(`/public/login`);
-  };
+  useEffect(() => {
+    localStorage.removeItem('token');
+    setUserData(null);
+    navigate('/portal');
+  }, [setUserData, navigate]);
 
-  return (
-  <div>
-    <h1>Logout</h1>
-    <form onSubmit={handleSubmit}>
-      <input type="submit" value="Logout" />
-    </form>
-  </div>
-);
-};
+  return <div>Logging out...</div>;
+}
 
 export default PublicLogout;

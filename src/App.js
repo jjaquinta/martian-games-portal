@@ -7,7 +7,7 @@ import Navigator from './components/navigator';
 import { UserProvider, UserContext } from './components/UserContext';
 import Dashboard from './components/Dashboard';
 import PublicLogin from './components/public/login';
-import Logout from './components/Logout';
+import PublicLogout from './components/public/logout';
 import MeStats from './components/me/stats';
 import MePassword from './components/me/password';
 import MeHistoryNicknames from './components/me/history/nicknames';
@@ -71,7 +71,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Dashboard /> },
       { path: "public/login", element: <PublicLogin /> },
-      { path: "logout", element: <Logout /> },
+      { path: "logout", element: <PublicLogout /> },
       { path: "public/policies", element: <Policies /> },
       { path: "public/mod-conduct", element: <ModConduct /> },
       { path: "public/contact", element: <Contact /> },
