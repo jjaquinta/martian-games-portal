@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from './UserContext'; // Import UserContext
 
 let api_token = "";
@@ -6,6 +6,7 @@ let api_token = "";
 // Custom hook to handle API interactions
 export const useApi = () => {
   const { setUserData, userData } = useContext(UserContext); // Access the UserContext
+  const [loading, setLoading] = useState(false);
 
   // Helper function to update user data
   const updateUserData = (updates) => {
@@ -71,26 +72,66 @@ export const useApi = () => {
   };
 
   // Function to handle login logic
-  const login = async (game, username, password, navigate) => {
-    const bodyParams = { loginid: username, password, game };
-    const url = `login`;
+  const login = async (game, username, password) => {
+    setLoading(true);
+    const bodyParams = new URLSearchParams({ loginid: username, password, game });
+    const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/login`;
 
-    return apiRequest(
-      url,
-      bodyParams,
-      (data, response) => {
-        const token = response.headers.get('token');
-        api_token = token;
-        setUserData({
-          player: data.player,
-          user: data.user,
-          game: data.game,
-          token: token,
-        });
-        navigate(`/me/stats`);
-      },
-      "Login failed"
-    );
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: bodyParams,
+      });
+
+      const responseText = await response.text();
+      console.log('Raw response:', responseText);
+
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('Failed to parse JSON:', parseError);
+        return { 
+          success: false, 
+          error: 'Invalid server response',
+          rawResponse: responseText
+        };
+      }
+
+      if (response.ok && data.user) {
+        // Generate a simple token using username and timestamp
+        const token = btoa(`${username}:${Date.now()}`);
+        localStorage.setItem('token', token);
+        return {
+          success: true,
+          userData: {
+            token: token,
+            player: data.player,
+            user: data.user,
+            game: data.game,
+          }
+        };
+      } else {
+        return { 
+          success: false, 
+          error: data.message || 'Login failed',
+          status: response.status,
+          rawResponse: responseText
+        };
+      }
+    } catch (error) {
+      console.error("Login failed", error);
+      return { 
+        success: false, 
+        error: error.message,
+        rawError: error
+      };
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Function to handle reports logic
@@ -180,8 +221,15 @@ export const useApi = () => {
     );
   };
 
+  const logout = () => {
+    setUserData(null);
+    localStorage.removeItem('userData');
+    // Add any other logout logic here (e.g., clearing tokens, redirecting)
+  };
+
   return {
     login,
+    logout,
     reports,
     reportsMe,
     reportsYou,
@@ -191,5 +239,6 @@ export const useApi = () => {
     lookupAudits,
     changePassword,
     setSuccess,
+    loading,
   };
 };

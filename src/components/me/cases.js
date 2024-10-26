@@ -1,11 +1,12 @@
 import React from 'react';
 
-const MeCases = () => {
+function MeCases() {
   return (
-    <p>
-        TBD MeCases
-    </p>
+    <div>
+      <h1>My Cases</h1>
+      <p>View your open and closed cases here.</p>
+    </div>
   );
-};
+}
 
 export default MeCases;

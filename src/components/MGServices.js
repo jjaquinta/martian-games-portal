@@ -47,9 +47,7 @@ export class MGServices {
     const date = new Date(time);
     return date.toLocaleDateString();
   }
-
 }
-
 
 // Initialize the country data when the module is loaded
 MGServices.initialize();

@@ -1,31 +1,12 @@
-import React, { useContext } from 'react';
-import { UserContext } from '../../UserContext';
-import { MGServices } from '../../MGServices';
+import React from 'react';
 
-const MeHistoryXP = () => {
-  const { userData } = useContext(UserContext); // Access the user data from context
-
+function MeHistoryXP() {
   return (
     <div>
-        <h2 id="xphistory"> XP History </h2>
-          <div>
-              <table>
-                <thead>
-                  <tr><th>Date</th><th>XP</th><th>Level</th></tr>
-                </thead>
-                <tbody>
-                  {userData.user.xps.map((entry, index) => (
-                      <tr key={index}>
-                          <td>{MGServices.toDate(entry.timestamp)}</td>
-                          <td>{entry.xp}</td>
-                          <td>{MGServices.toLevel(entry.xp)}</td>
-                      </tr>
-                      ))}
-                </tbody>
-              </table>
-          </div>
+      <h1>XP History</h1>
+      <p>Track your XP progression over time.</p>
     </div>
   );
-};
+}
 
 export default MeHistoryXP;

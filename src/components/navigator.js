@@ -1,80 +1,28 @@
-import React, { useContext } from 'react';
-import { UserContext } from './UserContext';
-import NavItem from './navitem';
+import React from 'react';
+import { Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-const Navigator = () => {
-  const { userData } = useContext(UserContext); // Access the user data from context
-  const navItemsPub = [
-    { id: 'public/policies', name: 'Policies' },
-    { id: 'public/admincoc', name: 'Mod Conduct' },
-    { id: 'public/contact', name: 'Contact' },
-    { id: 'public/youtube', name: 'YouTube' },
-  ];
-  const navItemsGame = [
-    { id: 'game/leaderboard', name: 'Leaderboard' },
-    { id: 'game/lookup', name: 'Lookup' },
-    { id: 'game/lobbychat', name: 'Lobby Chat' },
-  ];
-  const navItemsAdmin = [
-    { id: 'admin/investigate', name: 'Investigate' },
-  ];
-  const navItemsBeta = [
-    { id: 'beta/news', name: 'News' },
-  ];
-
+function Navigator() {
   return (
-    <aside style={{ width: '10%' }}>
-      <ul>
-        <li>Public<ul>
-          {!userData?.player && (
-            <NavItem key='public/login' navID='public/login' navName='Login' />
-          )}
-          {userData?.player && (
-            <NavItem key='public/logout' navID='public/logout' navName='Logout' />
-          )}
-          {navItemsPub.map(item => (
-            <NavItem key={item.id} navID={item.id} navName={item.name} />
-          ))}</ul>
-        </li>
-        {userData?.player && (
-          <li>Me<ul>
-             <NavItem key='me/stats' navID='me/stats' navName='Stats' />
-             <NavItem key='me/password' navID='me/password' navName='Password' />
-             <li>History<ul>
-             <NavItem key='me/history/nicknames' navID='me/history/nicknames' navName='Nicknames' />
-             <NavItem key='me/history/xp' navID='me/history/xp' navName='XP' />
-             <NavItem key='me/history/rank' navID='me/history/rank' navName='Rank' />
-             </ul></li>
-             <NavItem key='me/reports' navID='me/reports' navName='Reports' />
-             <NavItem key='me/actions' navID='me/actions' navName='Actions' />
-             <NavItem key='me/cases' navID='me/cases' navName='Cases' />
-             </ul>
-          </li>
-        )}
-        {userData?.player && (
-          <li>Game<ul>
-            {navItemsGame.map(item => (
-              <NavItem key={item.id} navID={item.id} navName={item.name} />
-            ))}</ul>
-          </li>
-        )}
-        {userData?.user?.deputy && (
-          <li>Admin<ul>
-            {navItemsAdmin.map(item => (
-              <NavItem key={item.id} navID={item.id} navName={item.name} />
-            ))}</ul>
-          </li>
-        )}
-        {userData?.user?.beta && (
-          <li>Beta<ul>
-            {navItemsBeta.map(item => (
-              <NavItem key={item.id} navID={item.id} navName={item.name} />
-            ))}</ul>
-          </li>
-        )}
-      </ul>
-    </aside>
+    <Nav className="flex-column bg-light p-3" style={{ width: '200px' }}>
+      <Nav.Link as={Link} to="/me/stats">My Stats</Nav.Link>
+      <Nav.Link as={Link} to="/me/password">Change Password</Nav.Link>
+      <Nav.Item>
+        <Nav.Link as="span" className="text-muted">History</Nav.Link>
+        <Nav className="flex-column ml-3">
+          <Nav.Link as={Link} to="/me/history/nicknames">Nicknames</Nav.Link>
+          <Nav.Link as={Link} to="/me/history/xp">XP</Nav.Link>
+          <Nav.Link as={Link} to="/me/history/rank">Rank</Nav.Link>
+        </Nav>
+      </Nav.Item>
+      <Nav.Link as={Link} to="/me/reports">My Reports</Nav.Link>
+      <Nav.Link as={Link} to="/me/actions">My Actions</Nav.Link>
+      <Nav.Link as={Link} to="/me/cases">My Cases</Nav.Link>
+      <Nav.Link as={Link} to="/game/leaderboard">Leaderboard</Nav.Link>
+      <Nav.Link as={Link} to="/game/lookup">Player Lookup</Nav.Link>
+      <Nav.Link as={Link} to="/game/lobbychat">Lobby Chat</Nav.Link>
+    </Nav>
   );
-};
+}
 
 export default Navigator;

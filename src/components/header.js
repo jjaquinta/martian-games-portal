@@ -1,57 +1,22 @@
-import React, { useContext } from 'react';
-import { UserContext } from './UserContext';
+import React from 'react';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
-const Header = () => {
-  const { userData } = useContext(UserContext); // Access the user data from context
-  const gameName = userData ? userData.game : '';
-  function getImagePath(imageName) {
-    return `${process.env.PUBLIC_URL}/images/${imageName}`;
-  }
-
-  const getBanner = () => {
-    switch (gameName) {
-      case "TankOff Classic":
-        return getImagePath('toc.png');
-      case "TankOff2":
-        return getImagePath('to2.png');
-      case "AirWars3":
-        return getImagePath('aw3.png');
-      case "AirWars2":
-        return getImagePath('aw2.png');
-      case "MotorWars2":
-        return getImagePath('mw2.png');
-      case "KartWars2":
-        return getImagePath('kw2.png');
-      default:
-        return getImagePath('mg.png');
-    }
-  };
-
-  const getLogo = () => {
-    return userData?.busy ? getImagePath('busy.gif') : getImagePath('logo.png');
-  }
-
+function Header() {
   return (
-    <table>
-      <tr>
-        <td className="header-logo">
-          <img src={getLogo()} alt="Game Logo"/>
-        </td>
-        <td className="header-text">
-          <img src={getBanner()} alt="Game banner" />
-          {userData?.error ? (
-            <span className="header-error"><br/>{userData.error}</span>
-          ) : userData?.success ? (
-              <span className="header-success"><br/>{userData.success}</span>
-          ) : userData?.player ? (
-            <span className="header-text"><br/>Welcome, {userData.player.nickname}! ({userData.player.login})</span>
-          ) : (
-            <span className="header-text"><br/></span>
-          )}
-        </td>
-      </tr>
-    </table>
+    <Navbar bg="dark" variant="dark" expand="lg">
+      <Container>
+        <Navbar.Brand as={Link} to="/">Your App Name</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto">
+            <Nav.Link as={Link} to="/public/login">Login</Nav.Link>
+            <Nav.Link as={Link} to="/public/contact">Contact</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
-};
+}
 
 export default Header;

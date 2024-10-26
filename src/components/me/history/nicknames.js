@@ -1,30 +1,12 @@
-import React, { useContext } from 'react';
-import { UserContext } from '../../UserContext';
-import { MGServices } from '../../MGServices';
+import React from 'react';
 
-const MeHistoryNicknames = () => {
-  const { userData } = useContext(UserContext); // Access the user data from context
-
+function MeHistoryNicknames() {
   return (
     <div>
-        <h2 id="nicknamehistory"> Nickname History </h2>
-          <div>
-              <table>
-                <thead>
-                  <tr><th>Date</th><th>Nickname</th></tr>
-                </thead>
-                <tbody>
-                  {userData.user.nicknames.map((entry, index) => (
-                      <tr key={index}>
-                          <td>{MGServices.toDate(entry.timestamp)}</td>
-                          <td>{entry.nickname}</td>
-                      </tr>
-                      ))}
-                </tbody>
-              </table>
-          </div>
+      <h1>Nickname History</h1>
+      <p>View your past nicknames here.</p>
     </div>
   );
-};
+}
 
 export default MeHistoryNicknames;

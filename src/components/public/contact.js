@@ -1,23 +1,34 @@
 import React from 'react';
+import { Card, Form, Button } from 'react-bootstrap';
 
-const PublicContact = () => {
+function Contact() {
   return (
-<div>
-<h1>Contacts</h1>
-<ul>
-    <li><a href="https://www.crazygames.com/game/tank-off">The Game</a></li>
-    <li><a href="https://discord.gg/wK6HHMD3">The Discord Server (#tank-off-classic)</a></li>
-    <li>Moderator: <a href="mailto:jo@111goerge.com">Sasafrass/Jo/jjaquinta</a>, discord:<br/>
-        Deputies:
-        <ul>
-            <li>TankOff Classic, FeurHund 6909 discord: FeurHund 6909#8896</li>
-            <li>TankOff 2, Nιghtmᥲrᥱ™ discord: nightmareto2</li>
-            <li>Kart Wars 2, Superstar discord: taken_boi</li>
-        </ul>
-    </li>
-</ul>
-</div>
-  );
-};
+    <Card>
+      <Card.Header as="h2">Contact Us</Card.Header>
+      <Card.Body>
+        <Form>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control type="email" placeholder="Enter email" />
+          </Form.Group>
 
-export default PublicContact;
+          <Form.Group className="mb-3" controlId="formBasicSubject">
+            <Form.Label>Subject</Form.Label>
+            <Form.Control type="text" placeholder="Enter subject" />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicMessage">
+            <Form.Label>Message</Form.Label>
+            <Form.Control as="textarea" rows={3} placeholder="Enter your message" />
+          </Form.Group>
+
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      </Card.Body>
+    </Card>
+  );
+}
+
+export default Contact;
