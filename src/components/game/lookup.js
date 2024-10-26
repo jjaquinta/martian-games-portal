@@ -22,12 +22,22 @@ const GameLookup = () => {
   
     // Call the login function from the custom hook
     const result = await lookupUser(lookupID, lookupLogin, lookupNickname, lookupLevel, lookupIP, orderUp, orderDown);
+    setLookupID('');
 
     if (!result.success) {
       console.error('Login failed:', result.error || result.status);
     }
   };
-  
+
+  const viewID = (id) => {
+    setLookupID(id);
+    setLookupLogin('');
+    setLookupNickname('');
+    setLookupLevel('');
+    setLookupIP('');
+    handleSubmit(null);
+  }
+    
   const sortUp = (column) => {
     setOrderUp(column);
     setOrderDown('');
@@ -204,7 +214,14 @@ const GameLookup = () => {
                 {lookupUserData.map((rec, index) => (
                   <tr key={index}>
                     {userData?.user?.deputy && (<td>{rec.current.login}</td>)}
-                    <td valign="top">{rec.current.nickname}</td>
+                    <td valign="top">
+                      <span
+                        style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+                        onClick={() => viewID(rec.current.id)}
+                      >
+                        {rec.current.nickname}
+                      </span>
+                    </td>
                     <td valign="top">{rec.current.experience.toLocaleString()}</td>
                     <td valign="top">{rec.current.level}</td>
                     {userData?.user?.deputy && (<td>{rec.current.ip}</td>)}

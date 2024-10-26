@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
 
@@ -74,7 +75,8 @@ const GameLeaderboard = () => {
   const [mode, setMode] = useState('current.xp');
   const [recent, setRecent] = useState('false');
   const { userData } = useContext(UserContext); // Access the user data from context
-  const { updateLeaderboard } = useApi();
+  const { lookupUser, updateLeaderboard } = useApi();
+  const navigate = useNavigate();
 
   const leaderboardData = userData && userData.leaderboard ? userData.leaderboard : [];
 
@@ -83,6 +85,16 @@ const GameLeaderboard = () => {
     const result = await updateLeaderboard(country, mode, recent);
     if (!result.success) {
       console.error('Update failed:', result.error || result.status);
+    }
+  };
+
+  const viewID = async (id) => {  
+    // Call the login function from the custom hook
+    const result = await lookupUser(id, '', '', '', '', '', '');
+    navigate(`/game/lookup`);
+
+    if (!result.success) {
+      console.error('Login failed:', result.error || result.status);
     }
   };
 
@@ -169,7 +181,14 @@ const GameLeaderboard = () => {
             leaderboardData.map((rec, index) => (
               <tr key={index}>
                 <td valign="top">{index+1}</td>
-                <td valign="top">{rec.current.nickname}</td>
+                <td valign="top">
+                  <span
+                    style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+                    onClick={() => viewID(rec.current.id)}
+                  >
+                    {rec.current.nickname}
+                  </span>
+                </td>
                 <td align="right" valign="top">{rec.current.experience.toLocaleString()}</td>
                 <td align="right" valign="top">{rec.current.level}</td>
                 <td align="right" valign="top">{rec.xpPerDay.toLocaleString()}</td>
