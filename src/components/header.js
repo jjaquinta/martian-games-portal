@@ -1,16 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserContext } from './UserContext'; // If UserContext.js is in src
 
 function Header() {
+  const { userData, setUserData } = useContext(UserContext); // Access user data and setUserData
+  const navigate = useNavigate(); // Initialize navigation
+
+  const handleLogout = () => {
+    setUserData(null); // Clear user data on logout
+    navigate('/portal'); // Redirect to login page
+  };
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
-        <Navbar.Brand as={Link} to="/">Your App Name</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/portal">Martian Games Portal</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
-            <Nav.Link as={Link} to="/public/login">Login</Nav.Link>
+            {userData ? ( // Check if user is logged in
+              <Nav.Link onClick={handleLogout}>Logout</Nav.Link> // Show logout button if logged in
+            ) : (
+              <Nav.Link as={Link} to="/public/login">Login</Nav.Link> // Show login button if not logged in
+            )}
             <Nav.Link as={Link} to="/public/contact">Contact</Nav.Link>
           </Nav>
         </Navbar.Collapse>

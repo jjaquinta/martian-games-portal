@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { createBrowserRouter, RouterProvider, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import Header from './components/header';
+import Header from './components/Header';
 import Footer from './components/footer';
 import Navigator from './components/navigator';
 import { UserProvider, UserContext } from './components/UserContext';
@@ -22,6 +22,7 @@ import GameLobbyChat from './components/game/lobbychat';
 import Policies from './components/public/policies';
 import ModConduct from './components/public/ModConduct';
 import Contact from './components/public/contact';
+import PublicYouTube from './components/public/youtube';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -74,6 +75,7 @@ const router = createBrowserRouter([
       { path: "public/policies", element: <Policies /> },
       { path: "public/mod-conduct", element: <ModConduct /> },
       { path: "public/contact", element: <Contact /> },
+      { path: "public/youtube", element: <PublicYouTube/> },
       { 
         path: "me",
         element: <ProtectedRoute><Outlet /></ProtectedRoute>,

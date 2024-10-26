@@ -1,0 +1,104 @@
+/* src/components/PublicPolicies.css */
+
+table {
+    width: 100%; /* Full width for the table */
+    border-collapse: collapse; /* Collapse borders */
+    table-layout: fixed; /* Fixed layout to maintain column widths */
+  }
+  
+  th, td {
+    padding: 10px; /* Padding for table cells */
+    text-align: right; /* Align text to the right */
+    overflow: hidden; /* Prevent overflow */
+    text-overflow: ellipsis; /* Add ellipsis for overflow text */
+    white-space: nowrap; /* Prevent text wrapping */
+  }
+  
+  th {
+    background-color: rgba(242, 242, 242, 0.9); /* Light background for headers */
+  }
+
+
+body {
+    background: linear-gradient(135deg, #e0e0e0, #ffffff); /* Light gradient background */
+    font-family: 'Arial', sans-serif; /* Use a clean font */
+    margin: 0;
+    padding: 20px;
+  }
+  
+  h1, h2, h3 {
+    color: #333; /* Darker color for headings */
+  }
+  
+  p {
+    line-height: 1.6; /* Improve readability */
+  }
+  
+  ul {
+    margin-left: 20px; /* Indent lists */
+  }
+  
+  .table-container {
+    background: rgba(255, 255, 255, 0.8); /* White background with transparency */
+    border-radius: 15px; /* Rounded corners */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 20px; /* Padding inside the container */
+    margin: 20px 0; /* Margin around the container */
+  }
+  
+  table {
+    width: 100%; /* Full width for the table */
+    border-collapse: collapse; /* Collapse borders */
+  }
+  
+  th, td {
+    padding: 10px; /* Padding for table cells */
+    text-align: right; /* Align text to the right */
+  }
+  
+  th {
+    background-color: rgba(242, 242, 242, 0.9); /* Light background for headers */
+  }
+  
+  button {
+    padding: 10px 20px; /* Button padding */
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white; /* White text */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s; /* Smooth transition */
+  }
+  
+  button:hover {
+    background-color: #569ae4; /* Darker blue on hover */
+  }
+
+h2 {
+  position: relative; /* Position relative for pseudo-elements */
+}
+
+h2 a {
+  text-decoration: none !important; /* Force no underline */
+  color: #007bff; /* Bootstrap primary color */
+  transition: color 0.3s, transform 0.3s, text-shadow 0.3s; /* Smooth transition for color, transform, and text-shadow */
+}
+
+h2 a:hover,
+a:hover { /* Apply hover effect to all links */
+  color: #00aaff; /* Light blue color on hover */
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  text-shadow: 0 0 10px rgba(0, 170, 255, 0.7), 0 0 20px rgba(0, 170, 255, 0.5); /* Stronger glowing effect */
+}
+
+h2 a:focus,
+a:focus { /* Apply focus effect to all links */
+  outline: none; /* Remove default outline on focus */
+  text-shadow: 0 0 10px rgba(0, 170, 255, 0.7), 0 0 20px rgba(0, 170, 255, 0.5); /* Glowing effect on focus */
+}
+
+/* Additional rule to ensure no underlines */
+* a {
+  text-decoration: none !important; /* Ensure all links have no underline */
+}

@@ -33,7 +33,7 @@ function Dashboard() {
               <Link to="/portal/public/contact" className="dashboard-button">Contact</Link>
             </li>
             <li className="dashboard-item">
-              <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" className="dashboard-button">YouTube</a>
+            <Link to="/portal/public/youtube" className="dashboard-button">Youtube</Link>
             </li>
           </ul>
         </nav>
