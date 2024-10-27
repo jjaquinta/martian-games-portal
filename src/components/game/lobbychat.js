@@ -1,18 +1,21 @@
 import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
+import ClickableNickname from '../ClickableNickname';
+import ClickableLogin from '../ClickableLogin';
 
 const GameLobbyChat = () => {
   const { userData } = useContext(UserContext);
-  const { lookupLobbyChat } = useApi(); // Call the hook and extract the login function
+  const { lookupUser, lookupLobbyChat } = useApi(); // Call the hook and extract the login function
   const [limit, setLimit] = useState('20');
   const lookupLobbyChatData = userData && userData.lookupLobbyChat ? userData.lookupLobbyChat : [];
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     await lookupLobbyChat(limit);
   };
-
   return (
     <div>
         <h1>{userData.game} Lobby Chat</h1>
@@ -67,8 +70,12 @@ const GameLobbyChat = () => {
                 {lookupLobbyChatData.map((rec, index) => (
                   <tr key={index}>
                     <td valign="top">{rec.time}</td>
-                    {userData?.user?.deputy && (<td>{rec.login}</td>)}
-                    <td valign="top">{rec.nickname}</td>
+                    {userData?.user?.deputy && (<td valign="top">
+                      <ClickableLogin login={rec.login}/>
+                    </td>)}
+                    <td valign="top">
+                      <ClickableNickname nickname={rec.nickname}/>
+                    </td>
                     <td valign="top">{rec.level}</td>
                     <td valign="top">{rec.message}</td>
                     {userData?.user?.deputy && (<td>{rec.ip}</td>)}

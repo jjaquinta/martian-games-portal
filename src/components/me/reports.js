@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
+import ClickableNickname from '../ClickableNickname';
+import ClickableLevel from '../ClickableLevel';
 
 const MeReports = () => {
   const { userData } = useContext(UserContext); // Access the user data from context
   const { reportsMe, reportsYou } = useApi();
-  const reportsMeData = userData && userData.reportsMe ? userData.reportsMe : [];
-  const reportsYouData = userData && userData.reportsYou ? userData.reportsYou : [];
+  const reportsMeData = userData?.reportsMe || [];
+  const reportsYouData = userData?.reportsYou || [];
   const handleReportsMe = (e) => {
     e.preventDefault();
     reportsMe();
@@ -106,8 +108,8 @@ const MeReports = () => {
                   <td valign="top">{rep.time}</td>
                   <td valign="top">{rep.nickname}</td>
                   <td valign="top">{rep.level}</td>
-                  <td valign="top">{rep.reportNickname}</td>
-                  <td valign="top">{rep.reportLevel}</td>
+                  <td valign="top"><ClickableNickname namename={rep.reportNickname}/></td>
+                  <td valign="top"><ClickableLevel level={rep.reportLevel}/></td>
                   <td valign="top">{rep.reportXP}</td>
                   <td valign="top">{rep.room ? rep.room.substring(5) : ''}</td>
                 </tr>

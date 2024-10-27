@@ -2,6 +2,8 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
+import ClickableID from '../ClickableID';
+import ClickableLevel from '../ClickableLevel';
 
 // Initialize country codes and names
 const COUNTRY_CODES = [];
@@ -85,16 +87,6 @@ const GameLeaderboard = () => {
     const result = await updateLeaderboard(country, mode, recent);
     if (!result.success) {
       console.error('Update failed:', result.error || result.status);
-    }
-  };
-
-  const viewID = async (id) => {  
-    // Call the login function from the custom hook
-    const result = await lookupUser(id, '', '', '', '', '', '');
-    navigate(`/game/lookup`);
-
-    if (!result.success) {
-      console.error('Login failed:', result.error || result.status);
     }
   };
 
@@ -182,15 +174,12 @@ const GameLeaderboard = () => {
               <tr key={index}>
                 <td valign="top">{index+1}</td>
                 <td valign="top">
-                  <span
-                    style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
-                    onClick={() => viewID(rec.current.id)}
-                  >
-                    {rec.current.nickname}
-                  </span>
+                  <ClickableID id={rec.current.id} text={rec.current.nickname}/>
                 </td>
                 <td align="right" valign="top">{rec.current.experience.toLocaleString()}</td>
-                <td align="right" valign="top">{rec.current.level}</td>
+                <td align="right" valign="top">
+                  <ClickableLevel level={rec.current.level}/>
+                </td>
                 <td align="right" valign="top">{rec.xpPerDay.toLocaleString()}</td>
                 <td align="right" valign="top">{rec.xpPerWeek.toLocaleString()}</td>
                 <td align="right" valign="top">{rec.lapsed ? 'inactive' : ''}</td>

@@ -1,8 +1,7 @@
 import './App.css';
-import React, { useContext } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 // services
-import { UserContext } from './components/UserContext';
 import Header from './components/header';
 import Footer from './components/footer';
 import Navigator from './components/navigator';
@@ -29,7 +28,6 @@ import AdminInvestigate from './components/admin/investigate';
 import BetaNews from './components/beta/news';
 
 function App() {
-  const { userData } = useContext(UserContext); // Access the user data from context
 
   return (
     <Router>
