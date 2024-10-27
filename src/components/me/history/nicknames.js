@@ -1,9 +1,20 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../../UserContext'; // Import UserContext to access user data
 import { MGServices } from '../../MGServices'; // Import MGServices for date formatting
+import './nicknames.css'; // Import the CSS file for styling
 
 const MeHistoryNicknames = () => {
-  const { userData } = useContext(UserContext); // Access the user data from context
+  const { userData, loading } = useContext(UserContext); // Access the user data and loading state from context
+
+  // Show a loading message if data is still being fetched
+  if (loading) {
+    return <div>Loading...</div>; // Show a loading message or spinner
+  }
+
+  // Check if userData.user and userData.user.nicknames are defined
+  if (!userData || !userData.user || !userData.user.nicknames) {
+    return <div>No nickname history available.</div>; // Show a message if no nicknames are available
+  }
 
   return (
     <div>

@@ -1,12 +1,71 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../UserContext'; // Import UserContext to access user data
+import { useApi } from '../useAPI'; // Import custom hook for API calls
 
-function MeActions() {
+const MeActions = () => {
+  const { userData } = useContext(UserContext); // Access user data from context
+  const { lookupAudits } = useApi(); // Get the lookupAudits function from the API hook
+  const [limit, setLimit] = useState('20'); // State for the limit of actions to fetch
+  const [login, setLogin] = useState(''); // State for the account ID input
+  const lookupAuditData = userData && userData.lookupAudits ? userData.lookupAudits : []; // Get audit data
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    await lookupAudits(login, limit); // Call the API to fetch audits
+  };
+
   return (
     <div>
-      <h1>My Actions</h1>
-      <p>View your recent actions in the game.</p>
+      <h1>{userData.game} Actions</h1>
+      <p>See what actions have been taken with regards to this account.</p>
+
+      <div style={{ height: 10 }}></div>
+      <form onSubmit={handleSubmit}>
+        <input type="submit" value="Refresh" />
+        {userData?.user?.deputy && (
+          <input
+            type="text"
+            name="login"
+            placeholder="account id"
+            value={login}
+            onChange={(e) => setLogin(e.target.value)} // Update login state on input change
+          />
+        )}
+        <button type="button" onClick={() => setLimit("25")}>25</button>
+        <button type="button" onClick={() => setLimit("50")}>50</button>
+        <button type="button" onClick={() => setLimit("100")}>100</button>
+      </form>
+
+      {Array.isArray(lookupAuditData) ? (
+        lookupAuditData.length === 0 ? (
+          <div>No actions to display</div>
+        ) : (
+          <table id="actions">
+            <thead>
+              <tr>
+                <th>Time</th>
+                {userData?.user?.deputy && <th>Login</th>}
+                <th>Action</th>
+                <th>Memo</th>
+              </tr>
+            </thead>
+            <tbody>
+              {lookupAuditData.map((rec, index) => (
+                <tr key={index}>
+                  <td valign="top">{rec.time}</td>
+                  {userData?.user?.deputy && <td>{rec.login}</td>}
+                  <td valign="top">{rec.action}</td>
+                  <td valign="top">{rec.memo}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )
+      ) : (
+        <div>No actions to display</div>
+      )}
     </div>
   );
-}
+};
 
 export default MeActions;

@@ -1,0 +1,37 @@
+/* src/components/me/history/nicknames.css */
+
+#nicknamehistory {
+  text-align: center; /* Center the heading */
+  margin-bottom: 20px; /* Space below the heading */
+  color: #130244; /* Heading color */
+}
+
+table {
+  width: 100%; /* Full width */
+  border-collapse: collapse; /* Collapse borders */
+  margin: 0 auto; /* Center the table */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+thead {
+  background-color: #1a044d; /* Header background color */
+  color: rgb(75, 13, 246); /* Header text color */
+}
+
+table th, table td {
+  padding: 12px; /* Padding for cells */
+  text-align: left; /* Align text to the left for both header and data cells */
+  border-bottom: 1px solid #ddd; /* Bottom border for rows */
+}
+
+tr:hover {
+  background-color: #f1f1f1; /* Highlight row on hover */
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Zebra striping for even rows */
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #ffffff; /* White background for odd rows */
+}

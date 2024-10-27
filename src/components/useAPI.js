@@ -55,18 +55,22 @@ export const useApi = () => {
         body,
       });
       setBusy(false);
-
+  
       if (response.status === 200) {
         const data = await response.json();
-        onSuccess(data, response);
+        onSuccess && onSuccess(data, response);  // Execute onSuccess callback only if it's defined
         return { success: true, data };
+      } else if (response.status === 401) {
+        setError("Unauthorized - Please check your API token or login session");
+        return { success: false, status: 401 };
       } else {
-        setError(errorMsg);
+        const errorText = await response.text();
+        setError(`${errorMsg}: ${response.statusText} - ${errorText}`);
         return { success: false, status: response.status };
       }
     } catch (error) {
       setBusy(false);
-      setError(errorMsg);
+      setError(`${errorMsg}: Network error`);
       return { success: false, error };
     }
   };
