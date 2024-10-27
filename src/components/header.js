@@ -22,9 +22,9 @@ function Header() {
             {userData ? ( // Check if user is logged in
               <Nav.Link onClick={handleLogout}>Logout</Nav.Link> // Show logout button if logged in
             ) : (
-              <Nav.Link as={Link} to="/public/login">Login</Nav.Link> // Show login button if not logged in
+              <Nav.Link as={Link} to="/portal/public/login">Login</Nav.Link> // Show login button if not logged in
             )}
-            <Nav.Link as={Link} to="/public/contact">Contact</Nav.Link>
+            <Nav.Link as={Link} to="/portal/public/contact">Contact</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

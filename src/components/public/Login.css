@@ -89,3 +89,34 @@
 .login-button:active {
   transform: translateY(0); /* Reset lift effect on click */
 }
+/* Add this to Login.css */
+
+.mute-button {
+  position: absolute; /* Position in top-right corner */
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+  color: #d4af37; /* Gold color */
+  border: none;
+  border-radius: 50%; /* Circular button */
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+  z-index: 2; /* Keep above other content */
+}
+
+.mute-button:hover {
+  background-color: rgba(255, 255, 255, 0.5); /* Slightly more opaque on hover */
+}
+
+.mute-button.muted {
+  background-color: rgba(255, 0, 0, 0.7); /* Red background when muted */
+}
+
+.mute-button .icon {
+  font-size: 24px; /* Adjust icon size */
+}

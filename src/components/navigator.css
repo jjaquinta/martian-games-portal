@@ -1,22 +1,51 @@
 /* src/components/PublicPolicies.css or your CSS file */
 
 .glow {
-    color: #00aaff; /* Change text color to light blue */
-    text-shadow: 0 0 5px rgba(0, 170, 255, 0.7), 0 0 10px rgba(0, 170, 255, 0.5); /* Glowing effect */
-    transition: text-shadow 0.3s ease; /* Smooth transition */
+  color: #00aaff; /* Change text color to light blue */
+  text-shadow: 0 0 5px rgba(0, 170, 255, 0.7), 0 0 10px rgba(0, 170, 255, 0.5); /* Glowing effect */
+  transition: text-shadow 0.3s ease; /* Smooth transition */
 }
 
 /* src/navigator.css */
 
 .navigator {
-  height: calc(100vh - [header height] - [footer height]); /* Adjust this value based on your header and footer height */
-  overflow-y: auto; /* Allow scrolling if the content overflows */
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 115px); /* Adjust for header/footer height */
+  background-color: #ffffff;
+  width: 100%;
+
+  position: relative;
 }
 
+/* Section Links Wrapper */
+.section-links-wrapper {
+  overflow-y: auto; /* Enable vertical scrolling */
+  flex-grow: 1; /* Fills available space */
+  overflow-x: hidden;
+  max-height: calc(100vh - 120px); /* Adjust as needed */
+}
+
+/* Style for section headers */
+.section-title {
+  font-weight: bold;
+  color: #150e7e; 
+  cursor: pointer;
+  padding: 10px 0;
+}
+
+/* Change color on hover */
+.section-title:hover {
+  color: #001a33;
+}
+
+/* General styles for nav-links */
 .navigator .nav-link {
-  margin-bottom: 10px; /* Space between links */
+  margin-bottom: 10px;
+  padding: 10px;
 }
 
+/* Glow effect for active links */
 .navigator .glow {
-  color: rgb(2, 0, 12); /* Text color for the active link */
+  color: rgb(19, 6, 85);
 }

@@ -6,15 +6,17 @@ import { Form, Alert } from 'react-bootstrap';
 import './Login.css';
 import loginAudio from '../audio/loginScreenAudio.mp3';
 import bgVideo from '../video/bgvideo.mp4';
+import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 
 const PublicLogin = () => {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(localStorage.getItem('username') || '');
   const [password, setPassword] = useState('');
-  const [game, setGame] = useState('TankOff Classic');
+  const [game, setGame] = useState(localStorage.getItem('game') || 'TankOff Classic');
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { login } = useApi();
   const { setUserData } = useContext(UserContext);
+  const [isMuted, setIsMuted] = useState(false); // Initially unmuted
 
   const audioRef = useRef(new Audio(loginAudio));
   const videoRef = useRef(null);
@@ -22,11 +24,17 @@ const PublicLogin = () => {
   useEffect(() => {
     const audio = audioRef.current;
     audio.loop = true;
+
+    // Start playing audio on component mount
+    if (!isMuted) {
+      audio.play().catch(error => console.error("Error playing audio:", error));
+    }
+
     return () => {
       audio.pause();
       audio.currentTime = 0;
     };
-  }, []);
+  }, [isMuted]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -47,6 +55,10 @@ const PublicLogin = () => {
     try {
       const result = await login(game, username, password);
       if (result.success) {
+        // Store the username and selected game in local storage
+        localStorage.setItem('username', username);
+        localStorage.setItem('game', game);
+        
         setUserData(result.data);
         navigate('/portal/me/stats');
       } else {
@@ -59,14 +71,19 @@ const PublicLogin = () => {
     }
   };
 
-  const playAudio = () => {
+  const toggleMute = () => {
     const audio = audioRef.current;
-    audio.play().catch((error) => console.error('Error playing audio:', error));
+    if (isMuted) {
+      audio.play().catch((error) => console.error('Error playing audio:', error));
+    } else {
+      audio.pause();
+    }
+    setIsMuted(!isMuted);
   };
 
   return (
-    <div className="login-container" onClick={playAudio}>
-      <video ref={videoRef} autoPlay muted className="background-video" preload="auto">
+    <div className="login-container">
+      <video ref={videoRef} autoPlay loop muted={isMuted} className="background-video" preload="auto">
         <source src={bgVideo} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -112,6 +129,14 @@ const PublicLogin = () => {
             </Form.Select>
           </Form.Group>
           <button type="submit" className="login-button">Login</button>
+          <button 
+            type="button" 
+            onClick={toggleMute} 
+            className={`mute-button ${isMuted ? 'muted' : ''}`}
+            aria-label={isMuted ? 'Unmute' : 'Mute'}
+          >
+            {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
+          </button>
         </Form>
       </div>
     </div>
