@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { UserContext } from './UserContext'; // Import UserContext
 
-let api_token = "";
+let api_token = ""; // Global variable to store the API token
 
 // Custom hook to handle API interactions
 export const useApi = () => {
@@ -50,95 +50,62 @@ export const useApi = () => {
         method,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': `Bearer ${api_token}`,
+          'Authorization': `Bearer ${api_token}`, // Using the token globally
         },
         body,
       });
       setBusy(false);
-  
+
       if (response.status === 200) {
         const data = await response.json();
-        onSuccess && onSuccess(data, response);  // Execute onSuccess callback only if it's defined
+        onSuccess(data, response);
         return { success: true, data };
-      } else if (response.status === 401) {
-        setError("Unauthorized - Please check your API token or login session");
-        return { success: false, status: 401 };
       } else {
-        const errorText = await response.text();
-        setError(`${errorMsg}: ${response.statusText} - ${errorText}`);
+        setError(errorMsg);
         return { success: false, status: response.status };
       }
     } catch (error) {
       setBusy(false);
-      setError(`${errorMsg}: Network error`);
+      setError(errorMsg);
       return { success: false, error };
     }
   };
 
-  // Function to handle login logic
+  // Modified login function to retrieve token from response header
   const login = async (game, username, password) => {
     setLoading(true);
-    const bodyParams = new URLSearchParams({ loginid: username, password, game });
-    const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/login`;
+    const bodyParams = { loginid: username, password, game };
+    const url = `login`;
 
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: bodyParams,
-      });
-
-      const responseText = await response.text();
-      console.log('Raw response:', responseText);
-
-      let data;
-      try {
-        data = JSON.parse(responseText);
-      } catch (parseError) {
-        console.error('Failed to parse JSON:', parseError);
-        return { 
-          success: false, 
-          error: 'Invalid server response',
-          rawResponse: responseText
-        };
-      }
-
-      if (response.ok && data.user) {
-        // Generate a simple token using username and timestamp
-        const token = btoa(`${username}:${Date.now()}`);
-        localStorage.setItem('token', token);
-        return {
-          success: true,
-          userData: {
+    return apiRequest(
+      url,
+      bodyParams,
+      (data, response) => {
+        // Retrieve the token from response headers
+        const token = response.headers.get('token');
+        if (token) {
+          api_token = token; // Store token globally
+          // Persist user data in context and localStorage
+          setUserData({
             token: token,
             player: data.player,
             user: data.user,
             game: data.game,
-          }
-        };
-      } else {
-        return { 
-          success: false, 
-          error: data.message || 'Login failed',
-          status: response.status,
-          rawResponse: responseText
-        };
-      }
-    } catch (error) {
-      console.error("Login failed", error);
-      return { 
-        success: false, 
-        error: error.message,
-        rawError: error
-      };
-    } finally {
+          });
+          localStorage.setItem('game', game);
+          localStorage.setItem('username', username);
+          setSuccess("Login successful");
+        } else {
+          setError("Token not found in response");
+        }
+      },
+      "Login failed"
+    ).finally(() => {
       setLoading(false);
-    }
+    });
   };
 
-  // Function to handle reports logic
+  // Other functions remain the same
   const reports = async (limit, login, reportLogin) => {
     const bodyParams = { limit, login, reportLogin };
     const url = `reports`;
@@ -228,7 +195,7 @@ export const useApi = () => {
   const logout = () => {
     setUserData(null);
     localStorage.removeItem('userData');
-    // Add any other logout logic here (e.g., clearing tokens, redirecting)
+    api_token = ""; // Clear token on logout
   };
 
   return {

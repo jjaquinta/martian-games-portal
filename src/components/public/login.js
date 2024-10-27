@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useApi } from '../useAPI';
 import { UserContext } from '../UserContext';
 import { Form, Alert } from 'react-bootstrap';
-import './Login.css'; // Ensure this line is present
-import loginAudio from '../audio/loginScreenAudio.mp3'; // Adjusted import path
-import bgVideo from '../video/bgvideo.mp4'; // Import the background video
+import './Login.css';
+import loginAudio from '../audio/loginScreenAudio.mp3';
+import bgVideo from '../video/bgvideo.mp4';
 
 const PublicLogin = () => {
   const [username, setUsername] = useState('');
@@ -15,14 +15,13 @@ const PublicLogin = () => {
   const navigate = useNavigate();
   const { login } = useApi();
   const { setUserData } = useContext(UserContext);
-  
+
   const audioRef = useRef(new Audio(loginAudio));
   const videoRef = useRef(null);
 
   useEffect(() => {
     const audio = audioRef.current;
     audio.loop = true;
-
     return () => {
       audio.pause();
       audio.currentTime = 0;
@@ -31,19 +30,14 @@ const PublicLogin = () => {
 
   useEffect(() => {
     const video = videoRef.current;
-
     const handleTimeUpdate = () => {
       if (video.currentTime >= 9) {
-        video.currentTime = 0; // Reset to the beginning
-        video.play(); // Restart smoothly
+        video.currentTime = 0;
+        video.play();
       }
     };
-
     video.addEventListener('timeupdate', handleTimeUpdate);
-
-    return () => {
-      video.removeEventListener('timeupdate', handleTimeUpdate);
-    };
+    return () => video.removeEventListener('timeupdate', handleTimeUpdate);
   }, []);
 
   const handleSubmit = async (e) => {
@@ -52,9 +46,8 @@ const PublicLogin = () => {
 
     try {
       const result = await login(game, username, password);
-
       if (result.success) {
-        setUserData(result.userData);
+        setUserData(result.data);
         navigate('/portal/me/stats');
       } else {
         setError(result.error || 'Login failed. Please try again.');
@@ -68,9 +61,7 @@ const PublicLogin = () => {
 
   const playAudio = () => {
     const audio = audioRef.current;
-    audio.play().catch((error) => {
-      console.error('Error playing audio:', error);
-    });
+    audio.play().catch((error) => console.error('Error playing audio:', error));
   };
 
   return (
