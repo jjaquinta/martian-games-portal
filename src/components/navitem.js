@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApi } from './useAPI';
+import { UserContext } from './UserContext';
+import { MGServices } from './MGServices';
 
-const NavItem = ({ navID, navName }) => {
-  // Initialize the navigate function from react-router-dom
+const NavItem = ({ navID, navName, roleRequired }) => {
   const navigate = useNavigate();
-  const { setSuccess } = useApi(); 
+  const { user, setSuccess } = useApi(); // Assume user info comes from useApi
+  const { userData } = useContext(UserContext);
+
+  // Function to check if user has required role
+  const hasAccess = (role) => userData?.user?.role?.includes(role);
+
 
   const navigateTo = (id) => {
-    console.log(`Navigating to ${id}`);
-    navigate(`/${id}`); // This will navigate to the path based on navID, e.g. '/me/history/games'
+    if (hasAccess(roleRequired)) {
+      console.log(`Navigating to ${id}`);
+      navigate(`/${id}`);
+      setSuccess(""); // Reset any previous success messages
+    } else {
+      console.warn("Access Denied: You don't have permission to view this page.");
+    }
   };
 
   return (
@@ -18,7 +29,6 @@ const NavItem = ({ navID, navName }) => {
         onClick={(e) => {
           e.preventDefault();
           navigateTo(navID);
-          setSuccess("");
         }}
         style={{
           background: 'none',
@@ -29,6 +39,7 @@ const NavItem = ({ navID, navName }) => {
           cursor: 'pointer',
           textDecoration: 'underline',
         }}
+        disabled={!hasAccess(roleRequired)}
       >
         {navName}
       </button>

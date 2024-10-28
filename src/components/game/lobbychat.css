@@ -1,0 +1,12 @@
+.scrollable-cell {
+  max-height: 50px; /* Set the maximum height */
+  overflow-y: hidden; /* Hidden by default */
+  white-space: nowrap; /* Prevent text wrapping */
+  transition: overflow 0.3s; /* Smooth transition */
+}
+
+.scrollable-cell:hover {
+  overflow-y: auto; /* Show scroll bar on hover */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+

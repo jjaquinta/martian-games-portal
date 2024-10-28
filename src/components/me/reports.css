@@ -1,0 +1,10 @@
+.scrollable-cell {
+    max-height: 50px; /* Limit height */
+    overflow: auto; /* Allow vertical scrolling */
+    white-space: normal; /* Allow text to wrap normally */
+    text-overflow: clip; /* Prevent ellipsis */
+    transition: all 0.3s ease;
+    box-sizing: border-box; /* Include padding and border in element's total width/height */
+    padding: 5px; /* Add some padding for better readability */
+  }
+  

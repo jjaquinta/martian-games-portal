@@ -15,6 +15,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     if (userData && userData.token) {
       localStorage.setItem('token', userData.token);
+      console.log(userData)
     } else {
       localStorage.removeItem('token');
     }
