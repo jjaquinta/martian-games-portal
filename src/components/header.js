@@ -24,7 +24,6 @@ function Header() {
             ) : (
               <Nav.Link as={Link} to="/portal/public/login">Login</Nav.Link> // Show login button if not logged in
             )}
-            <Nav.Link as={Link} to="/portal/public/contact">Contact</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

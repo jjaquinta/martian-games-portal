@@ -19,12 +19,13 @@ table {
   }
 
 
-body {
+  body {
     background: linear-gradient(135deg, #e0e0e0, #ffffff); /* Light gradient background */
     font-family: 'Arial', sans-serif; /* Use a clean font */
     margin: 0;
-    padding: 20px;
+    padding: 0; /* Remove padding to keep the layout tight */
   }
+  
   
   h1, h2, h3 {
     color: #333; /* Darker color for headings */
@@ -44,8 +45,10 @@ body {
     backdrop-filter: blur(10px); /* Frosted glass effect */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
     padding: 20px; /* Padding inside the container */
-    margin: 20px 0; /* Margin around the container */
+    height: 79vh; /* Set a fixed height, or use a desired value */
+    overflow-y: auto; /* Enable vertical scrolling */
   }
+  
   
   table {
     width: 100%; /* Full width for the table */

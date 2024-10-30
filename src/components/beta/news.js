@@ -9,3 +9,4 @@ const BetaNews = () => {
 };
 
 export default BetaNews;
+

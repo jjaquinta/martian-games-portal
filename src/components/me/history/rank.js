@@ -1,25 +1,24 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Card, Table, Alert, Spinner } from 'react-bootstrap';
+import { Card, Alert, Spinner } from 'react-bootstrap';
 import { UserContext } from '../../UserContext';
 import { MGServices } from '../../MGServices';
+import './nicknames.css'; // Import the CSS file for styling
 
 function MeHistoryRank() {
   const [rankHistory, setRankHistory] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
   const { userData } = useContext(UserContext);
 
   useEffect(() => {
-    console.log('UserData in MeHistoryRank:', userData);
-    console.log('XPs array:', userData.user.xps);
-
     if (!userData || !userData.user || !userData.user.xps) {
       setError('User data is incomplete or not available');
       setLoading(false);
       return;
     }
 
-    // Use the xps data from userData
     const history = userData.user.xps.map((xp, index) => ({
       date: MGServices.toDate(xp.timestamp),
       rank: userData.user.ranks[index]?.rank || '-',
@@ -30,6 +29,18 @@ function MeHistoryRank() {
     setRankHistory(history);
     setLoading(false);
   }, [userData]);
+
+  const totalPages = Math.ceil(rankHistory.length / itemsPerPage);
+  const currentEntries = rankHistory.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePageChange = (page) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   if (loading) {
     return (
@@ -42,36 +53,44 @@ function MeHistoryRank() {
   }
 
   return (
-    <Card>
-      <Card.Header as="h2">Rank History</Card.Header>
-      <Card.Body>
-        {error && <Alert variant="danger">{error}</Alert>}
-        {rankHistory.length === 0 ? (
-          <p>No rank history available.</p>
-        ) : (
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Rank</th>
-                <th>XP</th>
-                <th>Level</th>
+    <div>
+      <h2 id="nicknamehistory">Rank History</h2>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Rank</th>
+              <th>XP</th>
+              <th>Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentEntries.map((entry, index) => (
+              <tr key={index}>
+                <td>{entry.date}</td>
+                <td>{entry.rank}</td>
+                <td>{entry.xp.toLocaleString()}</td>
+                <td>{entry.level}</td>
               </tr>
-            </thead>
-            <tbody>
-              {rankHistory.map((entry, index) => (
-                <tr key={index}>
-                  <td>{entry.date}</td>
-                  <td>{entry.rank}</td>
-                  <td>{entry.xp.toLocaleString()}</td>
-                  <td>{entry.level}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        )}
-      </Card.Body>
-    </Card>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="pagination-controls">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            key={index + 1}
+            className={`page-button ${currentPage === index + 1 ? 'active' : ''}`}
+            onClick={() => handlePageChange(index + 1)}
+          >
+            {index + 1}
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 

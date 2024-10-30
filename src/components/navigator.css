@@ -7,15 +7,46 @@
 }
 
 /* src/navigator.css */
+/* src/navigator.css */
 
 .navigator {
   display: flex;
   flex-direction: column;
   height: calc(100vh - 115px); /* Adjust for header/footer height */
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
   width: 100%;
-
   position: relative;
+  overflow-y: auto; /* Ensure scrolling is enabled */
+  backdrop-filter: blur(5px); /* Optional: blur effect for glass-like appearance */
+}
+
+.navigator::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.navigator::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1); /* Transparent background of the scrollbar track */
+}
+
+.navigator::-webkit-scrollbar-thumb {
+  background:  rgba(255, 255, 255, 0.1); /* Color of the scrollbar thumb */
+  border-radius: 10px; /* Rounded corners for the scrollbar thumb */
+  backdrop-filter: blur(5px); /* Optional: blur effect for glass-like appearance */
+}
+
+.navigator::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 170, 255, 1); /* Darker thumb on hover */
+}
+
+/* Firefox Scrollbar Styles */
+.navigator {
+  scrollbar-width: thin; /* Make scrollbar thin */
+  scrollbar-color:  rgba(255, 255, 255, 0.1); /* Thumb color and track color */
+}
+
+/* For Edge and Internet Explorer */
+.navigator {
+  -ms-overflow-style: -ms-autohiding-scrollbar; /* Hide scrollbar until needed */
 }
 
 /* Section Links Wrapper */
@@ -24,6 +55,7 @@
   flex-grow: 1; /* Fills available space */
   overflow-x: hidden;
   max-height: calc(100vh - 120px); /* Adjust as needed */
+  background-color: rgba(255, 255, 255, 0.1); /* Match the background to the navigator */
 }
 
 /* Style for section headers */
@@ -49,3 +81,4 @@
 .navigator .glow {
   color: rgb(19, 6, 85);
 }
+

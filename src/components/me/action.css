@@ -1,0 +1,106 @@
+/* actions.css */
+
+/* Table styling */
+#actions {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+  
+  #actions th, #actions td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  #actions th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  /* Refresh button styling */
+  .refresh-button {
+    background-color: rgba(76, 175, 80, 0.7);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .refresh-button:hover {
+    background-color: rgba(76, 175, 80, 1);
+    transform: scale(1.05);
+  }
+  
+  /* Limit buttons styling */
+  .limit-button {
+    background-color: transparent;
+    color: #130244;
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: 1px solid #130244;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .limit-button:hover {
+    background-color: rgba(19, 2, 68, 0.1);
+  }
+  
+  .limit-button.active {
+    background-color: #130244;
+    color: white;
+    font-weight: bold;
+    border-color: #130244;
+  }
+  
+  /* Input field styling */
+  .input-field {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 5px;
+  }
+  
+  /* No data message styling */
+  .no-data {
+    color: #888;
+    font-style: italic;
+    margin-top: 10px;
+  }
+  .action-page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 80vh;
+  }
+  
+  .table-container {
+    flex: 1;
+    overflow-y: auto;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .page-button {
+    margin: 0 4px;
+    padding: 8px 12px;
+    background-color: #130244;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .page-button.active {
+    background-color: #27275d;
+  }
+  
+ 
+  

@@ -4,6 +4,7 @@ import { useApi } from '../useAPI';
 import { Link } from 'react-router-dom';
 import './password.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Import eye icons
+import LoadingSpinner from '../loadingspinner'; // Adjust this import based on your file structure
 
 const MePassword = () => {
   const { userData } = useContext(UserContext);
@@ -11,16 +12,26 @@ const MePassword = () => {
   const [password, setPassword] = useState('');
   const [nickname, setNickname] = useState('');
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const [loading, setLoading] = useState(false); // State to handle loading
+  const [message, setMessage] = useState(''); // State to handle success/error messages
   const { changePassword } = useApi();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await changePassword(login, password, nickname);
+    setLoading(true); // Start loading
+    setMessage(''); // Reset message
 
-    if (!result.success) {
+    const result = await changePassword(login, password, nickname);
+    
+    setLoading(false); // Stop loading
+
+    if (result.success) {
+      setMessage('Password changed successfully!');
       setLogin("");
       setPassword("");
       setNickname("");
+    } else {
+      setMessage('Failed to change password. Please try again.');
     }
   };
 
@@ -75,8 +86,14 @@ const MePassword = () => {
             className="form-input"
           />
         </div>
-        <button type="submit" className="submit-button">Change</button>
+        <button type="submit" className="submit-button" disabled={loading}>Change</button>
       </form>
+
+      {/* Display loading spinner */}
+      {loading && <LoadingSpinner />}
+
+      {/* Display success/error message */}
+      {message && <p className="message">{message}</p>}
     </div>
   );
 };

@@ -1,7 +1,9 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
+
 }
 
 .App {
@@ -9,11 +11,13 @@ html, body {
   flex-direction: column;
   min-height: 100vh;
   text-align: center;
+
 }
 
 .App-header {
   background-color: #282c34;
-  height: 10vh; /* Fixed height for header */
+  height: 10vh;
+  /* Fixed height for header */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,17 +25,22 @@ html, body {
 }
 
 .App-content {
-  flex: 1; /* Expands to fill available space */
+  flex: 1;
+  /* Expands to fill available space */
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px; /* Optional padding */
-  overflow: auto; /* Enables scrolling both vertically and horizontally */
+  padding: 20px;
+  /* Optional padding */
+  overflow: auto;
+  /* Enables scrolling both vertically and horizontally */
+
 }
 
 .App-footer {
   background-color: #282c34;
-  height: 10vh; /* Fixed height for footer */
+  height: 10vh;
+  /* Fixed height for footer */
   display: flex;
   align-items: center;
   justify-content: center;

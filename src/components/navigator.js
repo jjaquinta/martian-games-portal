@@ -8,28 +8,60 @@ function Navigator() {
   const location = useLocation();
   const { userData } = useContext(UserContext);
   const [expandedSections, setExpandedSections] = useState({
+    public: false, // Initialize expanded state for Public section
     me: false,
     history: false,
     Game: false,
     Beta: false,
-    Admin:false
+    Admin: false,
   });
 
   const toggleSection = (section) => {
     setExpandedSections((prev) => ({ ...prev, [section]: !prev[section] }));
   };
 
+  // Define the hasAccess function
   const hasAccess = (requiredRole) => {
     const userRole = userData?.user?.role || "user";
-    const roleHierarchy = { "some role": 3, "beta": 2, "user": 1,"deputy":2 };
+    const roleHierarchy = { "admin": 3, "beta": 2, "user": 1, "deputy": 2 };
     return roleHierarchy[userRole] >= roleHierarchy[requiredRole];
+  };
+
+  // Store access rights in a variable after hasAccess is defined
+  const accessRights = {
+    user: hasAccess("user"),
+    beta: hasAccess("beta"),
+    admin: hasAccess("admin"),
+    deputy: hasAccess("deputy"),
   };
 
   return (
     <Nav className="flex-column p-3 navigator">
       <div className="section-links-wrapper">
+        {/* Public Section */}
+        {/* Everyone can access the Public section */}
+        <Nav.Link onClick={() => toggleSection('public')} className="section-title" style={{ color: '#24f02f' }}>
+          Public
+        </Nav.Link>
+        {expandedSections.public && (
+          <>
+            <Nav.Link as={Link} to="/portal/public/policies" className={location.pathname === '/portal/public/policies' ? 'glow' : ''}>
+              Policies
+            </Nav.Link>
+            <Nav.Link as={Link} to="/portal/public/mod-conduct" className={location.pathname === '/portal/public/mod-conduct' ? 'glow' : ''}>
+              Mod Conduct
+            </Nav.Link>
+            <Nav.Link as={Link} to="/portal/public/contact" className={location.pathname === '/portal/public/contact' ? 'glow' : ''}>
+              Contact
+            </Nav.Link>
+            <Nav.Link as={Link} to="/portal/public/loginYoutube" className={location.pathname === '/portal/public/loginYoutube' ? 'glow' : ''}>
+              Youtube
+            </Nav.Link>
+          </>
+        )}
+
         {/* Me Section */}
-        {hasAccess("user") && (
+        {accessRights.user && (
           <>
             <Nav.Link onClick={() => toggleSection('me')} className="section-title" style={{ color: '#24f02f' }}>
               Me
@@ -48,7 +80,7 @@ function Navigator() {
         )}
 
         {/* History Section */}
-        {hasAccess("user") && (
+        {accessRights.user && (
           <>
             <Nav.Link onClick={() => toggleSection('history')} className="section-title" style={{ color: '#24f02f' }}>
               History
@@ -79,7 +111,7 @@ function Navigator() {
         )}
 
         {/* Game Section */}
-        {hasAccess("user") && (
+        {accessRights.user && (
           <>
             <Nav.Link onClick={() => toggleSection('Game')} className="section-title" style={{ color: '#24f02f' }}>
               Game
@@ -100,11 +132,11 @@ function Navigator() {
           </>
         )}
 
-        {/* beta Section */}
-        {hasAccess("beta") && (
+        {/* Beta Section */}
+        {accessRights.beta && (
           <>
             <Nav.Link onClick={() => toggleSection('Beta')} className="section-title" style={{ color: '#24f02f' }}>
-           Beta
+              Beta
             </Nav.Link>
             {expandedSections.Beta && (
               <>
@@ -116,11 +148,11 @@ function Navigator() {
           </>
         )}
 
-          {/* admin Section */}
-          {hasAccess("some role") && (
+        {/* Admin Section */}
+        {accessRights.admin && (
           <>
             <Nav.Link onClick={() => toggleSection('Admin')} className="section-title" style={{ color: '#24f02f' }}>
-           Admin
+              Admin
             </Nav.Link>
             {expandedSections.Admin && (
               <>

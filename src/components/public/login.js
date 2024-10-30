@@ -13,52 +13,64 @@ const PublicLogin = () => {
   const [password, setPassword] = useState('');
   const [game, setGame] = useState(localStorage.getItem('game') || 'TankOff Classic');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); // New loading state
   const navigate = useNavigate();
   const { login } = useApi();
   const { setUserData } = useContext(UserContext);
-  const [isMuted, setIsMuted] = useState(false); // Initially unmuted
+  const [isMuted, setIsMuted] = useState(JSON.parse(localStorage.getItem('isMuted')) || false);
 
   const audioRef = useRef(new Audio(loginAudio));
   const videoRef = useRef(null);
 
+  // Audio and video effects (same as before)
   useEffect(() => {
     const audio = audioRef.current;
     audio.loop = true;
-
-    // Start playing audio on component mount
-    if (!isMuted) {
-      audio.play().catch(error => console.error("Error playing audio:", error));
-    }
-
+    const playAudio = async () => {
+      if (!isMuted) {
+        try {
+          await audio.play();
+        } catch (error) {
+          console.error("Error playing audio:", error);
+        }
+      }
+    };
+    playAudio();
     return () => {
       audio.pause();
       audio.currentTime = 0;
     };
+  }, []);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (isMuted) {
+      audio.pause();
+    } else {
+      audio.play().catch(error => console.error('Error playing audio:', error));
+    }
+    localStorage.setItem('isMuted', isMuted);
   }, [isMuted]);
 
   useEffect(() => {
     const video = videoRef.current;
-    const handleTimeUpdate = () => {
-      if (video.currentTime >= 9) {
-        video.currentTime = 0;
-        video.play();
-      }
+    video.muted = true;
+    video.play().catch(error => console.error("Error playing video:", error));
+    return () => {
+      video.pause();
     };
-    video.addEventListener('timeupdate', handleTimeUpdate);
-    return () => video.removeEventListener('timeupdate', handleTimeUpdate);
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true); // Set loading to true
 
     try {
       const result = await login(game, username, password);
       if (result.success) {
-        // Store the username and selected game in local storage
         localStorage.setItem('username', username);
         localStorage.setItem('game', game);
-        
         setUserData(result.data);
         navigate('/portal/me/stats');
       } else {
@@ -68,22 +80,18 @@ const PublicLogin = () => {
     } catch (err) {
       setError('An error occurred. Please try again.');
       console.error('Login error:', err);
+    } finally {
+      setLoading(false); // Reset loading state
     }
   };
 
   const toggleMute = () => {
-    const audio = audioRef.current;
-    if (isMuted) {
-      audio.play().catch((error) => console.error('Error playing audio:', error));
-    } else {
-      audio.pause();
-    }
-    setIsMuted(!isMuted);
+    setIsMuted((prevMuted) => !prevMuted);
   };
 
   return (
     <div className="login-container">
-      <video ref={videoRef} autoPlay loop muted={isMuted} className="background-video" preload="auto">
+      <video ref={videoRef} autoPlay loop className="background-video" preload="auto">
         <source src={bgVideo} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -138,6 +146,13 @@ const PublicLogin = () => {
             {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
           </button>
         </Form>
+        {loading && (
+          <div className="loading-dots">
+            <div className="dot"></div>
+            <div className="dot"></div>
+            <div className="dot"></div>
+          </div>
+        )}
       </div>
     </div>
   );

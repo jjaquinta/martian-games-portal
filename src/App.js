@@ -25,6 +25,7 @@ import Contact from './components/public/contact';
 import PublicYouTube from './components/public/youtube';
 import BetaNews from './components/beta/news';
 import AdminInvestigate from'./components/admin/investigate';
+import YouTube from './components/public/loginYoutube'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -46,13 +47,15 @@ const Layout = ({ children }) => {
   const isProtectedRoute = location.pathname.startsWith('/portal/me') || 
   location.pathname.startsWith('/portal/game') ||
   location.pathname.startsWith('/portal/beta/news') ||
-  location.pathname.startsWith('/portal/admin/investigate');
+  location.pathname.startsWith('/portal/admin/investigate')||
+  location.pathname.startsWith('/portal/public')  &&
+  location.pathname !== '/portal/public/login';
                          
 
   return (
     <div className="d-flex flex-column min-vh-100">
       <Header />
-      <Container fluid className="flex-grow-1">
+      <Container fluid className="flex-grow-1" >
         <Row className="h-100">
           {userData && isProtectedRoute && (
             <Col md={3} lg={2} className="bg-light sidebar">
@@ -83,6 +86,7 @@ const router = createBrowserRouter([
       { path: "public/mod-conduct", element: <ModConduct /> },
       { path: "public/contact", element: <Contact /> },
       { path: "public/youtube", element: <PublicYouTube/> },
+      { path: "public/loginYoutube", element: <YouTube/> },
       { 
         path: "me",
         element: <ProtectedRoute><Outlet /></ProtectedRoute>,

@@ -1,45 +1,58 @@
 import React, { useState, useContext } from 'react';
-import { UserContext } from '../UserContext'; // Import UserContext to access user data
-import { useApi } from '../useAPI'; // Import custom hook for API calls
+import { UserContext } from '../UserContext';
+import { useApi } from '../useAPI';
+import './action.css';
+import LoadingSpinner from '../loadingspinner';
 
 const MeActions = () => {
-  const { userData } = useContext(UserContext); // Access user data from context
-  const { lookupAudits } = useApi(); // Get the lookupAudits function from the API hook
-  const [limit, setLimit] = useState('20'); // State for the limit of actions to fetch
-  const [login, setLogin] = useState(''); // State for the account ID input
-  const lookupAuditData = userData && userData.lookupAudits ? userData.lookupAudits : []; // Get audit data
+  const { userData } = useContext(UserContext);
+  const { lookupAudits } = useApi();
+  const [limit, setLimit] = useState('20');
+  const [login, setLogin] = useState('');
+  const [loading, setLoading] = useState(false);
+  const lookupAuditData = userData?.lookupAudits || [];
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = lookupAuditData.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-    await lookupAudits(login, limit); // Call the API to fetch audits
+    e.preventDefault();
+    setLoading(true);
+    await lookupAudits(login, limit);
+    setLoading(false);
   };
 
   return (
-    <div>
+    <div className="action-page-container">
       <h1>{userData.game} Actions</h1>
       <p>See what actions have been taken with regards to this account.</p>
 
-      <div style={{ height: 10 }}></div>
-      <form onSubmit={handleSubmit}>
-        <input type="submit" value="Refresh" />
+      <form onSubmit={handleSubmit} className="action-form">
+        <input type="submit" value="Refresh" className="refresh-button" />
         {userData?.user?.deputy && (
           <input
             type="text"
             name="login"
-            placeholder="account id"
+            placeholder="Account ID"
             value={login}
-            onChange={(e) => setLogin(e.target.value)} // Update login state on input change
+            onChange={(e) => setLogin(e.target.value)}
+            className="input-field"
           />
         )}
-        <button type="button" onClick={() => setLimit("25")}>25</button>
-        <button type="button" onClick={() => setLimit("50")}>50</button>
-        <button type="button" onClick={() => setLimit("100")}>100</button>
+        <button type="button" onClick={() => setLimit("25")} className="limit-button">25</button>
+        <button type="button" onClick={() => setLimit("50")} className="limit-button">50</button>
+        <button type="button" onClick={() => setLimit("100")} className="limit-button">100</button>
       </form>
 
-      {Array.isArray(lookupAuditData) ? (
-        lookupAuditData.length === 0 ? (
-          <div>No actions to display</div>
-        ) : (
+      {loading ? (
+        <LoadingSpinner />
+      ) : Array.isArray(lookupAuditData) && lookupAuditData.length > 0 ? (
+        <div className="table-container">
           <table id="actions">
             <thead>
               <tr>
@@ -50,7 +63,7 @@ const MeActions = () => {
               </tr>
             </thead>
             <tbody>
-              {lookupAuditData.map((rec, index) => (
+              {currentItems.map((rec, index) => (
                 <tr key={index}>
                   <td valign="top">{rec.time}</td>
                   {userData?.user?.deputy && <td>{rec.login}</td>}
@@ -60,10 +73,25 @@ const MeActions = () => {
               ))}
             </tbody>
           </table>
-        )
+          <div className="pagination">
+            {Array.from({ length: Math.ceil(lookupAuditData.length / itemsPerPage) }, (_, i) => (
+              <button
+                key={i + 1}
+                className={`page-button ${currentPage === i + 1 ? 'active' : ''}`}
+                onClick={() => setCurrentPage(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+        </div>
       ) : (
-        <div>No actions to display</div>
+        <div className="no-data">No actions to display</div>
       )}
+
+      <footer className="fixed-footer">
+        {/* Footer content here */}
+      </footer>
     </div>
   );
 };
