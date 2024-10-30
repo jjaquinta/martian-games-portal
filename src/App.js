@@ -44,11 +44,11 @@ const Layout = ({ children }) => {
   // Check if the current route is a protected route
 
 
-  const isProtectedRoute = location.pathname.startsWith('/portal/me') || 
+  const isProtectedRoute = (location.pathname.startsWith('/portal/me') || 
   location.pathname.startsWith('/portal/game') ||
   location.pathname.startsWith('/portal/beta/news') ||
   location.pathname.startsWith('/portal/admin/investigate')||
-  location.pathname.startsWith('/portal/public')  &&
+  location.pathname.startsWith('/portal/public'))  &&
   location.pathname !== '/portal/public/login';
                          
 

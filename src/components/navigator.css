@@ -73,12 +73,11 @@
 
 /* General styles for nav-links */
 .navigator .nav-link {
-  margin-bottom: 10px;
-  padding: 10px;
+  margin-bottom: px;
+  padding: 3px;
 }
 
 /* Glow effect for active links */
 .navigator .glow {
   color: rgb(19, 6, 85);
 }
-
