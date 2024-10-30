@@ -24,8 +24,8 @@ const Navigator = () => {
 
   return (
     <aside style={{ width: '10%' }}>
-      <ul>
-        <li>Public<ul>
+      <ul style={{ paddingLeft: '15px' }}>
+        <li>Public<ul style={{ paddingLeft: '15px' }}>
           {!userData?.player && (
             <NavItem key='public/login' navID='public/login' navName='Login' />
           )}
@@ -37,10 +37,10 @@ const Navigator = () => {
           ))}</ul>
         </li>
         {userData?.player && (
-          <li>Me<ul>
+          <li>Me<ul style={{ paddingLeft: '15px' }}>
              <NavItem key='me/stats' navID='me/stats' navName='Stats' />
              <NavItem key='me/password' navID='me/password' navName='Password' />
-             <li>History<ul>
+             <li>History<ul style={{ paddingLeft: '15px' }}>
              <NavItem key='me/history/nicknames' navID='me/history/nicknames' navName='Nicknames' />
              <NavItem key='me/history/xp' navID='me/history/xp' navName='XP' />
              <NavItem key='me/history/rank' navID='me/history/rank' navName='Rank' />
@@ -52,21 +52,21 @@ const Navigator = () => {
           </li>
         )}
         {userData?.player && (
-          <li>Game<ul>
+          <li>Game<ul style={{ paddingLeft: '15px' }}>
             {navItemsGame.map(item => (
               <NavItem key={item.id} navID={item.id} navName={item.name} />
             ))}</ul>
           </li>
         )}
         {userData?.user?.deputy && (
-          <li>Admin<ul>
+          <li>Admin<ul style={{ paddingLeft: '15px' }}>
             {navItemsAdmin.map(item => (
               <NavItem key={item.id} navID={item.id} navName={item.name} />
             ))}</ul>
           </li>
         )}
         {userData?.user?.beta && (
-          <li>Beta<ul>
+          <li>Beta<ul style={{ paddingLeft: '15px' }}>
             {navItemsBeta.map(item => (
               <NavItem key={item.id} navID={item.id} navName={item.name} />
             ))}</ul>

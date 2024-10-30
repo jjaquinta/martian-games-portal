@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
 import ClickableID from '../ClickableID';
@@ -77,9 +76,8 @@ const GameLeaderboard = () => {
   const [mode, setMode] = useState('current.xp');
   const [recent, setRecent] = useState('false');
   const { userData } = useContext(UserContext); // Access the user data from context
-  const { lookupUser, updateLeaderboard } = useApi();
-  const navigate = useNavigate();
-
+  const { updateLeaderboard } = useApi();
+  
   const leaderboardData = userData && userData.leaderboard ? userData.leaderboard : [];
 
   const handleSubmit = async (e) => {

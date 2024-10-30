@@ -83,13 +83,6 @@ const GameLookup = () => {
       console.error('Lookup failed:', result.error || result.status);
     }
   };
-
-  const viewID = async (id) => {
-    const result = await lookupUser(id, '', '', '', '', '', '');
-    if (!result.success) {
-      console.error('Lookup failed:', result.error || result.status);
-    }
-  }
     
   const sortUp = (column) => {
     setOrderUp(column);
@@ -155,14 +148,14 @@ const GameLookup = () => {
           ) : lookupUserData.length === 1 ? (
             <div>
             <table>
-                {userData?.user?.deputy && (<tr><th style={{ textAlign: 'right' }}>Login</th><td>{lookupUserData[0].current.login}</td></tr>)}
-                <tr><th style={{ textAlign: 'right' }}>Nickname</th><td><ClickableNickname nickname={lookupUserData[0].current.nickname}/></td></tr>
-                <tr><th style={{ textAlign: 'right' }}>XP</th><td>{lookupUserData[0].current.experience.toLocaleString()}</td></tr>
-                <tr><th style={{ textAlign: 'right' }}>Level</th><td><ClickableLevel level={lookupUserData[0].current.level}/></td></tr>
-                {userData?.user?.deputy && (<tr><th style={{ textAlign: 'right' }}>IP</th><td><ClickableIP ip={lookupUserData[0].current.ip}/></td></tr>)}
-                {userData?.user?.deputy && (<tr><th style={{ textAlign: 'right' }}>Password</th><td>{lookupUserData[0].current.password}</td></tr>)}
-                {userData?.user?.deputy && (<tr><th style={{ textAlign: 'right' }}>Notes</th><td>{lookupUserData[0].current.notes}</td></tr>)}
-                <tr><th style={{ textAlign: 'right' }}>Banned</th><td>{lookupUserData[0].current.banned}</td></tr>
+                {userData?.user?.deputy && (<tr><th style={{ textAlign: 'right' }}>Login:</th><td>{lookupUserData[0].current.login}</td></tr>)}
+                <tr><th style={{ textAlign: 'right' }}>Nickname:</th><td><ClickableNickname nickname={lookupUserData[0].current.nickname}/></td></tr>
+                <tr><th style={{ textAlign: 'right' }}>XP:</th><td>{lookupUserData[0].current.experience.toLocaleString()}</td></tr>
+                <tr><th style={{ textAlign: 'right' }}>Level:</th><td><ClickableLevel level={lookupUserData[0].current.level}/></td></tr>
+                {userData?.user?.deputy && (<tr><th style={{ textAlign: 'right' }}>IP:</th><td><ClickableIP ip={lookupUserData[0].current.ip}/></td></tr>)}
+                {userData?.user?.deputy && (<tr><th style={{ textAlign: 'right' }}>Password:</th><td>{lookupUserData[0].current.password}</td></tr>)}
+                {userData?.user?.deputy && (<tr><th style={{ textAlign: 'right' }}>Notes:</th><td>{lookupUserData[0].current.notes}</td></tr>)}
+                <tr><th style={{ textAlign: 'right' }}>:</th><td>{lookupUserData[0].current.banned}</td></tr>
                 <tr><th style={{ textAlign: 'right' }}>Country:</th><td>{MGServices.getCountryName(lookupUserData[0].current.coutryCode)}</td></tr>
                 <tr><th style={{ textAlign: 'right' }}>Last Login:</th><td>{lookupUserData[0].current.lastLogin}</td></tr>
                 <tr><th style={{ textAlign: 'right' }}>Joined:</th><td>{lookupUserData[0].current.timeJoined}</td></tr>

@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
 import ClickableNickname from '../ClickableNickname';
@@ -7,10 +6,9 @@ import ClickableLogin from '../ClickableLogin';
 
 const GameLobbyChat = () => {
   const { userData } = useContext(UserContext);
-  const { lookupUser, lookupLobbyChat } = useApi(); // Call the hook and extract the login function
+  const { lookupLobbyChat } = useApi(); // Call the hook and extract the login function
   const [limit, setLimit] = useState('20');
   const lookupLobbyChatData = userData && userData.lookupLobbyChat ? userData.lookupLobbyChat : [];
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
