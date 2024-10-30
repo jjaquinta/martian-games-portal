@@ -35,7 +35,7 @@ const MeStats = () => {
                 </tr>
                 <tr>
                   <th>Level:</th>
-                  <td>{level}</td>
+                  <td>{userData.player.level}</td>
                 </tr>
                 <tr>
                   <th>XP:</th>
