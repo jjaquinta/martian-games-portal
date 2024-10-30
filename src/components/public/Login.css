@@ -1,0 +1,165 @@
+/* src/components/public/Login.css */
+
+.login-container {
+  max-width: 400px; /* Set a max width for the login form */
+  margin: auto; /* Center the login form */
+  padding: 20px; /* Add padding */
+  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  backdrop-filter: blur(10px); /* Blur effect for glassmorphism */
+  transition: background-color 0.3s, transform 0.2s, border-color 0.3s; /* Transition effects */
+  position: relative; /* Fix positioning within parent container */
+  width: 100%;
+}
+
+
+
+
+.background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width:fit-content;
+  height:fit-content;
+  z-index: -1;
+  transform: translate(-50%, -50%);
+  object-fit:cover; /* Ensures the video covers the entire area */
+  transition: opacity 0.5s ease-in-out; /* Add a transition effect */
+  overflow-x: hidden;
+
+  
+}
+
+.login-content {
+  position: relative; /* Position relative for content */
+  z-index: 1; /* Bring content above the video */
+  color: white; /* Change text color for visibility */
+  text-align: center; /* Center text */
+  padding: 20px; /* Add some padding */
+  
+}
+
+
+
+.login-title {
+  text-align: center; /* Center the title */
+  margin-bottom: 20px; /* Space below the title */
+  font-weight: bold; /* Bold title */
+  color: #fede3e; /* Gold color for the title */
+  font-family: cursive;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column; /* Stack form elements vertically */
+}
+
+
+
+.login-input,
+.login-select {
+  border: 2px solid rgba(212, 175, 55, 0.5); /* Semi-transparent gold border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px; /* Padding for inputs */
+  margin-bottom: 15px; /* Space between inputs */
+  transition: border-color 0.3s; /* Transition for border color */
+  background-color: rgba(255, 255, 255, 0.1); /* More transparent background for inputs */
+  backdrop-filter: blur(10px); /* Blur effect for glassmorphism */
+  color: white; /* Ensure text color is white for visibility */
+  font-family: cursive; /* Match the style to the title */
+}
+
+/* Ensure focus styles are retained */
+.login-input:focus,
+.login-select:focus {
+  border-color: #d4af37; /* Solid gold border on focus */
+  box-shadow: 0 0 5px rgba(212, 175, 55, 0.5); /* Gold shadow on focus */
+  outline: none; /* Remove default outline */
+}
+
+.login-button {
+  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+  color: #f16202; /* Gold text color */
+  border: 2px solid rgba(212, 175, 55, 0.5); /* Semi-transparent gold border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px; /* Padding for buttons */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s, transform 0.2s, border-color 0.3s; /* Transition effects */
+  backdrop-filter: blur(10px); /* Blur effect for glassmorphism */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+}
+
+.login-button:hover {
+  background-color: rgba(255, 255, 255, 0.4); /* Slightly more opaque on hover */
+  border-color: #d4af37; /* Solid gold border on hover */
+  transform: translateY(-2px); /* Lift effect on hover */
+}
+
+.login-button:active {
+  transform: translateY(0); /* Reset lift effect on click */
+}
+/* Add this to Login.css */
+
+.mute-button {
+  position: absolute; /* Position in top-right corner */
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
+  color: #d4af37; /* Gold color */
+  border: none;
+  border-radius: 50%; /* Circular button */
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+  z-index: 2; /* Keep above other content */
+}
+
+.mute-button:hover {
+  background-color: rgba(255, 255, 255, 0.5); /* Slightly more opaque on hover */
+}
+
+.mute-button.muted {
+  background-color: rgba(255, 0, 0, 0.7); /* Red background when muted */
+}
+
+.mute-button .icon {
+  font-size: 24px; /* Adjust icon size */
+}
+.loading-dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  margin: 5px 5px;
+  border-radius: 50%;
+  background-color: #007bff; /* Change to desired color */
+  animation: bounce 0.6s infinite alternate;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.2s; /* Delay for the second dot */
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.4s; /* Delay for the third dot */
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px); /* Adjust the height of the bounce */
+  }
+}

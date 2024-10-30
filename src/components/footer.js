@@ -1,15 +1,14 @@
 import React from 'react';
+import { Container } from 'react-bootstrap';
 
-const Footer = () => {
+function Footer() {
   return (
-    <footer style={{ textAlign: 'center', padding: '10px', fontSize: '12px' }}>
-      <p>
-        This website is a fan maintained site dedicated to{' '}
-        <a href="https://MartianGames.com">Martian Games</a> and its products. We do basic support
-        for Martian Games on a volunteer basis.
-      </p>
+    <footer className="bg-dark text-light py-3 mt-auto">
+      <Container>
+        <p className="text-center mb-0">&copy; 2024 Martian games portal. All rights reserved.</p>
+      </Container>
     </footer>
   );
-};
+}
 
 export default Footer;

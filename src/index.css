@@ -66,5 +66,5 @@ body {
   background-color: rgba(0, 0, 0, 0.1); /* Slightly darker background */
   color: #eee; /* Adjust text color for contrast */
   text-decoration: underline;  /* Underline links on hover */
-  ext-decoration-color: #00f; /* Underline color */
+  text-decoration-color: #00f; /* Underline color */
 }

@@ -1,7 +1,9 @@
 import React from 'react';
 
+
 const PublicContact = () => {
   return (
+    
 <div>
 <h1>Contacts</h1>
 <ul>
@@ -11,7 +13,7 @@ const PublicContact = () => {
         Deputies:
         <ul>
             <li>TankOff Classic, FeurHund 6909 discord: FeurHund 6909#8896</li>
-            <li>TankOff 2, Nιghtmᥲrᥱ™ discord: nightmareto2</li>
+            <li>TankOff 2, Nightmᥲrᥱ™ discord: nightmareto2</li>
             <li>Kart Wars 2, Superstar discord: taken_boi</li>
         </ul>
     </li>
@@ -19,5 +21,6 @@ const PublicContact = () => {
 </div>
   );
 };
+
 
 export default PublicContact;

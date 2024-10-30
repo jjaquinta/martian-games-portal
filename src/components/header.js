@@ -1,57 +1,34 @@
 import React, { useContext } from 'react';
-import { UserContext } from './UserContext';
+import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserContext } from './UserContext'; // If UserContext.js is in src
 
-const Header = () => {
-  const { userData } = useContext(UserContext); // Access the user data from context
-  const gameName = userData ? userData.game : '';
-  function getImagePath(imageName) {
-    return `${process.env.PUBLIC_URL}/images/${imageName}`;
-  }
+function Header() {
+  const { userData, setUserData } = useContext(UserContext); // Access user data and setUserData
+  const navigate = useNavigate(); // Initialize navigation
 
-  const getBanner = () => {
-    switch (gameName) {
-      case "TankOff Classic":
-        return getImagePath('toc.png');
-      case "TankOff2":
-        return getImagePath('to2.png');
-      case "AirWars3":
-        return getImagePath('aw3.png');
-      case "AirWars2":
-        return getImagePath('aw2.png');
-      case "MotorWars2":
-        return getImagePath('mw2.png');
-      case "KartWars2":
-        return getImagePath('kw2.png');
-      default:
-        return getImagePath('mg.png');
-    }
+  const handleLogout = () => {
+    setUserData(null); // Clear user data on logout
+    navigate('/portal'); // Redirect to login page
   };
 
-  const getLogo = () => {
-    return userData?.busy ? getImagePath('busy.gif') : getImagePath('logo.png');
-  }
-
   return (
-    <table>
-      <tr>
-        <td className="header-logo">
-          <img src={getLogo()} alt="Game Logo"/>
-        </td>
-        <td className="header-text">
-          <img src={getBanner()} alt="Game banner" />
-          {userData?.error ? (
-            <span className="header-error"><br/>{userData.error}</span>
-          ) : userData?.success ? (
-              <span className="header-success"><br/>{userData.success}</span>
-          ) : userData?.player ? (
-            <span className="header-text"><br/>Welcome, {userData.player.nickname}! ({userData.player.login})</span>
-          ) : (
-            <span className="header-text"><br/></span>
-          )}
-        </td>
-      </tr>
-    </table>
+    <Navbar bg="dark" variant="dark" expand="lg">
+      <Container>
+        <Navbar.Brand as={Link} to="/portal">Martian Games Portal</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto">
+            {userData ? ( // Check if user is logged in
+              <Nav.Link onClick={handleLogout}>Logout</Nav.Link> // Show logout button if logged in
+            ) : (
+              <Nav.Link as={Link} to="/portal/public/login">Login</Nav.Link> // Show login button if not logged in
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
-};
+}
 
 export default Header;

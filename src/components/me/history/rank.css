@@ -1,0 +1,76 @@
+.rank-history-card {
+    margin: 20px; /* Spacing around the card */
+  }
+  
+  .rank-history-header {
+    color: #130244; /* Header text color */
+  }
+  
+  .rank-history-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #130244;
+  }
+  
+  .rank-history-table-container {
+    overflow-x: auto; /* Allow horizontal scrolling for the table */
+  }
+  
+  .rank-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .rank-history-table thead {
+    background-color: #1a044d;
+    color: rgb(75, 13, 246);
+  }
+  
+  .rank-history-table th,
+  .rank-history-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .rank-history-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .rank-history-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .rank-history-table tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+  
+  /* Pagination Controls */
+  .rank-history-pagination-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+  }
+  
+  .rank-history-page-button {
+    background-color: #1a044d;
+    color: #fff;
+    border: none;
+    margin: 0 5px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .rank-history-page-button:hover {
+    background-color: rgb(75, 13, 246);
+  }
+  
+  .rank-history-page-button.active {
+    background-color: #4b0df6;
+    font-weight: bold;
+    cursor: default;
+  }
+  

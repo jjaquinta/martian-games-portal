@@ -1,0 +1,54 @@
+/* youtube.css */
+
+body {
+    background: linear-gradient(135deg, #e0e0e0, #ffffff); /* Light gradient background */
+    font-family: 'Arial', sans-serif; /* Use a clean font */
+    margin: 0;
+    padding: 0; /* Remove padding to keep the layout tight */
+}
+
+.youtube-container {
+    background: rgba(255, 255, 255, 0.8); /* White background with transparency */
+    border-radius: 15px; /* Rounded corners */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    padding: 20px; /* Padding inside the container */
+    height: 73vh; /* Set a fixed height */
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin: 20px; /* Margin around the container */
+}
+
+h1, h2, h3 {
+    color: #333; /* Darker color for headings */
+}
+
+p {
+    line-height: 1.6; /* Improve readability */
+}
+
+ul {
+    margin-left: 20px; /* Indent lists */
+}
+
+a {
+    color: #007bff; /* Bootstrap primary color */
+    transition: color 0.3s; /* Smooth transition for color */
+}
+
+a:hover {
+    color: #00aaff; /* Light blue color on hover */
+    text-shadow: 0 0 10px rgba(0, 170, 255, 0.7); /* Glowing effect */
+}
+
+/* Additional button styles */
+.moderator-link {
+    color: #007bff; /* Primary color for the link */
+    cursor: pointer; /* Pointer cursor */
+    text-decoration: underline; /* Underline on hover */
+}
+
+.moderator-link:hover {
+    color: #00aaff; /* Light blue on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    text-shadow: 0 0 10px rgba(0, 170, 255, 0.7); /* Stronger glowing effect */
+}

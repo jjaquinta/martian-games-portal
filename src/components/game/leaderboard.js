@@ -1,20 +1,18 @@
+
 import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
-import ClickableID from '../ClickableID';
-import ClickableLevel from '../ClickableLevel';
+import './leaderboard.css';
+import LoadingSpinner from '../loadingspinner';
 
 // Initialize country codes and names
 const COUNTRY_CODES = [];
 const COUNTRY_NAMES = {};
-
-// Function to add country codes and names
 const addCountry = (code, name) => {
   COUNTRY_CODES.push(code);
   COUNTRY_NAMES[code] = name;
 };
-
-// Populate the country codes and names
 const initializeCountries = () => {
   addCountry("AR", "Argentina");
   addCountry("AU", "Australia");
@@ -40,157 +38,141 @@ const initializeCountries = () => {
   addCountry("SU", "Soviet Union");
   addCountry("IN", "India");
   addCountry("US", "USA");
-
-  // Sort the country codes alphabetically
   COUNTRY_CODES.sort();
 };
-
-// Initialize the country data
 initializeCountries();
 
 // Initialize mode codes and names
 const MODE_CODES = [];
 const MODE_NAMES = {};
-
-// Function to add mode codes and names
 const addMode = (code, name) => {
   MODE_CODES.push(code);
   MODE_NAMES[code] = name;
 };
-
-// Populate the mode codes and names
 const initializeModes = () => {
   addMode("current.xp", "Total XP");
   addMode("xpPerDay", "XP/day");
   addMode("xpPerWeek", "XP/week");
-
-  // Sort the mode codes alphabetically
   MODE_CODES.sort();
 };
-
-// Initialize the mode data
 initializeModes();
-
 const GameLeaderboard = () => {
   const [country, setCountry] = useState('');
   const [mode, setMode] = useState('current.xp');
   const [recent, setRecent] = useState('false');
-  const { userData } = useContext(UserContext); // Access the user data from context
-  const { updateLeaderboard } = useApi();
-  
-  const leaderboardData = userData && userData.leaderboard ? userData.leaderboard : [];
+  const { userData } = useContext(UserContext);
+  const { lookupUser, updateLeaderboard } = useApi();
+  const navigate = useNavigate();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false); // Add loading state
+  const itemsPerPage = 10;
+  const leaderboardData = userData?.leaderboard || [];
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = leaderboardData.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading
     const result = await updateLeaderboard(country, mode, recent);
+    setLoading(false); // Stop loading
     if (!result.success) {
       console.error('Update failed:', result.error || result.status);
     }
   };
 
-  return (
-    <div>
-      <h2 id="leaderboard"> {userData.game} Leaderboard</h2>
-      <table>
-        <tbody>
-          <tr>
-              <td>
-                  <form onSubmit={handleSubmit}>
-                      <input type="submit" value="Refresh"></input>
-                  </form>
-              </td>
-              <td>
-                <select name="country" value={country} onChange={(e) => setCountry(e.target.value)}>
-                  {(!country || country.length === 0) ? (
-                    <option value="">All</option>
-                  ) : (
-                    <>
-                      <option value={country}>
-                        {COUNTRY_NAMES[country] || 'All'}
-                      </option>
-                      <option value="">All</option>
-                    </>
-                  )}
-                  {COUNTRY_CODES.map((cc) => (
-                    <option key={cc} value={cc}>
-                      {COUNTRY_NAMES[cc] || cc}
-                    </option>
-                  ))}
-                </select>
-              </td>
-              <td>
-                <select name="mode" value={mode} onChange={(e) => setMode(e.target.value)}>
-                  {(!mode || mode.length === 0) ? (
-                    <option value="current.xp">Total XP</option>
-                  ) : (
-                    <>
-                      <option value={mode}>
-                        {MODE_NAMES[mode] || 'All'}
-                      </option>
-                    </>
-                  )}
-                  {MODE_CODES.map((cc) => (
-                    <option key={cc} value={cc}>
-                      {MODE_NAMES[cc] || cc}
-                    </option>
-                  ))}
-                </select>
-              </td>
-              <td>
-                <select name="recent" value={recent} onChange={(e) => setRecent(e.target.value)}>
-                  {(!recent || recent.length === 0) ? (
-                    <>
-                      <option value="false">Everyone</option>
-                      <option value="true">Active Only</option>
-                    </>
-                  ) : (
-                    <>
-                      <option value="true">Active Only</option>
-                      <option value="false">Everyone</option>
-                    </>
-                  )}
-                </select>
-              </td>
-          </tr>
-        </tbody>
-      </table>
-      <table id="leaders">
-        <thead>
-          <tr>
-              <th>Rank</th>
-              <th>Name</th>
-              <th>XP</th>
-              <th>Level</th>
-              <th>XP/day</th>
-              <th>XP/week</th>
-              <th>Active</th>
-          </tr>
-        </thead>
-        <tbody>
-          {leaderboardData.length > 0 ? (
-            leaderboardData.map((rec, index) => (
-              <tr key={index}>
-                <td valign="top">{index+1}</td>
-                <td valign="top">
-                  <ClickableID id={rec.current.id} text={rec.current.nickname}/>
-                </td>
-                <td align="right" valign="top">{rec.current.experience.toLocaleString()}</td>
-                <td align="right" valign="top">
-                  <ClickableLevel level={rec.current.level}/>
-                </td>
-                <td align="right" valign="top">{rec.xpPerDay.toLocaleString()}</td>
-                <td align="right" valign="top">{rec.xpPerWeek.toLocaleString()}</td>
-                <td align="right" valign="top">{rec.lapsed ? 'inactive' : ''}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="9" valign="top">No matched users</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+  const viewID = async (id) => {
+    setLoading(true); // Start loading
+    const result = await lookupUser(id, '', '', '', '', '', '');
+    setLoading(false); // Stop loading
+    navigate(`/portal/game/lookup`);
+    if (!result.success) {
+      console.error('Login failed:', result.error || result.status);
+    }
+  };
 
+  return (
+    <div className="leaderboard-page-container">
+      <h2 id="leaderboard">{userData.game} Leaderboard</h2>
+
+      {loading ? ( // Conditionally render LoadingSpinner
+        <LoadingSpinner />
+      ) : (
+        <>
+          <form onSubmit={handleSubmit} className="leaderboard-form">
+            <input type="submit" value="Refresh" className="refresh-button" />
+            <select name="country" value={country} onChange={(e) => setCountry(e.target.value)}>
+              <option value="">All</option>
+              {COUNTRY_CODES.map((cc) => (
+                <option key={cc} value={cc}>
+                  {COUNTRY_NAMES[cc] || cc}
+                </option>
+              ))}
+            </select>
+            <select name="mode" value={mode} onChange={(e) => setMode(e.target.value)}>
+              {MODE_CODES.map((cc) => (
+                <option key={cc} value={cc}>
+                  {MODE_NAMES[cc] || cc}
+                </option>
+              ))}
+            </select>
+            <select name="recent" value={recent} onChange={(e) => setRecent(e.target.value)}>
+              <option value="false">Everyone</option>
+              <option value="true">Active Only</option>
+            </select>
+          </form>
+
+          <table id="leaders">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>XP</th>
+                <th>Level</th>
+                <th>XP/day</th>
+                <th>XP/week</th>
+                <th>Active</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentItems.length > 0 ? (
+                currentItems.map((rec, index) => (
+                  <tr key={index}>
+                    <td valign="top">{indexOfFirstItem + index + 1}</td>
+                    <td valign="top">
+                      <span className="name-link" onClick={() => viewID(rec.current.id)}>
+                        {rec.current.nickname}
+                      </span>
+                    </td>
+                    <td align="right" valign="top">{rec.current.experience.toLocaleString()}</td>
+                    <td align="right" valign="top">{rec.current.level}</td>
+                    <td align="right" valign="top">{rec.xpPerDay.toLocaleString()}</td>
+                    <td align="right" valign="top">{rec.xpPerWeek.toLocaleString()}</td>
+                    <td align="right" valign="top">{rec.lapsed ? 'inactive' : ''}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="7" valign="top">No matched users</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+
+          <div className="pagination">
+            {Array.from({ length: Math.ceil(leaderboardData.length / itemsPerPage) }, (_, i) => (
+              <button
+                key={i + 1}
+                className={`page-button ${currentPage === i + 1 ? 'active' : ''}`}
+                onClick={() => setCurrentPage(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };

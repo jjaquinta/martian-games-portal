@@ -1,18 +1,13 @@
-import './App.css';
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-// services
-import Header from './components/header';
+import React, { useContext } from 'react';
+import { createBrowserRouter, RouterProvider, Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap';
+import Header from './components/Header';
 import Footer from './components/footer';
 import Navigator from './components/navigator';
-import Client from './components/client';
-// components
+import { UserProvider, UserContext } from './components/UserContext';
+import Dashboard from './components/Dashboard';
 import PublicLogin from './components/public/login';
 import PublicLogout from './components/public/logout';
-import PublicPolicies from './components/public/policies';
-import PublicAdminCoc from './components/public/admincoc';
-import PublicContact from './components/public/contact';
-import PublicYouTube from './components/public/youtube';
 import MeStats from './components/me/stats';
 import MePassword from './components/me/password';
 import MeHistoryNicknames from './components/me/history/nicknames';
@@ -24,53 +19,123 @@ import MeCases from './components/me/cases';
 import GameLeaderboard from './components/game/leaderboard';
 import GameLookup from './components/game/lookup';
 import GameLobbyChat from './components/game/lobbychat';
-import AdminInvestigate from './components/admin/investigate';
+import Policies from './components/public/policies';
+import ModConduct from './components/public/ModConduct';
+import Contact from './components/public/contact';
+import PublicYouTube from './components/public/youtube';
 import BetaNews from './components/beta/news';
+import AdminInvestigate from'./components/admin/investigate';
+import YouTube from './components/public/loginYoutube'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
-function App() {
+const ProtectedRoute = ({ children }) => {
+  const { userData } = useContext(UserContext);
+  if (!userData) {
+    return <Navigate to="/portal/public/login" replace />;
+  }
+  return children;
+};
+
+const Layout = ({ children }) => {
+  const { userData } = useContext(UserContext);
+  const location = useLocation();
+
+  // Check if the current route is a protected route
+
+
+  const isProtectedRoute = location.pathname.startsWith('/portal/me') || 
+  location.pathname.startsWith('/portal/game') ||
+  location.pathname.startsWith('/portal/beta/news') ||
+  location.pathname.startsWith('/portal/admin/investigate')||
+  location.pathname.startsWith('/portal/public')  &&
+  location.pathname !== '/portal/public/login';
+                         
 
   return (
-    <Router>
-      {/* Header */}
+    <div className="d-flex flex-column min-vh-100">
       <Header />
-
-      {/* Main content area */}
-      <div style={{ display: 'flex', width: '100%' }}>
-        {/* Navigator (Side Bar) */}
-        <Navigator />
-
-        {/* Client (Main Content) */}
-        <div style={{ flex: 1 }}>
-          <Routes>
-              {/* Define routes for the different paths */}
-              <Route path="/public/login" element={<PublicLogin />} />
-              <Route path="/public/logout" element={<PublicLogout />} />
-              <Route path="/public/policies" element={<PublicPolicies />} />
-              <Route path="/public/admincoc" element={<PublicAdminCoc />} />
-              <Route path="/public/contact" element={<PublicContact />} />
-              <Route path="/public/youtube" element={<PublicYouTube />} />
-              <Route path="/me/stats" element={<MeStats />} />
-              <Route path="/me/password" element={<MePassword />} />
-              <Route path="/me/history/nicknames" element={<MeHistoryNicknames />} />
-              <Route path="/me/history/xp" element={<MeHistoryXP />} />
-              <Route path="/me/history/rank" element={<MeHistoryRank />} />
-              <Route path="/me/reports" element={<MeReports />} />
-              <Route path="/me/actions" element={<MeActions />} />
-              <Route path="/me/cases" element={<MeCases />} />
-              <Route path="/game/leaderboard" element={<GameLeaderboard />} />
-              <Route path="/game/lookup" element={<GameLookup />} />
-              <Route path="/game/lobbychat" element={<GameLobbyChat />} />
-              <Route path="/admin/investigate" element={<AdminInvestigate />} />
-              <Route path="/beta/news" element={<BetaNews />} />
-              {/* Add more routes as needed */}
-              <Route path="/" element={<Client />} />
-          </Routes>
-        </div>
-      </div>
-
-      {/* Footer */}
+      <Container fluid className="flex-grow-1" >
+        <Row className="h-100">
+          {userData && isProtectedRoute && (
+            <Col md={3} lg={2} className="bg-light sidebar">
+              <Navigator />
+            </Col>
+          )}
+          <Col md={userData && isProtectedRoute ? 9 : 12} lg={userData && isProtectedRoute ? 10 : 12}>
+            <main className="p-3">
+              {children}
+            </main>
+          </Col>
+        </Row>
+      </Container>
       <Footer />
-    </Router>
+    </div>
+  );
+};
+
+const router = createBrowserRouter([
+  {
+    path: "/portal",
+    element: <Layout><Outlet /></Layout>,
+    children: [
+      { index: true, element: <Dashboard /> },
+      { path: "public/login", element: <PublicLogin /> },
+      { path: "logout", element: <PublicLogout /> },
+      { path: "public/policies", element: <Policies /> },
+      { path: "public/mod-conduct", element: <ModConduct /> },
+      { path: "public/contact", element: <Contact /> },
+      { path: "public/youtube", element: <PublicYouTube/> },
+      { path: "public/loginYoutube", element: <YouTube/> },
+      { 
+        path: "me",
+        element: <ProtectedRoute><Outlet /></ProtectedRoute>,
+        children: [
+          { path: "stats", element: <MeStats /> },
+          { path: "password", element: <MePassword /> },
+          { path: "history/nicknames", element: <MeHistoryNicknames /> },
+          { path: "history/xp", element: <MeHistoryXP /> },
+          { path: "history/rank", element: <MeHistoryRank /> },
+          { path: "reports", element: <MeReports /> },
+          { path: "actions", element: <MeActions /> },
+          { path: "cases", element: <MeCases /> },
+        ]
+      },
+      {
+        path: "game",
+        element: <ProtectedRoute><Outlet /></ProtectedRoute>,
+        children: [
+          { path: "leaderboard", element: <GameLeaderboard /> },
+          { path: "lookup", element: <GameLookup /> },
+          { path: "lobbychat", element: <GameLobbyChat /> },
+        ]
+      },
+      {
+        path: "beta",
+        element: <ProtectedRoute><Outlet /></ProtectedRoute>,
+        children: [
+          { path: "news", element: <BetaNews/> }
+        
+        ]
+      }, {
+        path: "admin",
+        element: <ProtectedRoute><Outlet /></ProtectedRoute>,
+        children: [
+          { path: "investigate", element: <AdminInvestigate/> }
+        
+        ]
+      }
+    ]
+  }
+], {
+  basename: "/"
+});
+
+function App() {
+  return (
+    <UserProvider>
+      <RouterProvider router={router} />
+    </UserProvider>
   );
 }
 

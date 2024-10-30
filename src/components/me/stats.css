@@ -1,0 +1,21 @@
+.card {
+    margin: 20px; /* Spacing around the card */
+  }
+  
+  .table {
+    margin-bottom: 0; /* Remove bottom margin on tables for a tighter layout */
+  }
+  
+  .table td {
+    max-height: 50px; /* Set a maximum height for table cells */
+    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    white-space: nowrap; /* Prevent line breaks */
+  }
+  
+  @media (max-width: 768px) {
+    .table {
+      font-size: 14px; /* Adjust font size for smaller screens */
+    }
+  }
+  

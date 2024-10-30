@@ -1,13 +1,12 @@
-import { useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useState } from 'react';
 import { UserContext } from './UserContext'; // Import UserContext
 
-let api_token = "";
+let api_token = ""; // Global variable to store the API token
 
 // Custom hook to handle API interactions
 export const useApi = () => {
   const { setUserData, userData } = useContext(UserContext); // Access the UserContext
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   // Helper function to update user data
   const updateUserData = (updates) => {
@@ -51,7 +50,7 @@ export const useApi = () => {
         method,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': `Bearer ${api_token}`,
+          'Authorization': `Bearer ${api_token}`, // Using the token globally
         },
         body,
       });
@@ -72,8 +71,9 @@ export const useApi = () => {
     }
   };
 
-  // Function to handle login logic
-  const login = async (game, username, password, navigate) => {
+  // Modified login function to retrieve token from response header
+  const login = async (game, username, password) => {
+    setLoading(true);
     const bodyParams = { loginid: username, password, game };
     const url = `login`;
 
@@ -81,24 +81,31 @@ export const useApi = () => {
       url,
       bodyParams,
       (data, response) => {
+        // Retrieve the token from response headers
         const token = response.headers.get('token');
-        api_token = token;
-        // Persist game and username in localStorage
-        localStorage.setItem('game', game);
-        localStorage.setItem('username', username);
-        setUserData({
-          player: data.player,
-          user: data.user,
-          game: data.game,
-          token: token,
-        });
-        navigate(`/me/stats`);
+        if (token) {
+          api_token = token; // Store token globally
+          // Persist user data in context and localStorage
+          setUserData({
+            token: token,
+            player: data.player,
+            user: data.user,
+            game: data.game,
+          });
+          localStorage.setItem('game', game);
+          localStorage.setItem('username', username);
+          setSuccess("Login successful");
+        } else {
+          setError("Token not found in response");
+        }
       },
       "Login failed"
-    );
+    ).finally(() => {
+      setLoading(false);
+    });
   };
 
-  // Function to handle reports logic
+  // Other functions remain the same
   const reports = async (limit, login, reportLogin) => {
     const bodyParams = { limit, login, reportLogin };
     const url = `reports`;
@@ -112,14 +119,14 @@ export const useApi = () => {
   };
 
   const reportsMe = async () => {
-    const ret = await reports(20, '', userData?.player?.login);
+    const ret = await reports(20, null, userData?.player?.login);
     if (ret.success) {
       updateUserData({ reportsMe: ret.data });
     }
   };
 
   const reportsYou = async () => {
-    const ret = await reports(20, userData?.player?.login, '');
+    const ret = await reports(20, userData?.player?.login, null);
     if (ret.success) {
       updateUserData({ reportsYou: ret.data });
     }
@@ -137,9 +144,8 @@ export const useApi = () => {
     );
   };
 
-  const lookupUser = async (id, login, nickname, level, ip, orderup, orderdown) => {
-    const bodyParams = { id, login, nickname, level, ip, makeUser: true, limit: 200, orderup, orderdown };
-    updateUserData({ lookup: bodyParams });
+  const lookupUser = async (id, login, nickname, level, ip) => {
+    const bodyParams = { id, login, nickname, level, ip, makeUser: true, limit: 200 };
     const url = `players`;
 
     return apiRequest(
@@ -186,53 +192,15 @@ export const useApi = () => {
     );
   };
 
-  const lookupByID = async (id) => {  
-    const result = await lookupUser(id, '', '', '', '', '', '');
-    if (!result.success) {
-      console.error('Login failed:', result.error || result.status);
-    } else {
-      navigate(`/game/lookup`);
-    }
-  };
-
-  const lookupByLogin = async (login) => {  
-    const result = await lookupUser('', login, '', '', '', '', '');
-    if (!result.success) {
-      console.error('Login failed:', result.error || result.status);
-    } else {
-      navigate(`/game/lookup`);
-    }
-  };
-
-  const lookupByNickname = async (nickname) => {  
-    const result = await lookupUser('', '', nickname, '', '', '', '');
-    if (!result.success) {
-      console.error('Login failed:', result.error || result.status);
-    } else {
-      navigate(`/game/lookup`);
-    }
-  };
-
-  const lookupByLevel = async (level) => {  
-    const result = await lookupUser('', '', '', level, '', '', '');
-    if (!result.success) {
-      console.error('Login failed:', result.error || result.status);
-    } else {
-      navigate(`/game/lookup`);
-    }
-  };
-
-  const lookupByIP = async (ip) => {  
-    const result = await lookupUser('', '', '', '', ip, '', '');
-    if (!result.success) {
-      console.error('Login failed:', result.error || result.status);
-    } else {
-      navigate(`/game/lookup`);
-    }
+  const logout = () => {
+    setUserData(null);
+    localStorage.removeItem('userData');
+    api_token = ""; // Clear token on logout
   };
 
   return {
     login,
+    logout,
     reports,
     reportsMe,
     reportsYou,
@@ -242,10 +210,6 @@ export const useApi = () => {
     lookupAudits,
     changePassword,
     setSuccess,
-    lookupByID,
-    lookupByLogin,
-    lookupByNickname,
-    lookupByLevel,
-    lookupByIP,
+    loading,
   };
 };

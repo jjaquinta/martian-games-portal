@@ -1,294 +1,213 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../UserContext';
-import { MGServices } from '../MGServices';
-import NicknameHistory from '../NicknameHistory';
-import ClickableID from '../ClickableID';
-import ClickableNickname from '../ClickableNickname';
-import ClickableLevel from '../ClickableLevel';
-import ClickableIP from '../ClickableIP';
 import { useApi } from '../useAPI';
+import './lobbychat.css';
+import LoadingSpinner from '../loadingspinner';
 
 const GameLookup = () => {
-  const { setUserData, userData } = useContext(UserContext); // Access the UserContext
+  const { userData } = useContext(UserContext);
+  const [lookupID, setLookupID] = useState('');
+  const [lookupLogin, setLookupLogin] = useState('');
+  const [lookupNickname, setLookupNickname] = useState('');
+  const [lookupLevel, setLookupLevel] = useState('');
+  const [lookupIP, setLookupIP] = useState('');
   const [orderUp, setOrderUp] = useState('');
   const [orderDown, setOrderDown] = useState('');
-  const { lookupUser } = useApi(); // Call the hook and extract the login function
-  const lookupUserData = userData && userData.lookupUserData ? userData.lookupUserData : [];
+  const [loading, setLoading] = useState(false);
+  const { lookupUser } = useApi();
+  const lookupUserData = userData?.lookupUserData || [];
 
-  const setLookupID = (e) => {
-    const updatedID = e.target.value;
-    setUserData((prevData) => ({
-      ...prevData,
-      lookup: {
-        ...prevData.lookup,
-        id: updatedID,
-      },
-    }));
-  };
-  const setLookupLogin = (e) => {
-    const updatedLogin = e.target.value;
-    setUserData((prevData) => ({
-      ...prevData,
-      lookup: {
-        ...prevData.lookup,
-        login: updatedLogin,
-      },
-    }));
-  };
-  const setLookupNickname = (e) => {
-    const updatedNickname = e.target.value;
-    setUserData((prevData) => ({
-      ...prevData,
-      lookup: {
-        ...prevData.lookup,
-        nickname: updatedNickname,
-      },
-    }));
-  };
-  const setLookupLevel = (e) => {
-    const updatedLevel = e.target.value;
-    setUserData((prevData) => ({
-      ...prevData,
-      lookup: {
-        ...prevData.lookup,
-        level: updatedLevel,
-      },
-    }));
-  };
-  const setLookupIP = (e) => {
-    const updatedIP = e.target.value;
-    setUserData((prevData) => ({
-      ...prevData,
-      lookup: {
-        ...prevData.lookup,
-        ip: updatedIP,
-      },
-    }));
+  const handleSubmit = async (e = null) => {
+    if (e) e.preventDefault();
+    setLoading(true);
+    await lookupUser(lookupID, lookupLogin, lookupNickname, lookupLevel, lookupIP, orderUp, orderDown);
+    setLoading(false);
   };
 
-  const handleSubmit = async (e) => {
-    if (e != null) {
-      e.preventDefault();
+  const viewID = async (id) => {
+    setLookupID(id);
+    resetLookupFields();
+    await handleSubmit();
+  };
+
+  const resetLookupFields = () => {
+    setLookupLogin('');
+    setLookupNickname('');
+    setLookupLevel('');
+    setLookupIP('');
+  };
+
+  const sortHandler = (column, direction) => {
+    if (direction === 'up') {
+      setOrderUp(column);
+      setOrderDown('');
+    } else {
+      setOrderDown(column);
+      setOrderUp('');
     }
-  
-    // Call the login function from the custom hook
-    const result = await lookupUser(userData?.lookup?.id || '', 
-      userData?.lookup?.login || '', 
-      userData?.lookup?.nickname || '', 
-      userData?.lookup?.level || '', 
-      userData?.lookup?.ip || '', 
-      orderUp, orderDown);
-
-    if (!result.success) {
-      console.error('Lookup failed:', result.error || result.status);
-    }
-  };
-    
-  const sortUp = (column) => {
-    setOrderUp(column);
-    setOrderDown('');
     handleSubmit();
   };
-  
-  const sortDown = (column) => {
-    setOrderDown(column);
-    setOrderUp('');
-    handleSubmit();
-  };
+
+  const isDeputy = userData?.user?.deputy;
 
   return (
     <div>
-        <h1>{userData.game} Lookup</h1>
-        <p>
-            Look up your fellow players and see how you stand against them.
-        </p>
+      <h1>{userData.game} Lookup</h1>
+      <p>Look up your fellow players and see how you stand against them.</p>
 
-        <div style={{height: 10}}></div>
+      <div className="form-container">
         <form onSubmit={handleSubmit}>
-          <input type="submit" value="Refresh" />
-          {userData?.user?.deputy && (<input
-              type="text"
-              name="lookupID"
-              placeholder="OID"
-              value={userData?.lookup?.id || ''}
-              onChange={setLookupID}
-            />)}
-          {userData?.user?.deputy && (<input
-              type="text"
-              name="lookupLogin"
-              placeholder="account id"
-              value={userData?.lookup?.login || ''}
-              onChange={setLookupLogin}
-            />)}                        
+          <button
+            type="submit"
+            className="refresh-button"
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(76, 175, 80, 1)';
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(76, 175, 80, 0.7)';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+          >
+            Refresh
+          </button>
+          {isDeputy && (
+            <>
+              <input
+                type="text"
+                name="lookupID"
+                placeholder="OID"
+                value={lookupID}
+                onChange={(e) => setLookupID(e.target.value)}
+                className="input-field"
+              />
+              <input
+                type="text"
+                name="lookupLogin"
+                placeholder="Account ID"
+                value={lookupLogin}
+                onChange={(e) => setLookupLogin(e.target.value)}
+                className="input-field"
+              />
+            </>
+          )}
           <input
-              type="text"
-              name="lookupNickname"
-              placeholder="nickname"
-              value={userData?.lookup?.nickname || ''}
-              onChange={setLookupNickname}
-            />                        
+            type="text"
+            name="lookupNickname"
+            placeholder="Nickname"
+            value={lookupNickname}
+            onChange={(e) => setLookupNickname(e.target.value)}
+            className="input-field"
+          />
           <input
-              type="text"
-              name="lookupLevel"
-              placeholder="level"
-              value={userData?.lookup?.level || ''}
-              onChange={setLookupLevel}
-            />                        
-          {userData?.user?.deputy && (<input
+            type="text"
+            name="lookupLevel"
+            placeholder="Level"
+            value={lookupLevel}
+            onChange={(e) => setLookupLevel(e.target.value)}
+            className="input-field"
+          />
+          {isDeputy && (
+            <input
               type="text"
               name="lookupIP"
-              placeholder="ip address"
-              value={userData?.lookup?.ip || ''}
-              onChange={setLookupIP}
-            />)}                        
+              placeholder="IP Address"
+              value={lookupIP}
+              onChange={(e) => setLookupIP(e.target.value)}
+              className="input-field"
+            />
+          )}
         </form>
-        {Array.isArray(lookupUserData) ? (
-          lookupUserData.length === 0 ? (
-            <div>No users to display</div>
-          ) : lookupUserData.length === 1 ? (
-            <div>
-            <table>
-                {userData?.user?.deputy && (<tr><th style={{ textAlign: 'right' }}>Login:</th><td>{lookupUserData[0].current.login}</td></tr>)}
-                <tr><th style={{ textAlign: 'right' }}>Nickname:</th><td><ClickableNickname nickname={lookupUserData[0].current.nickname}/></td></tr>
-                <tr><th style={{ textAlign: 'right' }}>XP:</th><td>{lookupUserData[0].current.experience.toLocaleString()}</td></tr>
-                <tr><th style={{ textAlign: 'right' }}>Level:</th><td><ClickableLevel level={lookupUserData[0].current.level}/></td></tr>
-                {userData?.user?.deputy && (<tr><th style={{ textAlign: 'right' }}>IP:</th><td><ClickableIP ip={lookupUserData[0].current.ip}/></td></tr>)}
-                {userData?.user?.deputy && (<tr><th style={{ textAlign: 'right' }}>Password:</th><td>{lookupUserData[0].current.password}</td></tr>)}
-                {userData?.user?.deputy && (<tr><th style={{ textAlign: 'right' }}>Notes:</th><td>{lookupUserData[0].current.notes}</td></tr>)}
-                <tr><th style={{ textAlign: 'right' }}>:</th><td>{lookupUserData[0].current.banned}</td></tr>
-                <tr><th style={{ textAlign: 'right' }}>Country:</th><td>{MGServices.getCountryName(lookupUserData[0].current.coutryCode)}</td></tr>
-                <tr><th style={{ textAlign: 'right' }}>Last Login:</th><td>{lookupUserData[0].current.lastLogin}</td></tr>
-                <tr><th style={{ textAlign: 'right' }}>Joined:</th><td>{lookupUserData[0].current.timeJoined}</td></tr>
-            </table>
-            {userData?.user?.deputy && (
-              <div>
-                <NicknameHistory user={lookupUserData[0]} />
-              </div>
-            )}
-            </div>
-          ) : (
+      </div>
+
+      {loading ? (
+        <LoadingSpinner />
+      ) : Array.isArray(lookupUserData) && lookupUserData.length > 0 ? (
+        lookupUserData.length === 1 ? (
+          <SingleUserTable userData={lookupUserData[0].current} isDeputy={isDeputy} />
+        ) : (
+          <div className="table-container">
             <table id="matches">
               <thead>
                 <tr>
-                    {userData?.user?.deputy && (<th>
-                      Login
-                      <span
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => sortUp('login')}
-                      >
-                        &#9650;
-                      </span>
-                      <span
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => sortDown('login')}
-                      >
-                        &#9660;
-                      </span>
-                    </th>)}
-                    <th>
-                      Nickname 
-                      <span
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => sortUp('nickname')}
-                      >
-                        &#9650;
-                      </span>
-                      <span
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => sortDown('nickname')}
-                      >
-                        &#9660;
-                      </span>
-                    </th>
-                    <th>
-                      XP
-                      <span
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => sortUp('xp')}
-                      >
-                        &#9650;
-                      </span>
-                      <span
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => sortDown('xp')}
-                      >
-                        &#9660;
-                      </span>
-                    </th>
-                    <th>
-                      Level
-                      <span
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => sortUp('xp')}
-                      >
-                        &#9650;
-                      </span>
-                      <span
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => sortDown('xp')}
-                      >
-                        &#9660;
-                      </span>
-                    </th>
-                    {userData?.user?.deputy && (<th>
-                      IP
-                      <span
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => sortUp('ip')}
-                      >
-                        &#9650;
-                      </span>
-                      <span
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => sortDown('ip')}
-                      >
-                        &#9660;
-                      </span>
-                    </th>)}
-                    <th>Banned</th>
-                    <th>
-                      Country
-                      <span
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => sortUp('cc')}
-                      >
-                        &#9650;
-                      </span>
-                      <span
-                        style={{ cursor: 'pointer' }}
-                        onClick={() => sortDown('cc')}
-                      >
-                        &#9660;
-                      </span>
-                    </th>
+                  {isDeputy && <th>Login</th>}
+                  <th>Nickname</th>
+                  <th>XP</th>
+                  <th>Level</th>
+                  <th>Banned</th>
+                  <th>Country</th>
+                  <th>Last Login</th>
+                  <th>Joined</th>
                 </tr>
               </thead>
               <tbody>
                 {lookupUserData.map((rec, index) => (
                   <tr key={index}>
-                    {userData?.user?.deputy && (<td>{rec.current.login}</td>)}
-                    <td valign="top">
-                      <ClickableID id={rec.current.id} text={rec.current.nickname}/>
+                    {isDeputy && <td>{rec.current.login}</td>}
+                    <td>
+                      <span
+                        className="nickname-hover"
+                        onClick={() => viewID(rec.current.id)}
+                      >
+                        {rec.current.nickname}
+                      </span>
                     </td>
-                    <td valign="top">{rec.current.experience.toLocaleString()}</td>
-                    <td valign="top">
-                      <ClickableLevel level={rec.current.level}/>
-                    </td>
-                    {userData?.user?.deputy && (<td><ClickableIP ip={rec.current.ip}/></td>)}
-                    <td valign="top">{rec.current.banned}</td>
-                    <td valign="top">{rec.current.coutryCode}</td>
+                    <td>{rec.current.experience.toLocaleString()}</td>
+                    <td>{rec.current.level}</td>
+                    <td>{rec.current.banned ? 'Yes' : 'No'}</td>
+                    <td>{rec.current.countryCode}</td>
+                    <td>{rec.current.lastLogin}</td>
+                    <td>{rec.current.timeJoined}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          )
-        ) : (
-          <div>No users to display</div>
-        )}
-
-            
+          </div>
+        )
+      ) : (
+        <div>No users to display</div>
+      )}
     </div>
   );
 };
+
+const SingleUserTable = ({ userData, isDeputy }) => (
+  <table>
+    {isDeputy && (
+      <tr>
+        <th>Login</th>
+        <td>{userData.login}</td>
+      </tr>
+    )}
+    <tr>
+      <th>Nickname</th>
+      <td>{userData.nickname}</td>
+    </tr>
+    <tr>
+      <th>XP</th>
+      <td>{userData.experience.toLocaleString()}</td>
+    </tr>
+    <tr>
+      <th>Level</th>
+      <td>{userData.level}</td>
+    </tr>
+    <tr>
+      <th>Banned</th>
+      <td>{userData.banned ? 'Yes' : 'No'}</td>
+    </tr>
+    <tr>
+      <th>Country</th>
+      <td>{userData.countryCode}</td>
+    </tr>
+    <tr>
+      <th>Last Login</th>
+      <td>{userData.lastLogin}</td>
+    </tr>
+    <tr>
+      <th>Joined</th>
+      <td>{userData.timeJoined}</td>
+    </tr>
+  </table>
+);
 
 export default GameLookup;
