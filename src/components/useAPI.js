@@ -119,14 +119,14 @@ export const useApi = () => {
   };
 
   const reportsMe = async () => {
-    const ret = await reports(20, null, userData?.player?.login);
+    const ret = await reports(20, '', userData?.player?.login);
     if (ret.success) {
       updateUserData({ reportsMe: ret.data });
     }
   };
 
   const reportsYou = async () => {
-    const ret = await reports(20, userData?.player?.login, null);
+    const ret = await reports(20, userData?.player?.login, '');
     if (ret.success) {
       updateUserData({ reportsYou: ret.data });
     }
