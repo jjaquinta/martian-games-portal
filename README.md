@@ -1,3 +1,9 @@
+# Application Architecture
+
+userContext is the central model for the MVC system. Pretty much the components are the View layer: they display the data, and solicit user input. They then call useAPI.js, which is the control layer: it takes user inputs, makes the API calls to the back end, and then populates userContext with what it gets returned. And, so, userContext is the Model layer: it is populated by useAPI/Control, and serves as the source of truth that the components/View use to display information.
+
+The structure under the components directory reflects, roughly, the application layout. Generic multi-use components are in the components directory. Each displayed page is another component in a subdirectory coresponding to the main navigation entry: admin, beta, game, me, public.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

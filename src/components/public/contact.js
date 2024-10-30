@@ -9,7 +9,7 @@ const PublicContact = () => {
 <ul>
     <li><a href="https://www.crazygames.com/game/tank-off">The Game</a></li>
     <li><a href="https://discord.gg/wK6HHMD3">The Discord Server (#tank-off-classic)</a></li>
-    <li>Moderator: <a href="mailto:jo@111goerge.com">Sasafrass/Jo/jjaquinta</a>, discord:<br/>
+    <li>Moderator: <a href="mailto:martiangamessupport@111george.com">Sasafrass/Jo/jjaquinta</a>, discord:<br/>
         Deputies:
         <ul>
             <li>TankOff Classic, FeurHund 6909 discord: FeurHund 6909#8896</li>
