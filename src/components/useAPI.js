@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from './UserContext'; // Import UserContext
 
 let api_token = ""; // Global variable to store the API token
@@ -7,6 +8,7 @@ let api_token = ""; // Global variable to store the API token
 export const useApi = () => {
   const { setUserData, userData } = useContext(UserContext); // Access the UserContext
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Helper function to update user data
   const updateUserData = (updates) => {
@@ -146,6 +148,7 @@ export const useApi = () => {
 
   const lookupUser = async (id, login, nickname, level, ip) => {
     const bodyParams = { id, login, nickname, level, ip, makeUser: true, limit: 200 };
+    updateUserData({ lookup: bodyParams });
     const url = `players`;
 
     return apiRequest(
@@ -192,6 +195,51 @@ export const useApi = () => {
     );
   };
 
+  const lookupByID = async (id) => {  
+    const result = await lookupUser(id, '', '', '', '', '', '');
+    if (!result.success) {
+      console.error('Login failed:', result.error || result.status);
+    } else {
+      navigate(`/portal/game/lookup`);
+    }
+  };
+
+  const lookupByLogin = async (login) => {  
+    const result = await lookupUser('', login, '', '', '', '', '');
+    if (!result.success) {
+      console.error('Login failed:', result.error || result.status);
+    } else {
+      navigate(`/portal/game/lookup`);
+    }
+  };
+
+  const lookupByNickname = async (nickname) => {  
+    const result = await lookupUser('', '', nickname, '', '', '', '');
+    if (!result.success) {
+      console.error('Login failed:', result.error || result.status);
+    } else {
+      navigate(`/portal/game/lookup`);
+    }
+  };
+
+  const lookupByLevel = async (level) => {  
+    const result = await lookupUser('', '', '', level, '', '', '');
+    if (!result.success) {
+      console.error('Login failed:', result.error || result.status);
+    } else {
+      navigate(`/portal/game/lookup`);
+    }
+  };
+
+  const lookupByIP = async (ip) => {  
+    const result = await lookupUser('', '', '', '', ip, '', '');
+    if (!result.success) {
+      console.error('Login failed:', result.error || result.status);
+    } else {
+      navigate(`/portal/game/lookup`);
+    }
+  };
+
   const logout = () => {
     setUserData(null);
     localStorage.removeItem('userData');
@@ -211,5 +259,10 @@ export const useApi = () => {
     changePassword,
     setSuccess,
     loading,
+    lookupByID,
+    lookupByLogin,
+    lookupByNickname,
+    lookupByLevel,
+    lookupByIP,
   };
 };

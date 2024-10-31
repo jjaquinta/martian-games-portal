@@ -1,50 +1,99 @@
 import React, { useState, useContext } from 'react';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
+import NicknameHistory from '../NicknameHistory';
+import ClickableID from '../ClickableID';
+import ClickableNickname from '../ClickableNickname';
+import ClickableLevel from '../ClickableLevel';
+import ClickableIP from '../ClickableIP';
 import './lobbychat.css';
 import LoadingSpinner from '../loadingspinner';
 
 const GameLookup = () => {
-  const { userData } = useContext(UserContext);
-  const [lookupID, setLookupID] = useState('');
-  const [lookupLogin, setLookupLogin] = useState('');
-  const [lookupNickname, setLookupNickname] = useState('');
-  const [lookupLevel, setLookupLevel] = useState('');
-  const [lookupIP, setLookupIP] = useState('');
+  const { setUserData, userData } = useContext(UserContext);
   const [orderUp, setOrderUp] = useState('');
   const [orderDown, setOrderDown] = useState('');
-  const [loading, setLoading] = useState(false);
-  const { lookupUser } = useApi();
+  const { lookupUser, lookupByID, lookupByLevel } = useApi();
   const lookupUserData = userData?.lookupUserData || [];
 
-  const handleSubmit = async (e = null) => {
-    if (e) e.preventDefault();
-    setLoading(true);
-    await lookupUser(lookupID, lookupLogin, lookupNickname, lookupLevel, lookupIP, orderUp, orderDown);
-    setLoading(false);
+  const setLookupID = (e) => {
+    const updatedID = e.target.value;
+    setUserData((prevData) => ({
+      ...prevData,
+      lookup: {
+        ...prevData.lookup,
+        id: updatedID,
+      },
+    }));
+  };
+  const setLookupLogin = (e) => {
+    const updatedLogin = e.target.value;
+    setUserData((prevData) => ({
+      ...prevData,
+      lookup: {
+        ...prevData.lookup,
+        login: updatedLogin,
+      },
+    }));
+  };
+  const setLookupNickname = (e) => {
+    const updatedNickname = e.target.value;
+    setUserData((prevData) => ({
+      ...prevData,
+      lookup: {
+        ...prevData.lookup,
+        nickname: updatedNickname,
+      },
+    }));
+  };
+  const setLookupLevel = (e) => {
+    const updatedLevel = e.target.value;
+    setUserData((prevData) => ({
+      ...prevData,
+      lookup: {
+        ...prevData.lookup,
+        level: updatedLevel,
+      },
+    }));
+  };
+  const setLookupIP = (e) => {
+    const updatedIP = e.target.value;
+    setUserData((prevData) => ({
+      ...prevData,
+      lookup: {
+        ...prevData.lookup,
+        ip: updatedIP,
+      },
+    }));
   };
 
-  const viewID = async (id) => {
-    setLookupID(id);
-    resetLookupFields();
-    await handleSubmit();
-  };
-
-  const resetLookupFields = () => {
-    setLookupLogin('');
-    setLookupNickname('');
-    setLookupLevel('');
-    setLookupIP('');
-  };
-
-  const sortHandler = (column, direction) => {
-    if (direction === 'up') {
-      setOrderUp(column);
-      setOrderDown('');
-    } else {
-      setOrderDown(column);
-      setOrderUp('');
+  const handleSubmit = async (e) => {
+    if (e != null) {
+      e.preventDefault();
     }
+  
+    // Call the login function from the custom hook
+    const result = await lookupUser(userData?.lookup?.id || '', 
+      userData?.lookup?.login || '', 
+      userData?.lookup?.nickname || '', 
+      userData?.lookup?.level || '', 
+      userData?.lookup?.ip || '', 
+      orderUp, orderDown);
+
+    if (!result.success) {
+      console.error('Lookup failed:', result.error || result.status);
+    }
+  };
+
+  const sortUp = (column) => {
+    setOrderUp(column);
+    setOrderDown('');
+    handleSubmit();
+  };
+  
+  const sortDown = (column) => {
+    setOrderDown(column);
+    setOrderUp('');
     handleSubmit();
   };
 
@@ -77,16 +126,16 @@ const GameLookup = () => {
                 type="text"
                 name="lookupID"
                 placeholder="OID"
-                value={lookupID}
-                onChange={(e) => setLookupID(e.target.value)}
+                value={userData?.lookup?.id || ''}
+                onChange={setLookupID}
                 className="input-field"
               />
               <input
                 type="text"
                 name="lookupLogin"
                 placeholder="Account ID"
-                value={lookupLogin}
-                onChange={(e) => setLookupLogin(e.target.value)}
+                value={userData?.lookup?.login || ''}
+                onChange={setLookupLogin}
                 className="input-field"
               />
             </>
@@ -95,16 +144,16 @@ const GameLookup = () => {
             type="text"
             name="lookupNickname"
             placeholder="Nickname"
-            value={lookupNickname}
-            onChange={(e) => setLookupNickname(e.target.value)}
+            value={userData?.lookup?.nickname || ''}
+            onChange={setLookupNickname}
             className="input-field"
           />
           <input
             type="text"
             name="lookupLevel"
             placeholder="Level"
-            value={lookupLevel}
-            onChange={(e) => setLookupLevel(e.target.value)}
+            value={userData?.lookup?.level || ''}
+            onChange={setLookupLevel}
             className="input-field"
           />
           {isDeputy && (
@@ -112,15 +161,15 @@ const GameLookup = () => {
               type="text"
               name="lookupIP"
               placeholder="IP Address"
-              value={lookupIP}
-              onChange={(e) => setLookupIP(e.target.value)}
+              value={userData?.lookup?.ip || ''}
+              onChange={setLookupIP}
               className="input-field"
             />
           )}
         </form>
       </div>
 
-      {loading ? (
+      {userData.busy ? (
         <LoadingSpinner />
       ) : Array.isArray(lookupUserData) && lookupUserData.length > 0 ? (
         lookupUserData.length === 1 ? (
@@ -147,13 +196,20 @@ const GameLookup = () => {
                     <td>
                       <span
                         className="nickname-hover"
-                        onClick={() => viewID(rec.current.id)}
+                        onClick={() => lookupByID(rec.current.id)}
                       >
                         {rec.current.nickname}
                       </span>
                     </td>
                     <td>{rec.current.experience.toLocaleString()}</td>
-                    <td>{rec.current.level}</td>
+                    <td>
+                      <span
+                        className="nickname-hover"
+                        onClick={() => lookupByLevel(rec.current.level)}
+                      >
+                        {rec.current.level}
+                      </span>
+                    </td>
                     <td>{rec.current.banned ? 'Yes' : 'No'}</td>
                     <td>{rec.current.countryCode}</td>
                     <td>{rec.current.lastLogin}</td>
@@ -171,7 +227,10 @@ const GameLookup = () => {
   );
 };
 
-const SingleUserTable = ({ player: user, isDeputy, isMe }) => (
+const SingleUserTable = ({ player: user, isDeputy, isMe }) => {
+  const { lookupByLevel, lookupByNickname } = useApi(); // Destructure functions from useApi
+
+  return (
   <table>
     {isDeputy && (
       <tr>
@@ -181,7 +240,14 @@ const SingleUserTable = ({ player: user, isDeputy, isMe }) => (
     )}
     <tr>
       <th>Nickname</th>
-      <td>{user.current.nickname}</td>
+      <td>
+        <span
+          className="nickname-hover"
+          onClick={() => lookupByNickname(user.current.nickname)}
+        >
+          {user.current.nickname}
+        </span>
+      </td>
     </tr>
     <tr>
       <th>XP</th>
@@ -189,7 +255,14 @@ const SingleUserTable = ({ player: user, isDeputy, isMe }) => (
     </tr>
     <tr>
       <th>Level</th>
-      <td>{user.current.level}</td>
+      <td>
+        <span
+          className="nickname-hover"
+          onClick={() => lookupByLevel(user.current.level)}
+        >
+          {user.current.level}
+        </span>
+      </td>
     </tr>
     <tr>
       <th>Banned</th>
@@ -234,6 +307,7 @@ const SingleUserTable = ({ player: user, isDeputy, isMe }) => (
     </>
   )}
   </table>
-);
+  );
+};
 
 export default GameLookup;
