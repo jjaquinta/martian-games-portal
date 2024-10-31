@@ -39,7 +39,7 @@ const MeStats = () => {
                 </tr>
                 <tr>
                   <th>XP:</th>
-                  <td>{userData.player.xp.toLocaleString()}</td>
+                  <td>{userData.player.experience.toLocaleString()}</td>
                 </tr>
                 <tr>
                   <th>Role:</th>
