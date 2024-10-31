@@ -124,7 +124,7 @@ const GameLookup = () => {
         <LoadingSpinner />
       ) : Array.isArray(lookupUserData) && lookupUserData.length > 0 ? (
         lookupUserData.length === 1 ? (
-          <SingleUserTable userData={lookupUserData[0].current} isDeputy={isDeputy} />
+          <SingleUserTable player={lookupUserData[0]} isDeputy={isDeputy} isMe={lookupUserData[0].login == userData.player.login}/>
         ) : (
           <div className="table-container">
             <table id="matches">
@@ -171,42 +171,68 @@ const GameLookup = () => {
   );
 };
 
-const SingleUserTable = ({ userData, isDeputy }) => (
+const SingleUserTable = ({ player: user, isDeputy, isMe }) => (
   <table>
     {isDeputy && (
       <tr>
         <th>Login</th>
-        <td>{userData.login}</td>
+        <td>{user.current.login}</td>
       </tr>
     )}
     <tr>
       <th>Nickname</th>
-      <td>{userData.nickname}</td>
+      <td>{user.current.nickname}</td>
     </tr>
     <tr>
       <th>XP</th>
-      <td>{userData.experience.toLocaleString()}</td>
+      <td>{user.current.experience.toLocaleString()}</td>
     </tr>
     <tr>
       <th>Level</th>
-      <td>{userData.level}</td>
+      <td>{user.current.level}</td>
     </tr>
     <tr>
       <th>Banned</th>
-      <td>{userData.banned ? 'Yes' : 'No'}</td>
+      <td>{user.current.banned ? 'Yes' : 'No'}</td>
     </tr>
     <tr>
       <th>Country</th>
-      <td>{userData.countryCode}</td>
+      <td>{user.current.countryCode}</td>
     </tr>
     <tr>
       <th>Last Login</th>
-      <td>{userData.lastLogin}</td>
+      <td>{user.current.lastLogin}</td>
     </tr>
     <tr>
       <th>Joined</th>
-      <td>{userData.timeJoined}</td>
+      <td>{user.current.timeJoined}</td>
     </tr>
+    {user.nicknameOverride && user.nicknameOverride.trim() !== '' 
+    && (isDeputy || isMe)
+    && (
+    <>
+      <tr>
+        <th>Nick Override:</th>
+        <td>{user.nicknameOverride}</td>
+      </tr>
+      <tr>
+        <th>Since:</th>
+        <td>{user.nicknameOverrideDateDisplay}</td>
+      </tr>
+      <tr>
+        <th>Times:</th>
+        <td
+        style={{
+          backgroundColor: user.nicknameOverrideTimes >= 10
+            ? 'red'
+            : user.nicknameOverrideTimes >= 5
+            ? 'yellow'
+            : 'inherit',
+        }}
+        >{user.nicknameOverrideTimes}</td>
+      </tr>
+    </>
+  )}
   </table>
 );
 

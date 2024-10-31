@@ -75,6 +75,45 @@ const MeStats = () => {
             </Table>
           </Col>
         </Row>
+        <Row className="g-0">
+          <Col md={6} className="p-2">
+            <Table striped bordered hover responsive>
+              <tbody>
+                <tr>
+                  <th>Banned:</th>
+                  <td>{userData.player.banned ? 'Yes' : 'No'}</td>
+                </tr>
+                {userData.user.nicknameOverride && userData.user.nicknameOverride.trim() !== '' && (
+                <>
+                  <tr>
+                    <th>Nick Override:</th>
+                    <td>{userData.user.nicknameOverride}</td>
+                  </tr>
+                  <tr>
+                    <th>Since:</th>
+                    <td>{userData.user.nicknameOverrideDateDisplay}</td>
+                  </tr>
+                  <tr>
+                    <th>Times:</th>
+                    <td
+                    style={{
+                      backgroundColor: userData.user.nicknameOverrideTimes >= 10
+                        ? 'red'
+                        : userData.user.nicknameOverrideTimes >= 5
+                        ? 'yellow'
+                        : 'inherit',
+                    }}
+                    >{userData.user.nicknameOverrideTimes}</td>
+                  </tr>
+                </>
+                )}
+              </tbody>
+            </Table>
+          </Col>
+          <Col md={6} className="p-2">
+            
+          </Col>
+        </Row>
       </Card.Body>
     </Card>
   );
