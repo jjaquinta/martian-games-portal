@@ -172,7 +172,7 @@ export const useApi = () => {
   };
 
   const lookupAudits = async (login, limit) => {
-    const bodyParams = { login, limit };
+    const bodyParams = { login, limit, skip:'login' };
     const url = `audits`;
 
     return apiRequest(
