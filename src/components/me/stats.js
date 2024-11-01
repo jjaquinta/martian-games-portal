@@ -15,7 +15,6 @@ const MeStats = () => {
   }
 
   const countryName = MGServices.getCountryName(userData.player.countryCode);
-  const level = MGServices.toLevel(userData.player.xp);
 
   return (
     <Card>

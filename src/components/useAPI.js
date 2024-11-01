@@ -146,8 +146,8 @@ export const useApi = () => {
     );
   };
 
-  const lookupUser = async (id, login, nickname, level, ip) => {
-    const bodyParams = { id, login, nickname, level, ip, makeUser: true, limit: 200 };
+  const lookupUser = async (id, login, nickname, level, ip, orderup, orderdown) => {
+    const bodyParams = { id, login, nickname, level, ip, makeUser: true, limit: 200, orderup, orderdown };
     updateUserData({ lookup: bodyParams });
     const url = `players`;
 

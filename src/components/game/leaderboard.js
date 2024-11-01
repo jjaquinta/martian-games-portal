@@ -1,6 +1,5 @@
 
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
 import './leaderboard.css';
@@ -62,8 +61,6 @@ const GameLeaderboard = () => {
   const [recent, setRecent] = useState('false');
   const { userData } = useContext(UserContext);
   const { lookupByID, lookupByLevel, updateLeaderboard } = useApi();
-
-  const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false); // Add loading state
