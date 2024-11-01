@@ -47,8 +47,8 @@ const MeHistoryXP = () => {
             {currentEntries.map((entry, index) => (
               <tr key={index}>
                 <td>{MGServices.toDate(entry.timestamp)}</td>
-                <td>{entry.xp}</td>
-                <td>{MGServices.toLevel(entry.xp)}</td>
+                <td>{entry.xp.toLocaleString()}</td>
+                <td>{entry.level}</td>
               </tr>
             ))}
           </tbody>

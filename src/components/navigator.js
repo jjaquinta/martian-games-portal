@@ -10,7 +10,7 @@ function Navigator() {
   const { userData } = useContext(UserContext);
   const [expandedSections, setExpandedSections] = useState({
     public: false,
-    me: false,
+    me: true,
     history: false,
     Game: false,
     Beta: false,

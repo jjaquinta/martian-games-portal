@@ -16,6 +16,15 @@ function Header() {
     <Navbar bg="dark" variant="dark" expand="lg">
       <Container>
         <Navbar.Brand as={Link} to="/portal">Martian Games Portal</Navbar.Brand>
+        <div className="text-center w-100">
+          <Navbar.Text>
+            {userData && userData.player ? (
+              <>Welcome {userData.player.login} / {userData.player.nickname} to {userData.game}!</>
+            ) : (
+              <>Please log in with the ID you use for the game</>
+            )}
+          </Navbar.Text>
+        </div>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">

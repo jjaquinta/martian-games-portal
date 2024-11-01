@@ -1,6 +1,5 @@
 
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
 import './leaderboard.css';
@@ -61,8 +60,7 @@ const GameLeaderboard = () => {
   const [mode, setMode] = useState('current.xp');
   const [recent, setRecent] = useState('false');
   const { userData } = useContext(UserContext);
-  const { lookupUser, updateLeaderboard } = useApi();
-  const navigate = useNavigate();
+  const { lookupByID, lookupByLevel, updateLeaderboard } = useApi();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false); // Add loading state
@@ -79,16 +77,6 @@ const GameLeaderboard = () => {
     setLoading(false); // Stop loading
     if (!result.success) {
       console.error('Update failed:', result.error || result.status);
-    }
-  };
-
-  const viewID = async (id) => {
-    setLoading(true); // Start loading
-    const result = await lookupUser(id, '', '', '', '', '', '');
-    setLoading(false); // Stop loading
-    navigate(`/portal/game/lookup`);
-    if (!result.success) {
-      console.error('Login failed:', result.error || result.status);
     }
   };
 
@@ -141,12 +129,16 @@ const GameLeaderboard = () => {
                   <tr key={index}>
                     <td valign="top">{indexOfFirstItem + index + 1}</td>
                     <td valign="top">
-                      <span className="name-link" onClick={() => viewID(rec.current.id)}>
+                      <span className="name-link" onClick={() => lookupByID(rec.current.id)}>
                         {rec.current.nickname}
                       </span>
                     </td>
                     <td align="right" valign="top">{rec.current.experience.toLocaleString()}</td>
-                    <td align="right" valign="top">{rec.current.level}</td>
+                    <td align="right" valign="top">
+                      <span className="name-link" onClick={() => lookupByLevel(rec.current.level)}>
+                        {rec.current.level}
+                      </span>
+                    </td>
                     <td align="right" valign="top">{rec.xpPerDay.toLocaleString()}</td>
                     <td align="right" valign="top">{rec.xpPerWeek.toLocaleString()}</td>
                     <td align="right" valign="top">{rec.lapsed ? 'inactive' : ''}</td>

@@ -6,7 +6,7 @@ import'./lobbychat.css';
 
 const GameLobbyChat = () => {
   const { userData } = useContext(UserContext);
-  const { lookupLobbyChat } = useApi();
+  const { lookupLobbyChat, lookupByLogin, lookupByNickname, lookupByLevel } = useApi();
   const [limit, setLimit] = useState('20');
   const [loading, setLoading] = useState(false); // Loading state for spinner
   const lookupLobbyChatData = userData && userData.lookupLobbyChat ? userData.lookupLobbyChat : [];
@@ -18,7 +18,7 @@ const GameLobbyChat = () => {
     setLoading(false); // Stop loading
   };
 
-  const isDeputy = userData?.user?.role === 'deputy';
+  const isDeputy = userData?.user?.deputy;
 
   return (
     <div>
@@ -68,7 +68,7 @@ const GameLobbyChat = () => {
           <div>No chat to display</div>
         ) : (
           <div style={{ maxHeight: '350px', overflowY: 'auto', border: '1px solid #ccc', borderRadius: '5px' ,marginTop:'10px'}}>
-            <table id="chats">
+            <table id="chats" style={{ width: '100%', tableLayout: 'auto' }}>
               <thead>
                 <tr>
                   <th>Time</th>
@@ -82,12 +82,18 @@ const GameLobbyChat = () => {
               <tbody>
                 {lookupLobbyChatData.map((rec, index) => (
                   <tr key={index}>
-                    <td><div className="scrollable-cell">{rec.time}</div></td>
-                    {isDeputy && <td><div className="scrollable-cell">{rec.login}</div></td>}
-                    <td><div className="scrollable-cell">{rec.nickname}</div></td>
-                    <td><div className="scrollable-cell">{rec.level}</div></td>
+                    <td>{rec.time}</td>
+                    {isDeputy && <td>
+                      {rec.login != null && <span className="name-link" onClick={() => lookupByLogin(rec.login)}>
+                        {rec.login}
+                      </span>}
+                      </td>}
+                    <td>{rec.nickname != null && <span className="name-link" onClick={() => lookupByNickname(rec.nickname)}>
+                        {rec.nickname}
+                      </span>}</td>
+                    <td><span className="name-link" onClick={() => lookupByLevel(rec.level)}>{rec.level}</span></td>
                     <td><div className="scrollable-cell">{rec.message}</div></td>
-                    {isDeputy && <td><div className="scrollable-cell">{rec.ip}</div></td>}
+                    {isDeputy && <td>{rec.ip}</td>}
                   </tr>
                 ))}
               </tbody>

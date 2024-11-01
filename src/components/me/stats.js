@@ -15,7 +15,6 @@ const MeStats = () => {
   }
 
   const countryName = MGServices.getCountryName(userData.player.countryCode);
-  const level = MGServices.toLevel(userData.player.xp);
 
   return (
     <Card>
@@ -35,11 +34,11 @@ const MeStats = () => {
                 </tr>
                 <tr>
                   <th>Level:</th>
-                  <td>{level}</td>
+                  <td>{userData.player.level}</td>
                 </tr>
                 <tr>
                   <th>XP:</th>
-                  <td>{userData.player.xp.toLocaleString()}</td>
+                  <td>{userData.player.experience.toLocaleString()}</td>
                 </tr>
                 <tr>
                   <th>Role:</th>
@@ -73,6 +72,45 @@ const MeStats = () => {
                 </tr>
               </tbody>
             </Table>
+          </Col>
+        </Row>
+        <Row className="g-0">
+          <Col md={6} className="p-2">
+            <Table striped bordered hover responsive>
+              <tbody>
+                <tr>
+                  <th>Banned:</th>
+                  <td>{userData.player.banned ? 'Yes' : 'No'}</td>
+                </tr>
+                {userData.user.nicknameOverride && userData.user.nicknameOverride.trim() !== '' && (
+                <>
+                  <tr>
+                    <th>Nick Override:</th>
+                    <td>{userData.user.nicknameOverride}</td>
+                  </tr>
+                  <tr>
+                    <th>Since:</th>
+                    <td>{userData.user.nicknameOverrideDateDisplay}</td>
+                  </tr>
+                  <tr>
+                    <th>Times:</th>
+                    <td
+                    style={{
+                      backgroundColor: userData.user.nicknameOverrideTimes >= 10
+                        ? 'red'
+                        : userData.user.nicknameOverrideTimes >= 5
+                        ? 'yellow'
+                        : 'inherit',
+                    }}
+                    >{userData.user.nicknameOverrideTimes}</td>
+                  </tr>
+                </>
+                )}
+              </tbody>
+            </Table>
+          </Col>
+          <Col md={6} className="p-2">
+            
           </Col>
         </Row>
       </Card.Body>
