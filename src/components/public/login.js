@@ -40,7 +40,7 @@ const PublicLogin = () => {
       audio.pause();
       audio.currentTime = 0;
     };
-  }, []);
+  }, [isMuted]);
 
   useEffect(() => {
     const audio = audioRef.current;

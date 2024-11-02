@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Card, Alert, Spinner } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 import { UserContext } from '../../UserContext';
 import { MGServices } from '../../MGServices';
 import './nicknames.css'; // Import the CSS file for styling
 
 function MeHistoryRank() {
   const [rankHistory, setRankHistory] = useState([]);
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -14,7 +13,7 @@ function MeHistoryRank() {
 
   useEffect(() => {
     if (!userData || !userData.user || !userData.user.xps) {
-      setError('User data is incomplete or not available');
+      console.log('User data is incomplete or not available');
       setLoading(false);
       return;
     }
