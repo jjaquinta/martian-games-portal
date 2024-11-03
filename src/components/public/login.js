@@ -132,8 +132,9 @@ const PublicLogin = () => {
               <option value="TankOff2">Tank Off 2</option>
               <option value="AirWars3">Air Wars 3</option>
               <option value="AirWars2">Air Wars 2</option>
-              <option value="MotorWars2">Motor Wars 2</option>
               <option value="KartWars2">Kart Wars</option>
+              <option value="MotorWars2">Motor Wars 2</option>
+              <option value="OffroadRage2">Motor Wars 2 Classic</option>
             </Form.Select>
           </Form.Group>
           <button type="submit" className="login-button">Login</button>
