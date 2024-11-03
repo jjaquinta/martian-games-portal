@@ -72,9 +72,9 @@ function Navigator() {
                 <Nav.Link as={Link} to="/portal/me/password" className={location.pathname === '/portal/me/password' ? 'glow' : ''}>
                   Change Password
                 </Nav.Link>
-                <Nav.Link as={Link} to="/portal/me/reports" className={location.pathname === '/portal/me/reports' ? 'glow' : ''}>
+                {userData?.gameInfo?.dbreports && (<Nav.Link as={Link} to="/portal/me/reports" className={location.pathname === '/portal/me/reports' ? 'glow' : ''}>
                   My Reports
-                </Nav.Link>
+                </Nav.Link>)}
                 <Nav.Link as={Link} to="/portal/me/actions" className={location.pathname === '/portal/me/actions' ? 'glow' : ''}>
                   My Actions
                 </Nav.Link>
@@ -122,9 +122,9 @@ function Navigator() {
                 <Nav.Link as={Link} to="/portal/game/lookup" className={location.pathname === '/portal/game/lookup' ? 'glow' : ''}>
                   Player Lookup
                 </Nav.Link>
-                <Nav.Link as={Link} to="/portal/game/lobbychat" className={location.pathname === '/portal/game/lobbychat' ? 'glow' : ''}>
+                {userData?.gameInfo?.dblobby && (<Nav.Link as={Link} to="/portal/game/lobbychat" className={location.pathname === '/portal/game/lobbychat' ? 'glow' : ''}>
                   Lobby Chat
-                </Nav.Link>
+                </Nav.Link>)}
               </>
             )}
           </>

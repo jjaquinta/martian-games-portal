@@ -125,7 +125,7 @@ const GameLookup = () => {
 
   return (
     <div>
-      <h1>{userData.game} Lookup</h1>
+      <h1>{userData.gameInfo.gameDisplayName} Lookup</h1>
       <p>Look up your fellow players and see how you stand against them.</p>
 
       <div className="form-container">

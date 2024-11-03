@@ -82,7 +82,7 @@ const GameLeaderboard = () => {
 
   return (
     <div className="leaderboard-page-container">
-      <h2 id="leaderboard">{userData.game} Leaderboard</h2>
+      <h2 id="leaderboard">{userData.gameInfo.gameDisplayName} Leaderboard</h2>
 
       {loading ? ( // Conditionally render LoadingSpinner
         <LoadingSpinner />

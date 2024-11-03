@@ -19,7 +19,7 @@ function Header() {
         <div className="text-center w-100">
           <Navbar.Text>
             {userData && userData.player ? (
-              <>Welcome {userData.player.login} / {userData.player.nickname} to {userData.game}!</>
+              <>Welcome {userData.player.login} / {userData.player.nickname} to {userData.gameInfo.gameDisplayName}!</>
             ) : (
               <>Please log in with the ID you use for the game</>
             )}

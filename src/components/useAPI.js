@@ -93,6 +93,7 @@ export const useApi = () => {
             player: data.player,
             user: data.user,
             game: data.game,
+            gameInfo: data.gameInfo,
           });
           localStorage.setItem('game', game);
           localStorage.setItem('username', username);

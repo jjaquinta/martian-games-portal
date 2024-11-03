@@ -29,7 +29,7 @@ const MeActions = () => {
 
   return (
     <div className="action-page-container">
-      <h1>{userData.game} Actions</h1>
+      <h1>{userData.gameInfo.gameDisplayName} Actions</h1>
       <p>See what actions have been taken with regards to this account.</p>
 
       <form onSubmit={handleSubmit} className="action-form">
