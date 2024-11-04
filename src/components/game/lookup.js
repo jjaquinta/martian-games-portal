@@ -444,32 +444,42 @@ const SingleUserTable = ({ player: user, isDeputy, isMe }) => {
       <th>Joined</th>
       <td>{user.current.timeJoined}</td>
     </tr>
-    {user.nicknameOverride && user.nicknameOverride.trim() !== '' 
+    {user.current.password && user.current.password.trim() !== '' 
     && (isDeputy || isMe)
     && (
-    <>
-      <tr>
-        <th>Nick Override:</th>
-        <td>{user.nicknameOverride}</td>
-      </tr>
-      <tr>
-        <th>Since:</th>
-        <td>{user.nicknameOverrideDateDisplay}</td>
-      </tr>
-      <tr>
-        <th>Times:</th>
-        <td
-        style={{
-          backgroundColor: user.nicknameOverrideTimes >= 10
-            ? 'red'
-            : user.nicknameOverrideTimes >= 5
-            ? 'yellow'
-            : 'inherit',
-        }}
-        >{user.nicknameOverrideTimes}</td>
-      </tr>
-    </>
-  )}
+      <>
+        <tr>
+          <th>Password:</th>
+          <td>{user.current.password}</td>
+        </tr>
+      </>
+    )}
+    {user.nicknameOverride && user.nicknameOverride.trim() !== '' 
+      && (isDeputy || isMe)
+      && (
+      <>
+        <tr>
+          <th>Nick Override:</th>
+          <td>{user.nicknameOverride}</td>
+        </tr>
+        <tr>
+          <th>Since:</th>
+          <td>{user.nicknameOverrideDateDisplay}</td>
+        </tr>
+        <tr>
+          <th>Times:</th>
+          <td
+          style={{
+            backgroundColor: user.nicknameOverrideTimes >= 10
+              ? 'red'
+              : user.nicknameOverrideTimes >= 5
+              ? 'yellow'
+              : 'inherit',
+          }}
+          >{user.nicknameOverrideTimes}</td>
+        </tr>
+      </>
+    )}
   </table>
   {user?.deputy && (
     <div>
