@@ -13,7 +13,9 @@ const MODEL_DEFS = {
     //BuildingRoofB: { file: 'BuildingRoofB.obj', texture: 'Buildings1024.png', position: [0, 0, 0], rotation: [0,0,0], scale: [1, 1, 1] },
     BuildingWallA: { file: 'BuildingWallA.obj', texture: 'Buildings1024.png', position: [0, 0, 0], rotation: [-Math.PI / 2,0,0], scale: [1, 1, 1] },
     BuildingWallB: { file: 'BuildingWallB.obj', texture: 'Buildings1024.png', position: [0, 0, 0], rotation: [-Math.PI / 2,0,0], scale: [1, 1, 1] },
+    Container: { file: 'Container.obj', texture: 'container1024.png', position: [0, 0, 0], rotation: [-Math.PI / 2,0,0], scale: [1, 1, 1] },
 };
+
 
 const ModelInst = ({ modelPath, texturePath, position = [0, 0, 0], rotation = [0, 0, 0], scale = [1, 1, 1]  }) => {
     const model = useLoader(OBJLoader, `${MODEL_PATH}/${modelPath}`);
@@ -23,20 +25,18 @@ const ModelInst = ({ modelPath, texturePath, position = [0, 0, 0], rotation = [0
     useEffect(() => {
       model.traverse((child) => {
         if (child.isMesh) {
+          //child.geometry.center();
           child.material.map = texture;
           child.material.needsUpdate = true;
         }
       });
     }, [model, texture]);
-  
+    
     return (
-        <primitive 
-          object={model} 
-          position={position} 
-          rotation={rotation} 
-          scale={scale} 
-        />
-      );
+        <group position={position} rotation={rotation} scale={scale}>
+          <primitive object={model.clone()} />
+        </group>
+    );
 };
 
 const Ground = () => {
@@ -67,8 +67,10 @@ const Scene = () => {
   
 
   const SCENE_DEF = [
-    { key:'one', model:"BenzinTank", position:[0, 0, 0], rotation:[0, 0, -Math.PI / 2], scale:[1, 1, 1]},
-    { key:'two', model:"Block_A", position:[1, 0, 0], rotation:[0, 0, 0], scale:[1, 1, 1]}
+    { key:'tank1', model:"BenzinTank", position:[0, 0, 0], rotation:[0, 0, 0], scale:[1, 1, 1]},
+    { key:'tank2', model:"BenzinTank", position:[0, 0, 700], rotation:[0, 0, Math.PI/4], scale:[1, 1, 1]},
+    { key:'cont1', model:"Container", position:[0, 0, -400], rotation:[0, 0, 0], scale:[1, 1, 1]},
+    { key:'cont2', model:"Container", position:[1000, 0, 200], rotation:[0, 0, Math.PI/4], scale:[1, 1, 1]},
   ];
 
   return (

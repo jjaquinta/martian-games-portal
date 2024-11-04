@@ -1,0 +1,13 @@
+# 
+# Wavefront material file
+# Created with Kaydara FBX
+# 
+
+newmtl Container
+map_Kd Container1024.png
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+illum 2
+Ns 1024.000000
+Tr 1.000000
