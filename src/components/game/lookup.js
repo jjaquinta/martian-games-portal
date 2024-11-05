@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
 import NicknameHistory from '../NicknameHistory';
@@ -122,6 +122,7 @@ const GameLookup = () => {
   };
 
   const isDeputy = userData?.user?.deputy;
+  const isAdmin = userData?.user?.admin;
 
   return (
     <div>
@@ -211,7 +212,7 @@ const GameLookup = () => {
         <LoadingSpinner />
       ) : Array.isArray(lookupUserData) && lookupUserData.length > 0 ? (
         lookupUserData.length === 1 ? (
-          <SingleUserTable player={lookupUserData[0]} isDeputy={isDeputy} isMe={lookupUserData[0].login === userData.player.login}/>
+          <SingleUserTable player={lookupUserData[0]} isAdmin={isAdmin} isDeputy={isDeputy} isMe={lookupUserData[0].login === userData.player.login}/>
         ) : (
           <div className="table-container">
             <table id="matches">
@@ -390,11 +391,75 @@ const GameLookup = () => {
   );
 };
 
-const SingleUserTable = ({ player: user, isDeputy, isMe }) => {
-  const { lookupByLevel, lookupByNickname } = useApi(); // Destructure functions from useApi
+const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
+  const { lookupByLevel, lookupByNickname, takeAction } = useApi(); 
+  const [banUIVisible, setBanUIVisible] = useState(false);
+  const [reinstateUIVisible, setReinstateUIVisible] = useState(false);
+  const [audit, setAudit] = useState('');
+
+  const handleBanStart = () => {
+    setBanUIVisible(true);
+  };
+
+  const handleBanSubmit = async () => {
+    await takeAction(user.current.login, 'ban', audit);
+    setBanUIVisible(false);
+  };
+  
+  const handleBanCancel = () => {
+    setBanUIVisible(false);
+  };
+
+  const handleReinstateStart = () => {
+    setReinstateUIVisible(true);
+  };
+
+  const handleReinstateSubmit = async () => {
+    await takeAction(user.current.login, 'unban', audit);
+    setReinstateUIVisible(false);
+  };
+  
+  const handleReinstateCancel = () => {
+    setReinstateUIVisible(false);
+  };
 
   return (
     <>
+    {isAdmin && (
+      <>
+      {!user.current.banned && (<button onClick={handleBanStart}>Ban</button>)}
+      {user.current.banned && (<button onClick={handleReinstateStart}>Reinstate</button>)}
+      <br/>
+      {banUIVisible && (
+        <div id="banUI">
+          <input
+                type="text"
+                name="audit"
+                placeholder="Reason"
+                value={audit}
+                onChange={(e) => setAudit(e.target.value)}
+                className="input-field"
+              />
+          <button onClick={handleBanSubmit}>Submit</button>
+          <button onClick={handleBanCancel}>Cancel</button>
+        </div>
+      )}
+      {reinstateUIVisible && (
+        <div id="banUI">
+          <input
+                type="text"
+                name="audit"
+                placeholder="Reason"
+                value={audit}
+                onChange={(e) => setAudit(e.target.value)}
+                className="input-field"
+              />
+          <button onClick={handleReinstateSubmit}>Submit</button>
+          <button onClick={handleReinstateCancel}>Cancel</button>
+        </div>
+      )}
+      </>
+    )}
   <table>
     {isDeputy && (
       <tr>

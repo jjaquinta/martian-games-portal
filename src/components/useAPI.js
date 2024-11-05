@@ -160,6 +160,19 @@ export const useApi = () => {
     );
   };
 
+  const takeAction = async (login, action, audit) => {
+    const bodyParams = { login, action, audit };
+    updateUserData({ actionParams: bodyParams });
+    const url = `player`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => updateUserData({ takeActionData: data }),
+      "Take action request failed"
+    );
+  };
+
   const lookupLobbyChat = async (limit) => {
     const bodyParams = { limit };
     const url = `lobbychat`;
@@ -265,5 +278,6 @@ export const useApi = () => {
     lookupByNickname,
     lookupByLevel,
     lookupByIP,
+    takeAction,
   };
 };
