@@ -159,6 +159,19 @@ export const useApi = () => {
       "User lookup request failed"
     );
   };
+  
+  const lookupReport = async (id, login, nickname, level, reportlogin, reportnickname, reportlevel, room, chat, orderup, orderdown) => {
+    const bodyParams = { id, login, nickname, level, reportlogin, reportnickname, reportlevel, room, chat, orderup, orderdown };
+    updateUserData({ lookupReport: bodyParams });
+    const url = `reports`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => updateUserData({ lookupReportData: data }),
+      "User lookup request failed"
+    );
+  };
 
   const takeAction = async (login, action, audit) => {
     const bodyParams = { login, action, audit };
@@ -279,5 +292,7 @@ export const useApi = () => {
     lookupByLevel,
     lookupByIP,
     takeAction,
+    lookupReport,
+    updateUserData,
   };
 };

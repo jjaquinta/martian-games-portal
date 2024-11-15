@@ -72,7 +72,7 @@ const GameLookup = () => {
       userData?.lookup?.level || '', 
       userData?.lookup?.ip || '', 
       userData?.lookup?.sortup || '', 
-      userData?.lookup?.sortdown || '');
+      userData?.lookup?.sortdown || 'xp');
 
     if (!result.success) {
       console.error('Lookup failed:', result.error || result.status);
@@ -86,7 +86,7 @@ const GameLookup = () => {
       userData?.lookup?.level || '', 
       userData?.lookup?.ip || '', 
       column, 
-      userData?.lookup?.sortdown || '');
+      '');
 
     if (!result.success) {
       console.error('Lookup failed:', result.error || result.status);
@@ -99,7 +99,7 @@ const GameLookup = () => {
       userData?.lookup?.nickname || '', 
       userData?.lookup?.level || '', 
       userData?.lookup?.ip || '', 
-      userData?.lookup?.sortup || '', 
+      '', 
       column);
 
     if (!result.success) {
@@ -114,7 +114,7 @@ const GameLookup = () => {
       '', 
       '', 
       '', 
-      '');
+      'xp');
 
     if (!result.success) {
       console.error('Lookup failed:', result.error || result.status);
