@@ -51,6 +51,10 @@ const MeStats = () => {
             <Table striped bordered hover responsive>
               <tbody>
                 <tr>
+                  <th>ID:</th>
+                  <td>{userData.player?.id}</td>
+                </tr>
+                <tr>
                   <th>IP:</th>
                   <td>{userData.player.ip}</td>
                 </tr>
@@ -65,10 +69,6 @@ const MeStats = () => {
                 <tr>
                   <th>Last Login:</th>
                   <td>{userData.player.lastLogin}</td>
-                </tr>
-                <tr>
-                  <th>Status:</th>
-                  <td>{userData.user?.status || '-'}</td>
                 </tr>
               </tbody>
             </Table>
