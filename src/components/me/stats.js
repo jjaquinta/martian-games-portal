@@ -79,8 +79,12 @@ const MeStats = () => {
             <Table striped bordered hover responsive>
               <tbody>
                 <tr>
-                  <th>Banned:</th>
-                  <td>{userData.player.banned ? 'Yes' : 'No'}</td>
+                  <th>Status:</th>
+                  <td>{userData.player.banned 
+                      ? 'Banned' 
+                      : userData.player.status === 'frozen' 
+                      ? 'Frozen' 
+                      : 'Verified'}</td>
                 </tr>
                 {userData.user.nicknameOverride && userData.user.nicknameOverride.trim() !== '' && (
                 <>

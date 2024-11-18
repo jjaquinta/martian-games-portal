@@ -10,6 +10,9 @@ const MeReports = () => {
   const lookupReportData = userData?.lookupReportData || [];
   const [selectedOption, setSelectedOption] = useState('');
   const lookupReportColumns = { nickname: false, level: false, reportNickname: false, reportLevel: false };
+  
+  const isDeputy = userData?.user?.deputy;
+  const isAdmin = userData?.user?.admin;
 
     lookupReportData.forEach((rec) => {
         if (rec.nickname != null) {
@@ -126,8 +129,12 @@ const MeReports = () => {
     if (e != null) {
       e.preventDefault();
     }
+    var id = userData?.lookupReport?.id || '';
+    if (!isDeputy) {
+        id = '';
+    }
   
-    const result = await lookupReport('', 
+    const result = await lookupReport(id, 
       userData?.lookupReport?.login || '', 
       userData?.lookupReport?.nickname || '', 
       userData?.lookupReport?.level || '', 
@@ -241,9 +248,6 @@ const MeReports = () => {
       console.error('lookupReport failed:', result.error || result.status);
     }
   };
-
-  const isDeputy = userData?.user?.deputy;
-  const isAdmin = userData?.user?.admin;
 
   return (
     <div>
