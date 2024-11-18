@@ -4,6 +4,7 @@ import { useApi } from '../useAPI';
 import NicknameHistory from '../NicknameHistory';
 import './lobbychat.css';
 import LoadingSpinner from '../loadingspinner';
+import { MGServices } from '../MGServices';
 
 const GameLookup = () => {
   const { setUserData, userData } = useContext(UserContext);
@@ -60,6 +61,16 @@ const GameLookup = () => {
       },
     }));
   };
+  const setLookupCC = (event) => {
+    const selectedValue = event.target.value;
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      lookup: {
+        ...prevUserData.lookup,
+        cc: selectedValue === '' ? '' : selectedValue, // Set to empty string if "Any Country"
+      },
+    }));
+  };
 
   const handleSubmit = async (e) => {
     if (e != null) {
@@ -71,6 +82,7 @@ const GameLookup = () => {
       userData?.lookup?.nickname || '', 
       userData?.lookup?.level || '', 
       userData?.lookup?.ip || '', 
+      userData?.lookup?.cc || '', 
       userData?.lookup?.sortup || '', 
       userData?.lookup?.sortdown || 'xp');
 
@@ -85,6 +97,7 @@ const GameLookup = () => {
       userData?.lookup?.nickname || '', 
       userData?.lookup?.level || '', 
       userData?.lookup?.ip || '', 
+      userData?.lookup?.cc || '', 
       column, 
       '');
 
@@ -99,6 +112,7 @@ const GameLookup = () => {
       userData?.lookup?.nickname || '', 
       userData?.lookup?.level || '', 
       userData?.lookup?.ip || '', 
+      userData?.lookup?.cc || '', 
       '', 
       column);
 
@@ -112,7 +126,8 @@ const GameLookup = () => {
       '', 
       '', 
       '', 
-      '', 
+      '',
+      '',
       '', 
       'xp');
 
@@ -123,6 +138,7 @@ const GameLookup = () => {
 
   const isDeputy = userData?.user?.deputy;
   const isAdmin = userData?.user?.admin;
+  const currentCountry = MGServices.countryCodes[userData?.lookup?.cc] || "Any Country";
 
   return (
     <div>
@@ -191,6 +207,27 @@ const GameLookup = () => {
               className="input-field"
             />
           )}
+          <input
+            type="text"
+            name="lookupLevel"
+            placeholder="Level"
+            value={userData?.lookup?.level || ''}
+            onChange={setLookupLevel}
+            className="input-field"
+          />
+          <select
+            name="lookupCountry"
+            value={userData?.lookup?.cc || ''}
+            onChange={setLookupCC}
+            className="input-field"
+          >
+            <option value="">{`Any Country`}</option>
+            {Object.entries(MGServices.countryCodes).map(([code, name]) => (
+            <option key={code} value={code}>
+                {name}
+            </option>
+            ))}
+          </select>
           <button
             className="refresh-button"
             onMouseOver={(e) => {

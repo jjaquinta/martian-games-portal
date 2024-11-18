@@ -147,8 +147,8 @@ export const useApi = () => {
     );
   };
 
-  const lookupUser = async (id, login, nickname, level, ip, orderup, orderdown) => {
-    const bodyParams = { id, login, nickname, level, ip, makeUser: true, limit: 200, orderup, orderdown };
+  const lookupUser = async (id, login, nickname, level, ip, cc, orderup, orderdown) => {
+    const bodyParams = { id, login, nickname, level, ip, cc, makeUser: true, limit: 200, orderup, orderdown };
     updateUserData({ lookup: bodyParams });
     const url = `players`;
 
@@ -223,7 +223,7 @@ export const useApi = () => {
   };
 
   const lookupByID = async (id) => {  
-    const result = await lookupUser(id, '', '', '', '', '', '');
+    const result = await lookupUser(id, '', '', '', '', '', '', '');
     if (!result.success) {
       console.error('Login failed:', result.error || result.status);
     } else {
@@ -232,7 +232,7 @@ export const useApi = () => {
   };
 
   const lookupByLogin = async (login) => {  
-    const result = await lookupUser('', login, '', '', '', '', '');
+    const result = await lookupUser('', login, '', '', '', '', '', '');
     if (!result.success) {
       console.error('Login failed:', result.error || result.status);
     } else {
@@ -241,7 +241,7 @@ export const useApi = () => {
   };
 
   const lookupByNickname = async (nickname) => {  
-    const result = await lookupUser('', '', nickname, '', '', '', '');
+    const result = await lookupUser('', '', nickname, '', '', '', '', '');
     if (!result.success) {
       console.error('Login failed:', result.error || result.status);
     } else {
@@ -250,7 +250,7 @@ export const useApi = () => {
   };
 
   const lookupByLevel = async (level) => {  
-    const result = await lookupUser('', '', '', level, '', '', '');
+    const result = await lookupUser('', '', '', level, '', '', '', '');
     if (!result.success) {
       console.error('Login failed:', result.error || result.status);
     } else {
@@ -259,7 +259,7 @@ export const useApi = () => {
   };
 
   const lookupByIP = async (ip) => {  
-    const result = await lookupUser('', '', '', '', ip, '', '');
+    const result = await lookupUser('', '', '', '', ip, '', '', '');
     if (!result.success) {
       console.error('Login failed:', result.error || result.status);
     } else {
