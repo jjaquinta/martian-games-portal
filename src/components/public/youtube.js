@@ -12,6 +12,11 @@ const PublicYouTube = () => {
   return (
     <div className="youtube-container">
       <h1>YouTube Channels</h1>
+
+      <h3>Air Wars</h3>
+      <ul>
+        <li><a href="https://www.youtube.com/@dominator4619">Dominator</a></li>
+      </ul>
       
       <h3>Motor Wars</h3>
       <ul>

@@ -13,7 +13,7 @@ const MODEL_DEFS = {
     //BuildingRoofB: { file: 'BuildingRoofB.obj', texture: 'Buildings1024.png', position: [0, 0, 0], rotation: [0,0,0], scale: [1, 1, 1] },
     BuildingWallA: { file: 'BuildingWallA.obj', texture: 'Buildings1024.png', position: [0, 0, 0], rotation: [-Math.PI / 2,0,0], scale: [1, 1, 1] },
     BuildingWallB: { file: 'BuildingWallB.obj', texture: 'Buildings1024.png', position: [0, 0, 0], rotation: [-Math.PI / 2,0,0], scale: [1, 1, 1] },
-    Container: { file: 'Container.obj', texture: 'container1024.png', position: [0, 0, 0], rotation: [-Math.PI / 2,0,0], scale: [1, 1, 1] },
+    Container: { file: 'Container.obj', texture: 'Container1024.png', position: [0, 0, 0], rotation: [-Math.PI / 2,0,0], scale: [1, 1, 1] },
 };
 
 

@@ -207,14 +207,6 @@ const GameLookup = () => {
               className="input-field"
             />
           )}
-          <input
-            type="text"
-            name="lookupLevel"
-            placeholder="Level"
-            value={userData?.lookup?.level || ''}
-            onChange={setLookupLevel}
-            className="input-field"
-          />
           <select
             name="lookupCountry"
             value={userData?.lookup?.cc || ''}
