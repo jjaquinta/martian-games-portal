@@ -248,6 +248,27 @@ const GameLookup = () => {
               <thead>
                 <tr>
                     {userData?.user?.deputy && (<th>
+                      ID
+                      <span
+                        style={{ 
+                          cursor: 'pointer',
+                          color: userData.lookup.orderup === 'id' ? 'black' : 'inherit',
+                        }}
+                        onClick={() => sortUp('id')}
+                      >
+                        &#9650;
+                      </span>
+                      <span
+                        style={{ 
+                          cursor: 'pointer',
+                          color: userData.lookup.orderdown === 'id' ? 'black' : 'inherit',
+                        }}
+                        onClick={() => sortDown('id')}
+                      >
+                        &#9660;
+                      </span>
+                    </th>)}
+                    {userData?.user?.deputy && (<th>
                       Login
                       <span
                         style={{ 
@@ -379,6 +400,7 @@ const GameLookup = () => {
               <tbody>
                 {lookupUserData.map((rec, index) => (
                   <tr key={index}>
+                    {isDeputy && <td>{rec.current.id}</td>}
                     {isDeputy && <td>{rec.current.login}</td>}
                     <td>
                       <span
