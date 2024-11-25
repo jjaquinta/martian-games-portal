@@ -1,42 +1,44 @@
 import React, { useState } from 'react';
-import { MGServices } from './MGServices'; // Ensure MGServices is correctly imported
+import { MGServices } from './MGServices'; // Import MGServices for date formatting
 
-const NicknameHistory = ({ user }) => {
+const XPHistory = ({ user }) => {
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8; // Number of entries per page
 
-  const { nicknames } = user;
-  const totalEntries = nicknames.length;
+  const { xps } = user;
+  const totalEntries = xps.length;
 
   // Calculate indexes for slicing the XP entries
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentEntries = nicknames.slice(startIndex, endIndex);
+  const currentEntries = xps.slice(startIndex, endIndex);
 
   // Calculate total pages
   const totalPages = Math.ceil(totalEntries / itemsPerPage);
 
-  if (!user || !user.nicknames || user.nicknames.length === 0) {
-    return <div>No Rank history available</div>;
+  if (!user || !user.xps || user.xps.length === 0) {
+    return <div>No XP history available</div>;
   }
   
   return (
     <div>
-      <h2 id="rankhistory" className="history-title">Nickname History</h2>
+      <h2 id="xphistory" className="history-title">XP History</h2>
       <div>
         <table>
           <thead>
             <tr>
               <th>Date</th>
-              <th>Name</th>
+              <th>XP</th>
+              <th>Level</th>
             </tr>
           </thead>
           <tbody>
             {currentEntries.map((entry, index) => (
               <tr key={index}>
                 <td>{MGServices.toDate(entry.timestamp)}</td>
-                <td>{entry.nickname}</td>
+                <td>{entry.xp.toLocaleString()}</td>
+                <td>{entry.level}</td>
               </tr>
             ))}
           </tbody>
@@ -59,4 +61,4 @@ const NicknameHistory = ({ user }) => {
   );
 };
 
-export default NicknameHistory;
+export default XPHistory;

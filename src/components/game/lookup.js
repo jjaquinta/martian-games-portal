@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
 import NicknameHistory from '../NicknameHistory';
+import XPHistory from '../XPHistory';
+import RankHistory from '../RankHistory';
 import './lobbychat.css';
 import LoadingSpinner from '../loadingspinner';
 import { MGServices } from '../MGServices';
@@ -138,8 +140,7 @@ const GameLookup = () => {
 
   const isDeputy = userData?.user?.deputy;
   const isAdmin = userData?.user?.admin;
-  const currentCountry = MGServices.countryCodes[userData?.lookup?.cc] || "Any Country";
-
+  
   return (
     <div>
       <h1>{userData.gameInfo.gameDisplayName} Lookup</h1>
@@ -443,6 +444,7 @@ const GameLookup = () => {
 };
 
 const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
+  const { userData } = useContext(UserContext);
   const { lookupByLevel, lookupByNickname, takeAction } = useApi(); 
   const [banUIVisible, setBanUIVisible] = useState(false);
   const [reinstateUIVisible, setReinstateUIVisible] = useState(false);
@@ -597,9 +599,11 @@ const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
       </>
     )}
   </table>
-  {user?.deputy && (
+  {userData.user?.deputy && (
     <div>
       <NicknameHistory user={user} />
+      <XPHistory user={user} />
+      <RankHistory user={user} />
     </div>
   )}
   </>
