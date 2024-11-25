@@ -63,13 +63,21 @@ const PublicLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    performLogin(username, password); // Use a shared login function
+  };
+
+  const handleGuestLogin = async () => {
+    performLogin('guest', 'guest'); // Pass guest credentials
+  };
+
+  const performLogin = async (loginUsername, loginPassword) => {
     setError('');
-    setLoading(true); // Set loading to true
+    setLoading(true);
 
     try {
-      const result = await login(game, username, password);
+      const result = await login(game, loginUsername, loginPassword);
       if (result.success) {
-        localStorage.setItem('username', username);
+        localStorage.setItem('username', loginUsername);
         localStorage.setItem('game', game);
         setUserData(result.data);
         navigate('/portal/me/stats');
@@ -81,7 +89,7 @@ const PublicLogin = () => {
       setError('An error occurred. Please try again.');
       console.error('Login error:', err);
     } finally {
-      setLoading(false); // Reset loading state
+      setLoading(false);
     }
   };
 
@@ -138,6 +146,13 @@ const PublicLogin = () => {
             </Form.Select>
           </Form.Group>
           <button type="submit" className="login-button">Login</button>
+          <button
+            type="button"
+            onClick={handleGuestLogin}
+            className="login-button"
+          >
+            Login as Guest
+          </button>
           <button 
             type="button" 
             onClick={toggleMute} 
