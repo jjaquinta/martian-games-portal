@@ -114,7 +114,22 @@ const MeStats = () => {
             </Table>
           </Col>
           <Col md={6} className="p-2">
-            
+            <Table striped bordered hover responsive>
+              <tbody>
+                <tr>
+                  <th>XP/Day:</th>
+                  <td>{userData.user.xpPerDay.toLocaleString()}</td>
+                </tr>
+                <tr>
+                  <th>XP/Week:</th>
+                  <td>{userData.user.xpPerWeek.toLocaleString()}</td>
+                </tr>
+                <tr>
+                  <th>XP/Year:</th>
+                  <td>{userData.user.xpPerYear.toLocaleString()}</td>
+                </tr>
+              </tbody>
+            </Table>
           </Col>
         </Row>
       </Card.Body>
