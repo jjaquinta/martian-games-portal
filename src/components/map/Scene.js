@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Canvas, useLoader, useThree  } from '@react-three/fiber';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 import { TextureLoader } from 'three';
@@ -17,7 +17,8 @@ const MODEL_DEFS = {
 };
 
 
-const ModelInst = ({ modelPath, texturePath, position = [0, 0, 0], rotation = [0, 0, 0], scale = [1, 1, 1]  }) => {
+const ModelInst = ({ clickKey, modelPath, texturePath, position = [0, 0, 0], rotation = [0, 0, 0], scale = [1, 1, 1],
+        onClick }) => {
     const model = useLoader(OBJLoader, `${MODEL_PATH}/${modelPath}`);
     const texture = useLoader(TextureLoader, `${MODEL_PATH}/${texturePath}`);
 
@@ -33,7 +34,14 @@ const ModelInst = ({ modelPath, texturePath, position = [0, 0, 0], rotation = [0
     }, [model, texture]);
     
     return (
-        <group position={position} rotation={rotation} scale={scale}>
+        <group position={position} rotation={rotation} scale={scale}
+            onPointerDown={(e) => {
+            e.stopPropagation(); // Prevent the event from propagating to the canvas
+            if (onClick) {
+              onClick(clickKey); // Pass relevant data
+            }
+          }}
+        >
           <primitive object={model.clone()} />
         </group>
     );
@@ -64,16 +72,209 @@ const addVectors = (a, b) => a.map((val, index) => val + b[index]);
 const multVectors = (a, b) => a.map((val, index) => val*b[index]);
 
 const Scene = () => {
+  const [selected, setSelected] = useState('');
   
 
-  const SCENE_DEF = [
+  const [sceneDef,setSceneDef] = useState([
     { key:'tank1', model:"BenzinTank", position:[0, 0, 0], rotation:[0, 0, 0], scale:[1, 1, 1]},
     { key:'tank2', model:"BenzinTank", position:[0, 0, 700], rotation:[0, 0, Math.PI/4], scale:[1, 1, 1]},
     { key:'cont1', model:"Container", position:[0, 0, -400], rotation:[0, 0, 0], scale:[1, 1, 1]},
     { key:'cont2', model:"Container", position:[1000, 0, 200], rotation:[0, 0, Math.PI/4], scale:[1, 1, 1]},
-  ];
+  ]);
+  
+  const handleModelClick = (key) => {
+    setSelected(key);
+  };
+  
+  const getSelectedModel = () => {
+    const key = selected;
+    return sceneDef.find((element) => element.key === key);
+  };
+
+  const movePosition = (x, y, z) => {
+    setSceneDef((prevSceneDef) =>
+      prevSceneDef.map((element) =>
+        element.key === selected
+          ? {
+              ...element,
+              position: [
+                element.position[0] + x,
+                element.position[1] + y,
+                element.position[2] + z,
+              ],
+            }
+          : element
+      )
+    );
+  };
+  
+  const moveRotation = (x, y, z) => {
+    setSceneDef((prevSceneDef) =>
+      prevSceneDef.map((element) =>
+        element.key === selected
+          ? {
+              ...element,
+              position: [
+                element.rotation[0] += x/180*Math.PI,
+                element.rotation[1] += y/180*Math.PI,
+                element.rotation[2] += z/180*Math.PI,
+              ],
+            }
+          : element
+      )
+    );
+  };
+
+  const moveScale = (x, y, z) => {
+    setSceneDef((prevSceneDef) =>
+      prevSceneDef.map((element) =>
+        element.key === selected
+          ? {
+              ...element,
+              position: [
+                element.scale[0] *= x,
+                element.scale[1] *= y,
+                element.scale[2] *= z,
+              ],
+            }
+          : element
+      )
+    );
+  };
 
   return (
+    <>
+    Selected: {selected}
+    Move:
+    <button 
+            type="button" 
+            onClick={() => movePosition(100,0,0)} 
+            aria-label="+X"
+          >
+            +X
+    </button>
+    <button 
+            type="button" 
+            onClick={() => movePosition(-100,0,0)} 
+            aria-label="-X"
+          >
+            -X
+    </button>
+    <button 
+            type="button" 
+            onClick={() => movePosition(0,100,0)} 
+            aria-label="+Y"
+          >
+            +Y
+    </button>
+    <button 
+            type="button" 
+            onClick={() => movePosition(0,-100,0)} 
+            aria-label="-Y"
+          >
+            -Y
+    </button>
+    <button 
+            type="button" 
+            onClick={() => movePosition(0,0,100)} 
+            aria-label="+Z"
+          >
+            +Z
+    </button>
+    <button 
+            type="button" 
+            onClick={() => movePosition(0,0,-100)} 
+            aria-label="-Z"
+          >
+            -Z
+    </button>
+    Rotate:
+    <button 
+            type="button" 
+            onClick={() => moveRotation(5,0,0)} 
+            aria-label="+X"
+          >
+            +X
+    </button>
+    <button 
+            type="button" 
+            onClick={() => moveRotation(-5,0,0)} 
+            aria-label="-X"
+          >
+            -X
+    </button>
+    <button 
+            type="button" 
+            onClick={() => moveRotation(0,5,0)} 
+            aria-label="+Y"
+          >
+            +Y
+    </button>
+    <button 
+            type="button" 
+            onClick={() => moveRotation(0,-5,0)} 
+            aria-label="-Y"
+          >
+            -Y
+    </button>
+    <button 
+            type="button" 
+            onClick={() => moveRotation(0,0,5)} 
+            aria-label="+Z"
+          >
+            +Z
+    </button>
+    <button 
+            type="button" 
+            onClick={() => moveRotation(0,0,-5)} 
+            aria-label="-Z"
+          >
+            -Z
+    </button>
+    Scale:
+    <button 
+            type="button" 
+            onClick={() => moveScale(1.05,1,1)} 
+            aria-label="+X"
+          >
+            +X
+    </button>
+    <button 
+            type="button" 
+            onClick={() => moveScale(1/1.05,1,1)} 
+            aria-label="-X"
+          >
+            -X
+    </button>
+    <button 
+            type="button" 
+            onClick={() => moveScale(1,1.05,1)} 
+            aria-label="+Y"
+          >
+            +Y
+    </button>
+    <button 
+            type="button" 
+            onClick={() => moveScale(1,1/1.05,1)} 
+            aria-label="-Y"
+          >
+            -Y
+    </button>
+    <button 
+            type="button" 
+            onClick={() => moveScale(1,1,1.05)} 
+            aria-label="+Z"
+          >
+            +Z
+    </button>
+    <button 
+            type="button" 
+            onClick={() => moveScale(1,1,1/1.05)} 
+            aria-label="-Z"
+          >
+            -Z
+    </button>
+    <br/>
     <Canvas camera={{
         fov: 60, // Adjust field of view if needed
         far: 10000,
@@ -86,20 +287,23 @@ const Scene = () => {
       <pointLight position={[-100, -100, -100]} />
       <Ground />
 
-      {SCENE_DEF.map((sceneElem, index) => (
+      {sceneDef.map((sceneElem, index) => (
         <ModelInst
           key={sceneElem.key}
+          clickKey={sceneElem.key}
           modelPath={MODEL_DEFS[sceneElem.model].file}
           texturePath={MODEL_DEFS[sceneElem.model].texture}
           position={addVectors(MODEL_DEFS[sceneElem.model].position, sceneElem.position)}
           rotation={addVectors(MODEL_DEFS[sceneElem.model].rotation, sceneElem.rotation)}
           scale={multVectors(MODEL_DEFS[sceneElem.model].scale, sceneElem.scale)}
+          onClick={handleModelClick}
         />
       ))}
 
       {/* Orbit controls for camera rotation */}
       <OrbitControls />
     </Canvas>
+    </>
   );
 };
 
