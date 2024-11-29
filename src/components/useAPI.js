@@ -286,7 +286,37 @@ export const useApi = () => {
   };
   
   const quickSwitch = (game, login) => {
-    // TBD
+    setLoading(true);
+    const bodyParams = { game, login };
+    const url = `quick/switch`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data, response) => {
+        // Retrieve the token from response headers
+        const token = response.headers.get('token');
+        if (token) {
+          api_token = token; // Store token globally
+          // Persist user data in context and localStorage
+          setUserData({
+            token: token,
+            player: data.player,
+            user: data.user,
+            game: data.game,
+            gameInfo: data.gameInfo,
+          });
+          localStorage.setItem('game', game);
+          localStorage.setItem('username', data.player.login);
+          setSuccess("Login successful");
+        } else {
+          setError("Token not found in response");
+        }
+      },
+      "Quick switch failed"
+    ).finally(() => {
+      setLoading(false);
+    });
   };
 
   return {
