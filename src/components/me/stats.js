@@ -1,14 +1,31 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState  } from 'react';
 import { UserContext } from '../UserContext';
 import { Card, Table, Row, Col } from 'react-bootstrap';
 import { MGServices } from '../MGServices';
+import { useApi } from '../useAPI';
 
 const MeStats = () => {
   const { userData } = useContext(UserContext);
+  const [emailInput, setEmailInput] = useState(''); 
+  const [codeInput, setCodeInput] = useState(''); 
+  const { registerEmail } = useApi();
 
   useEffect(() => {
   //  console.log('UserData in MeStats:', userData);
   }, [userData]);
+
+  const handleRegisterEmail = () => {
+    registerEmail(emailInput, ''); 
+    setEmailInput('');
+  };
+  
+  const handleRegisterCode = () => {
+    registerEmail('', codeInput);
+    setCodeInput('');
+  };
+  const handleRegisterReset = () => {
+    registerEmail('', 'reset'); 
+  };
 
   if (!userData || !userData.player) {
     return <div>Loading user data...</div>;
@@ -85,6 +102,104 @@ const MeStats = () => {
                       : userData.player.status === 'frozen' 
                       ? 'Frozen' 
                       : 'Verified'}</td>
+                </tr>
+                <tr>
+                  <th>Email:</th>
+                  <td>
+                    {userData?.user?.email ? (
+                      // Case 1: email is registered
+                      <div>
+                        {userData.user.email}<br/>
+                        <button
+                          onClick={handleRegisterReset}
+                          style={{
+                            padding: '8px 16px',
+                            backgroundColor: '#007bff',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          Reset
+                        </button>
+                      </div>
+                    ) : userData?.user?.pendingEmail ? (
+                      // Case 2: registration has been requested, but not confirmed
+                      <div>
+                        Confirmation code: <br/>
+                        <input
+                          type="code"
+                          placeholder="Enter your code"
+                          value={codeInput}
+                          onChange={(e) => setCodeInput(e.target.value)}
+                          style={{
+                            padding: '8px',
+                            marginRight: '10px',
+                            border: '1px solid #ccc',
+                            borderRadius: '4px',
+                          }}
+                        /><br/>
+                        <button
+                          onClick={handleRegisterCode}
+                          style={{
+                            padding: '8px 16px',
+                            backgroundColor: '#007bff',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          Submit
+                        </button>
+                        <button
+                          onClick={handleRegisterReset}
+                          style={{
+                            padding: '8px 16px',
+                            backgroundColor: '#007bff',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          Reset
+                        </button>
+                      </div>
+                    ) : (
+                      // Case 3: no registration made
+                      <div>
+                        Register email:<br/>
+                        <input
+                          type="email"
+                          placeholder="Enter your email"
+                          value={emailInput}
+                          onChange={(e) => setEmailInput(e.target.value)}
+                          style={{
+                            padding: '8px',
+                            marginRight: '10px',
+                            border: '1px solid #ccc',
+                            borderRadius: '4px',
+                          }}
+                        /><br/>
+                        <button
+                          onClick={handleRegisterEmail}
+                          style={{
+                            padding: '8px 16px',
+                            backgroundColor: '#007bff',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                          }}
+                        >
+                          Submit
+                        </button>
+                      </div>
+                    )}
+
+                  </td>
                 </tr>
                 {userData.user.nicknameOverride && userData.user.nicknameOverride.trim() !== '' && (
                 <>

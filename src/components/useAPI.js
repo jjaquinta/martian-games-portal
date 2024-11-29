@@ -221,6 +221,18 @@ export const useApi = () => {
       "Password change request failed"
     );
   };
+  
+  const registerEmail = async (email, code) => {
+    const bodyParams = { email, code };
+    const url = `register/email`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => updateUserData({ user: data }),
+      "Email registry request failed"
+    );
+  };
 
   const lookupByID = async (id) => {  
     const result = await lookupUser(id, '', '', '', '', '', '', '');
@@ -272,6 +284,10 @@ export const useApi = () => {
     localStorage.removeItem('userData');
     api_token = ""; // Clear token on logout
   };
+  
+  const quickSwitch = (game, login) => {
+    // TBD
+  };
 
   return {
     login,
@@ -294,5 +310,7 @@ export const useApi = () => {
     takeAction,
     lookupReport,
     updateUserData,
+    registerEmail,
+    quickSwitch,
   };
 };
