@@ -1,0 +1,21 @@
+.control-buttons {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .control-buttons button {
+    width: 50px;
+    height: 30px;
+    font-size: 9px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #f0f0f0;
+    color: #000000;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .control-buttons button:hover {
+    background-color: #e0e0e0;
+  }
