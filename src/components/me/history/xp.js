@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../../UserContext'; // Import UserContext to access user data
-import XPHistory from '../../XPHistory';
+import XPHistory from '../../ctrl/XPHistory';
 import './nicknames.css'; // Import the CSS file for styling
 
 const MeHistoryXP = () => {

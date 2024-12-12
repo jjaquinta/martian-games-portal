@@ -34,33 +34,7 @@
   tbody tr:nth-child(odd) {
     background-color: #ffffff;
   }
-  
-  /* Pagination Controls */
-  .pagination-controls {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;
-  }
-  
-  .page-button {
-    background-color: #1a044d;
-    color: #fff;
-    border: none;
-    margin: 0 5px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .page-button:hover {
-    background-color: rgb(75, 13, 246);
-  }
-  
-  .page-button.active {
-    background-color: #4b0df6;
-    font-weight: bold;
-  cursor: default;
-  }  
+ 
   /* src/components/me/history/nicknames.css */
 
 .history-title {

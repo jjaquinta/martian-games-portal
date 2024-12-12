@@ -6,7 +6,7 @@ import './lobbychat.css';
 
 const GameLobbyChat = () => {
   const { userData } = useContext(UserContext);
-  const { lookupLobbyChat, lookupByLogin, lookupByNickname, lookupByLevel } = useApi();
+  const { lookupLobbyChat, lookupUserByLogin, lookupUserByNickname, lookupUserByLevel } = useApi();
   const [limit, setLimit] = useState('20');
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef(null);
@@ -103,14 +103,14 @@ const GameLobbyChat = () => {
                 <tr key={index}>
                   <td>{rec.time}</td>
                   {isDeputy && <td>
-                    {rec.login != null && <span className="name-link" onClick={() => lookupByLogin(rec.login)}>
+                    {rec.login != null && <span className="name-link" onClick={() => lookupUserByLogin(rec.login)}>
                       {rec.login}
                     </span>}
                   </td>}
-                  <td>{rec.nickname != null && <span className="name-link" onClick={() => lookupByNickname(rec.nickname)}>
+                  <td>{rec.nickname != null && <span className="name-link" onClick={() => lookupUserByNickname(rec.nickname)}>
                     {rec.nickname}
                   </span>}</td>
-                  <td><span className="name-link" onClick={() => lookupByLevel(rec.level)}>{rec.level}</span></td>
+                  <td><span className="name-link" onClick={() => lookupUserByLevel(rec.level)}>{rec.level}</span></td>
                   <td><div className="scrollable-cell">{rec.message}</div></td>
                   {isDeputy && <td>{rec.ip}</td>}
                 </tr>

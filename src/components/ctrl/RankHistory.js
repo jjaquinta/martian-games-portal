@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MGServices } from './MGServices'; // Import MGServices for date formatting
+import { MGServices } from '../MGServices'; // Import MGServices for date formatting
 
 const RankHistory = ({ user }) => {
   // Pagination states

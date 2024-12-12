@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MGServices } from './MGServices'; // Import MGServices for date formatting
+import { MGServices } from '../MGServices'; // Import MGServices for date formatting
 
 const XPHistory = ({ user }) => {
   // Pagination states
@@ -31,6 +31,8 @@ const XPHistory = ({ user }) => {
               <th>Date</th>
               <th>XP</th>
               <th>Level</th>
+              <th>Change</th>
+              <th>Rate</th>
             </tr>
           </thead>
           <tbody>
@@ -39,6 +41,8 @@ const XPHistory = ({ user }) => {
                 <td>{MGServices.toDate(entry.timestamp)}</td>
                 <td>{entry.xp.toLocaleString()}</td>
                 <td>{entry.level}</td>
+                <td>{entry.xpchange}</td>
+                <td>{entry.xprate}</td>
               </tr>
             ))}
           </tbody>

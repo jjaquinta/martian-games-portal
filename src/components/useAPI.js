@@ -169,8 +169,120 @@ export const useApi = () => {
       url,
       bodyParams,
       (data) => updateUserData({ lookupReportData: data }),
-      "User lookup request failed"
+      "Report lookup request failed"
     );
+  };
+
+  const lookupReportByID = async (id, destination = '/portal/admin/reports') => {  
+    const result = await lookupReport(id, '', '', '', '', '', '', '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Login failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+  
+  const lookupReportByLogin = async (login, destination = '/portal/admin/reports') => {  
+    const result = await lookupReport('', login, '', '', '', '', '', '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Login failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
+  const lookupReportByNickname = async (nickname, destination = '/portal/admin/reports') => {  
+    const result = await lookupReport('', '', nickname, '', '', '', '', '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Login failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
+  const lookupReportByLevel = async (level, destination = '/portal/admin/reports') => {  
+    const result = await lookupReport('', '', '', level, '', '', '', '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Login failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+  
+  const lookupReportByReportLogin = async (login, destination = '/portal/admin/reports') => {  
+    const result = await lookupReport('', '', '', '', login, '', '', '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Login failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
+  const lookupReportByReportNickname = async (nickname, destination = '/portal/admin/reports') => {  
+    const result = await lookupReport('', '', '', '', '', nickname, '', '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Login failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
+  const lookupReportByReportLevel = async (level, destination = '/portal/admin/reports') => {  
+    const result = await lookupReport('', '', '', '', '', '', level, '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Login failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
+  const lookupLogin = async (id, login, nickname, ip, time, orderup, orderdown) => {
+    const bodyParams = { id, login, nickname, ip, time, orderup, orderdown };
+    updateUserData({ lookupLogin: bodyParams });
+    const url = `logins`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => updateUserData({ lookupLoginData: data }),
+      "Login lookup request failed"
+    );
+  };
+
+  const lookupLoginByID = async (id, destination = '/portal/admin/logins') => {  
+    const result = await lookupLogin(id, '', '', '', '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Login failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
+  const lookupLoginByLogin = async (login, destination = '/portal/admin/logins') => {  
+    const result = await lookupLogin('', login, '', '', '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Login failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
+  const lookupLoginByNickname = async (nickname, destination = '/portal/admin/logins') => {  
+    const result = await lookupLogin('', '', nickname, '', '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Login failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
+  const lookupLoginByIP = async (ip, destination = '/portal/admin/logins') => {  
+    const result = await lookupLogin('', '', '', ip, '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Login failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
   };
 
   const takeAction = async (login, action, audit) => {
@@ -234,7 +346,7 @@ export const useApi = () => {
     );
   };
 
-  const lookupByID = async (id) => {  
+  const lookupUserByID = async (id) => {  
     const result = await lookupUser(id, '', '', '', '', '', '', '');
     if (!result.success) {
       console.error('Login failed:', result.error || result.status);
@@ -243,39 +355,39 @@ export const useApi = () => {
     }
   };
 
-  const lookupByLogin = async (login) => {  
+  const lookupUserByLogin = async (login, destination = '/portal/game/lookup') => {  
     const result = await lookupUser('', login, '', '', '', '', '', '');
     if (!result.success) {
       console.error('Login failed:', result.error || result.status);
     } else {
-      navigate(`/portal/game/lookup`);
+      navigate(destination);
     }
   };
 
-  const lookupByNickname = async (nickname) => {  
+  const lookupUserByNickname = async (nickname, destination = '/portal/game/lookup') => {  
     const result = await lookupUser('', '', nickname, '', '', '', '', '');
     if (!result.success) {
       console.error('Login failed:', result.error || result.status);
     } else {
-      navigate(`/portal/game/lookup`);
+      navigate(destination);
     }
   };
 
-  const lookupByLevel = async (level) => {  
+  const lookupUserByLevel = async (level, destination = '/portal/game/lookup') => {  
     const result = await lookupUser('', '', '', level, '', '', '', '');
     if (!result.success) {
       console.error('Login failed:', result.error || result.status);
     } else {
-      navigate(`/portal/game/lookup`);
+      navigate(destination);
     }
   };
 
-  const lookupByIP = async (ip) => {  
+  const lookupUserByIP = async (ip, destination = '/portal/game/lookup') => {  
     const result = await lookupUser('', '', '', '', ip, '', '', '');
     if (!result.success) {
       console.error('Login failed:', result.error || result.status);
     } else {
-      navigate(`/portal/game/lookup`);
+      navigate(destination);
     }
   };
 
@@ -332,13 +444,25 @@ export const useApi = () => {
     changePassword,
     setSuccess,
     loading,
-    lookupByID,
-    lookupByLogin,
-    lookupByNickname,
-    lookupByLevel,
-    lookupByIP,
+    lookupUserByID,
+    lookupUserByLogin,
+    lookupUserByNickname,
+    lookupUserByLevel,
+    lookupUserByIP,
     takeAction,
     lookupReport,
+    lookupReportByID,
+    lookupReportByLogin,
+    lookupReportByNickname,
+    lookupReportByLevel,
+    lookupReportByReportLogin,
+    lookupReportByReportNickname,
+    lookupReportByReportLevel,
+    lookupLogin,
+    lookupLoginByID,
+    lookupLoginByLogin,
+    lookupLoginByNickname,
+    lookupLoginByIP,
     updateUserData,
     registerEmail,
     quickSwitch,

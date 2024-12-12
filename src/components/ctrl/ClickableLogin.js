@@ -1,14 +1,14 @@
 import React from 'react';
-import { useApi } from './useAPI';
+import { useApi } from '../useAPI';
 
 const ClickableLogin = ({ login, text }) => {
-  const { lookupByLogin } = useApi();
+  const { lookupUserByLogin } = useApi();
 
   return (
     <td valign="top">
       <span
         style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
-        onClick={() => lookupByLogin(login)}
+        onClick={() => lookupUserByLogin(login)}
       >
         { text && text.trim() ? text : login }
       </span>

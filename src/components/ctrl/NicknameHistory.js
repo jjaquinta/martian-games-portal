@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MGServices } from './MGServices'; // Ensure MGServices is correctly imported
+import { MGServices } from '../MGServices'; // Ensure MGServices is correctly imported
 
 const NicknameHistory = ({ user }) => {
   // Pagination states

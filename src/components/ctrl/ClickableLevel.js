@@ -1,14 +1,14 @@
 import React from 'react';
-import { useApi } from './useAPI';
+import { useApi } from '../useAPI';
 
 const ClickableLevel = ({ level, text }) => {
-  const { lookupByLevel } = useApi();
+  const { lookupUserByLevel } = useApi();
 
   return (
     <td valign="top">
       <span
         style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
-        onClick={() => lookupByLevel(level)}
+        onClick={() => lookupUserByLevel(level)}
       >
         { text && text.trim() ? text : level }
       </span>

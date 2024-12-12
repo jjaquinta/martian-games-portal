@@ -1,46 +1,7 @@
-.scrollable-cell {
-    max-height: 50px; /* Set the maximum height */
-    overflow-y: hidden; /* Hidden by default */
-    white-space: nowrap; /* Prevent text wrapping */
-    transition: overflow 0.3s; /* Smooth transition */
-  }
-  
-  .scrollable-cell:hover {
-    overflow-y: auto; /* Show scroll bar on hover */
-    cursor: pointer; /* Change cursor to pointer on hover */
-  }
-  
-  /* ... existing styles ... */
 
-.input-field {
-    border: 1px solid #ccc; /* Light gray border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px; /* Padding for better spacing */
-    font-size: 16px; /* Font size for readability */
-    width: 100%; /* Full width */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus */
+  .form-container form {
+    display: flex;
+    flex-wrap: wrap; /* Wraps elements to the next line if needed */
+    gap: 10px; /* Space between fields */
   }
-  
-  .input-field:focus {
-    border-color: #76c7c0; /* Change border color on focus */
-    box-shadow: 0 0 5px rgba(118, 199, 192, 0.5); /* Highlight effect on focus */
-    outline: none; /* Remove default outline */
-  }
-  
-  /* Optional: Style for labels */
-  .label {
-    font-weight: bold; /* Bold labels */
-    margin-bottom: 5px; /* Space between label and input */
-    display: block; /* Make labels block elements */
-  }
-  
-  .nickname-hover {
-    color: blue; /* Initial color */
-    transition: color 0.3s, text-shadow 0.3s; /* Smooth transition */
-}
 
-.nickname-hover:hover {
-    color: #00f; /* Brighter blue on hover */
-    text-shadow: 0px 0px 8px rgba(0, 174, 255, 0.8);
-}

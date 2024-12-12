@@ -1,24 +1,31 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
 import './reports.css';
 import LoadingSpinner from '../loadingspinner';
+import AdminUserLogin from '../ctrl/AdminUserLogin';
+import AdminUserNickname from '../ctrl/AdminUserNickname';
+import AdminUserLevel from '../ctrl/AdminUserLevel';
+import AdminLoginLogin from '../ctrl/AdminLoginLogin';
+import AdminLoginNickname from '../ctrl/AdminLoginNickname';
+import AdminReporterLogin from '../ctrl/AdminReporterLogin';
+import AdminReporterNickname from '../ctrl/AdminReporterNickname';
+import AdminReporterLevel from '../ctrl/AdminReporterLevel';
+import AdminReportedLogin from '../ctrl/AdminReportedLogin';
+import AdminReportedNickname from '../ctrl/AdminReportedNickname';
+import AdminReportedLevel from '../ctrl/AdminReportedLevel';
 
-const MeReports = () => {
+const AdminReports = () => {
   const { setUserData, userData } = useContext(UserContext);
-  const { lookupReport, lookupUserByLevel, lookupUserByNickname, lookupUserByLogin, updateUserData } = useApi();
+  const { lookupReport, updateUserData } = useApi();
   const lookupReportData = userData?.lookupReportData || [];
-  const [selectedOption, setSelectedOption] = useState('');
   const lookupReportColumns = { nickname: false, level: false, reportNickname: false, reportLevel: false };
   
-  const isDeputy = userData?.user?.deputy;
-  const isAdmin = userData?.user?.admin;
-
     lookupReportData.forEach((rec) => {
         if (rec.nickname != null) {
             lookupReportColumns.nickname = true;
         }
-        if (rec.level != null) { // Corrected typo from 'levl' to 'level'
+        if (rec.level != null) { 
             lookupReportColumns.level = true;
         }
         if (rec.reportNickname != null) {
@@ -101,40 +108,11 @@ const MeReports = () => {
     }));
   };
 
-    // Handle the radio button selection
-  const handleSelection = (option) => {
-    setSelectedOption(option);
-    if (option === 'byMe') {
-        setUserData((prevData) => ({
-          ...prevData,
-          lookupReport: {
-            ...prevData.lookupReport,
-            login: userData.player.login,
-            reportlogin: ''
-          },
-        }));
-    } else if (option === 'aboutMe') {
-        setUserData((prevData) => ({
-          ...prevData,
-          lookupReport: {
-            ...prevData.lookupReport,
-            login: '',
-            reportlogin: userData.player.login
-          },
-        }));
-    }
-  };
-
   const handleSubmit = async (e) => {
     if (e != null) {
       e.preventDefault();
     }
-    var id = userData?.lookupReport?.id || '';
-    if (!isDeputy) {
-        id = '';
-    }
-  
-    const result = await lookupReport(id, 
+    const result = await lookupReport(userData?.lookupReport?.id || '', 
       userData?.lookupReport?.login || '', 
       userData?.lookupReport?.nickname || '', 
       userData?.lookupReport?.level || '', 
@@ -190,13 +168,6 @@ const MeReports = () => {
   const doClear = async () => {
     var login = '';
     var reportlogin = '';
-    if (selectedOption === 'byMe') {
-        login= userData.player.login;
-        reportlogin= '';
-    } else if (selectedOption === 'aboutMe') {
-        login= '';
-        reportlogin= userData.player.login;
-    }
     const result = await lookupReport('', 
       login, 
       '', 
@@ -224,13 +195,6 @@ const MeReports = () => {
 
     var login = '';
     var reportlogin = '';
-    if (selectedOption === 'byMe') {
-        login= userData.player.login;
-        reportlogin= '';
-    } else if (selectedOption === 'aboutMe') {
-        login= '';
-        reportlogin= userData.player.login;
-    }
     const result = await lookupReport(id, 
       login,
       '', 
@@ -251,8 +215,7 @@ const MeReports = () => {
 
   return (
     <div>
-      <h1>{userData.gameInfo.gameDisplayName} Reports</h1>
-      <p>Look up reports made by your fellow players in the system.</p>
+      <h1>{userData.gameInfo.gameDisplayName} Reports Lookup</h1>
 
       <div className="form-container">
         <form onSubmit={handleSubmit}>
@@ -270,60 +233,31 @@ const MeReports = () => {
           >
             Refresh
           </button>
-          {isDeputy && (
-            <>
-              <input
-                type="text"
-                name="lookupReportID"
-                placeholder="REP#"
-                value={userData?.lookupReport?.id || ''}
-                onChange={setLookupID}
-                className="input-field"
-              />
-              <input
-                type="text"
-                name="lookupReportLogin"
-                placeholder="Reporter Login"
-                value={userData?.lookupReport?.login || ''}
-                onChange={setLookupLogin}
-                className="input-field"
-              />
-              <input
-                type="text"
-                name="lookupReportReportLogin"
-                placeholder="Reported Login"
-                value={userData?.lookupReport?.reportlogin || ''}
-                onChange={setLookupReportLogin}
-                className="input-field"
-              />
-              <br/>
-            </>
-          )}
-          {!isDeputy && (
-            <>
-              <label>&nbsp;&nbsp;
-                <input
-                  type="radio"
-                  name="reportOption"
-                  value="byMe"
-                  checked={selectedOption === 'byMe'}
-                  onChange={() => handleSelection('byMe')}
-                />
-                Reports by Me
-              </label>
-              <label>&nbsp;&nbsp;
-                <input
-                  type="radio"
-                  name="reportOption"
-                  value="aboutMe"
-                  checked={selectedOption === 'aboutMe'}
-                  onChange={() => handleSelection('aboutMe')}
-                />
-                Reports about Me
-              </label>
-              <br/>
-            </>
-          )}
+          <input
+            type="text"
+            name="lookupReportID"
+            placeholder="REP#"
+            value={userData?.lookupReport?.id || ''}
+            onChange={setLookupID}
+            className="input-field"
+          />
+          <input
+            type="text"
+            name="lookupReportLogin"
+            placeholder="Reporter Login"
+            value={userData?.lookupReport?.login || ''}
+            onChange={setLookupLogin}
+            className="input-field"
+          />
+          <input
+            type="text"
+            name="lookupReportReportLogin"
+            placeholder="Reported Login"
+            value={userData?.lookupReport?.reportlogin || ''}
+            onChange={setLookupReportLogin}
+            className="input-field"
+          />
+          <br/>
           <button
             className="refresh-button"
             onMouseOver={(e) => {
@@ -377,7 +311,7 @@ const MeReports = () => {
         <LoadingSpinner />
       ) : Array.isArray(lookupReportData) && lookupReportData.length > 0 ? (
         lookupReportData.length === 1 ? (
-          <SingleReportTable rec={lookupReportData[0]} isAdmin={isAdmin} isDeputy={isDeputy} isMe={lookupReportData[0].login === userData.player.login}/>
+          <SingleReportTable rec={lookupReportData[0]} />
         ) : (
           <div className="table-container">
             <table id="matches">
@@ -559,55 +493,45 @@ const MeReports = () => {
                       </span>
                     </td>
                     <td>{rec.time}</td>
-                    {isDeputy && 
                     <td>
-                      <span
-                        className="nickname-hover"
-                        onClick={() => lookupUserByLogin(rec.login)}
-                      >
-                        {rec.login}
-                      </span>
-                    </td>}
+                      {rec.login}
+                      <AdminUserLogin val={rec.login}/>
+                      <AdminLoginLogin val={rec.login}/>
+                      <AdminReporterLogin val={rec.login}/>
+                      <AdminReportedLogin val={rec.login}/>
+                    </td>
                     {lookupReportColumns.nickname && (<td>
-                      <span
-                        className="nickname-hover"
-                        onClick={() => lookupUserByNickname(rec.nickname)}
-                      >
-                        {rec.nickname}
-                      </span>
+                      {rec.nickname}
+                      <AdminUserNickname val={rec.nickname}/>
+                      <AdminLoginNickname val={rec.nickname}/>
+                      <AdminReporterNickname val={rec.nickname}/>
+                      <AdminReportedNickname val={rec.nickname}/>
                     </td>)}
                     {lookupReportColumns.level && (<td>
-                      <span
-                        className="nickname-hover"
-                        onClick={() => lookupUserByLevel(rec.level)}
-                      >
-                        {rec.level}
-                      </span>
+                      {rec.level}
+                      <AdminUserLevel val={rec.level}/>
+                      <AdminReporterLevel val={rec.level}/>
+                      <AdminReportedLevel val={rec.level}/>
                     </td>)}
-                    {isDeputy && 
                     <td>
-                      <span
-                        className="nickname-hover"
-                        onClick={() => lookupUserByLogin(rec.reportLogin)}
-                      >
-                        {rec.reportLogin}
-                      </span>
-                    </td>}
-                    <td>
-                      <span
-                        className="nickname-hover"
-                        onClick={() => lookupUserByNickname(rec.reportNickname)}
-                      >
-                        {rec.reportNickname}
-                      </span>
+                      {rec.reportLogin}
+                      <AdminUserLogin val={rec.reportLogin}/>
+                      <AdminLoginLogin val={rec.reportLogin}/>
+                      <AdminReporterLogin val={rec.reportLogin}/>
+                      <AdminReportedLogin val={rec.reportLogin}/>
                     </td>
                     <td>
-                      <span
-                        className="nickname-hover"
-                        onClick={() => lookupUserByLevel(rec.reportLevel)}
-                      >
-                        {rec.reportLevel}
-                      </span>
+                      {rec.reportNickname}
+                      <AdminUserNickname val={rec.reportNickname}/>
+                      <AdminLoginNickname val={rec.reportNickname}/>
+                      <AdminReporterNickname val={rec.reportNickname}/>
+                      <AdminReportedNickname val={rec.reportNickname}/>
+                    </td>
+                    <td>
+                      {rec.reportLevel}
+                      <AdminUserLevel val={rec.reportLevel}/>
+                      <AdminReporterLevel val={rec.reportLevel}/>
+                      <AdminReportedLevel val={rec.reportLevel}/>
                     </td>
                   </tr>
                 ))}
@@ -622,92 +546,78 @@ const MeReports = () => {
   );
 };
 
-const SingleReportTable = ({ rec, isAdmin, isDeputy, isMe }) => {
-  const { lookupUserByLevel, lookupUserByNickname, lookupUserByLogin } = useApi(); 
- 
+const SingleReportTable = ({ rec }) => {
   return (
     <>
   <table>
-      <tr>
-        <th>ID</th>
-        <td>REP#{rec.id}</td>
-      </tr>
-      <tr>
-        <th>Time</th>
-        <td>{rec.time}</td>
-      </tr>
-      <tr>
-        <th>Type</th>
-        <td>{rec.type}</td>
-      </tr>
-    {isDeputy && (
-      <tr>
-        <th>Reporter Login</th>
-        <td>
-            <span
-                className="nickname-hover"
-                onClick={() => lookupUserByLogin(rec.login)}
-            >
-                {rec.login}
-            </span>
-        </td>
-      </tr>
-    )}
+    <tr>
+      <th>ID</th>
+      <td>REP#{rec.id}</td>
+    </tr>
+    <tr>
+      <th>Time</th>
+      <td>{rec.time}</td>
+    </tr>
+    <tr>
+      <th>Type</th>
+      <td>{rec.type}</td>
+    </tr>
+    <tr>
+      <th>Reporter Login</th>
+      <td>
+        {rec.login}
+        <AdminUserLogin val={rec.login}/>
+        <AdminLoginLogin val={rec.login}/>
+        <AdminReporterLogin val={rec.login}/>
+        <AdminReportedLogin val={rec.login}/>
+      </td>
+    </tr>
     <tr>
       <th>Reporter Nickname</th>
       <td>
-        <span
-          className="nickname-hover"
-          onClick={() => lookupUserByNickname(rec.nickname)}
-        >
-          {rec.nickname}
-        </span>
+        {rec.nickname}
+        <AdminUserNickname val={rec.nickname}/>
+        <AdminLoginNickname val={rec.nickname}/>
+        <AdminReporterNickname val={rec.nickname}/>
+        <AdminReportedNickname val={rec.nickname}/>
       </td>
     </tr>
     <tr>
       <th>Reporter Level</th>
       <td>
-        <span
-          className="nickname-hover"
-          onClick={() => lookupUserByLevel(rec.level)}
-        >
           {rec.level}
-        </span>
+          <AdminUserLevel val={rec.level}/>
+          <AdminReporterLevel val={rec.level}/>
+          <AdminReportedLevel val={rec.level}/>
       </td>
     </tr>
-    {isDeputy && (
-      <tr>
-        <th>Reported Login</th>
-        <td>
-            <span
-                className="nickname-hover"
-                onClick={() => lookupUserByLogin(rec.reportLogin)}
-            >
-                {rec.reportLogin}
-            </span>
-        </td>
-      </tr>
-    )}
+    <tr>
+      <th>Reported Login</th>
+      <td>
+        {rec.reportLogin}
+        <AdminUserLogin val={rec.reportLogin}/>
+        <AdminLoginLogin val={rec.reportLogin}/>
+        <AdminReporterLogin val={rec.reportLogin}/>
+        <AdminReportedLogin val={rec.reportLogin}/>
+      </td>
+    </tr>
     <tr>
       <th>Reported Nickname</th>
       <td>
-        <span
-          className="nickname-hover"
-          onClick={() => lookupUserByNickname(rec.reportNickname)}
-        >
-          {rec.reportNickname}
-        </span>
+        {rec.reportNickname}
+        <AdminUserNickname val={rec.reportNickname}/>
+        <AdminLoginNickname val={rec.reportNickname}/>
+        <AdminReporterNickname val={rec.reportNickname}/>
+        <AdminReportedNickname val={rec.reportNickname}/>
       </td>
     </tr>
     <tr>
       <th>Reported Level</th>
       <td>
-        <span
-          className="nickname-hover"
-          onClick={() => lookupUserByLevel(rec.reportLevel)}
-        >
-          {rec.reportLevel}
-        </span>
+        {rec.reportLevel}
+        <AdminUserLevel val={rec.reportLevel}/>
+        <AdminReporterLevel val={rec.reportLevel}/>
+        <AdminReportedLevel val={rec.reportLevel}/>
       </td>
     </tr>
       <tr>
@@ -715,7 +625,7 @@ const SingleReportTable = ({ rec, isAdmin, isDeputy, isMe }) => {
         <td>{rec.room}</td>
       </tr>
   </table>
-    {isDeputy && (rec.transcript != null) && (
+    {(rec.transcript != null) && (
       <>
       <h2>Transcript</h2>
         <table>
@@ -747,4 +657,4 @@ const SingleReportTable = ({ rec, isAdmin, isDeputy, isMe }) => {
   );
 };
 
-export default MeReports;
+export default AdminReports;

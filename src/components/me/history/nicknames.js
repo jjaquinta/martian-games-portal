@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../../UserContext'; // Import UserContext to access user data
-import NicknameHistory from '../../NicknameHistory';
+import NicknameHistory from '../../ctrl/NicknameHistory';
 import './nicknames.css'; // Import the CSS file for styling
 
 const MeHistoryNicknames = () => {

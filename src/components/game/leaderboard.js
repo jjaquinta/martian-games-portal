@@ -60,7 +60,7 @@ const GameLeaderboard = () => {
   const [mode, setMode] = useState('current.xp');
   const [recent, setRecent] = useState('false');
   const { userData } = useContext(UserContext);
-  const { lookupByID, lookupByLevel, updateLeaderboard } = useApi();
+  const { lookupUserByID, lookupUserByLevel, updateLeaderboard } = useApi();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false); // Add loading state
@@ -129,13 +129,13 @@ const GameLeaderboard = () => {
                   <tr key={index}>
                     <td valign="top">{indexOfFirstItem + index + 1}</td>
                     <td valign="top">
-                      <span className="name-link" onClick={() => lookupByID(rec.current.id)}>
+                      <span className="name-link" onClick={() => lookupUserByID(rec.current.id)}>
                         {rec.current.nickname}
                       </span>
                     </td>
                     <td align="right" valign="top">{rec.current.experience.toLocaleString()}</td>
                     <td align="right" valign="top">
-                      <span className="name-link" onClick={() => lookupByLevel(rec.current.level)}>
+                      <span className="name-link" onClick={() => lookupUserByLevel(rec.current.level)}>
                         {rec.current.level}
                       </span>
                     </td>

@@ -25,6 +25,9 @@ import Contact from './components/public/contact';
 import PublicYouTube from './components/public/youtube';
 import BetaNews from './components/beta/news';
 import BetaMap from './components/beta/map';
+import AdminPlayers from'./components/admin/players';
+import AdminReports from'./components/admin/reports';
+import AdminLogins from'./components/admin/logins';
 import AdminInvestigate from'./components/admin/investigate';
 import YouTube from './components/public/loginYoutube'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -48,7 +51,7 @@ const Layout = ({ children }) => {
   const isProtectedRoute = (location.pathname.startsWith('/portal/me') || 
   location.pathname.startsWith('/portal/game') ||
   location.pathname.startsWith('/portal/beta') ||
-  location.pathname.startsWith('/portal/admin/investigate')||
+  location.pathname.startsWith('/portal/admin')||
   location.pathname.startsWith('/portal/public'))  &&
   location.pathname !== '/portal/public/login';
                          
@@ -122,6 +125,9 @@ const router = createBrowserRouter([
         path: "admin",
         element: <ProtectedRoute><Outlet /></ProtectedRoute>,
         children: [
+          { path: "players", element: <AdminPlayers/> },
+          { path: "reports", element: <AdminReports/> },
+          { path: "logins", element: <AdminLogins/> },
           { path: "investigate", element: <AdminInvestigate/> }
         
         ]

@@ -1,16 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
 import NicknameHistory from '../ctrl/NicknameHistory';
 import XPHistory from '../ctrl/XPHistory';
 import RankHistory from '../ctrl/RankHistory';
-import './lookup.css';
+import './players.css';
 import LoadingSpinner from '../loadingspinner';
 import { MGServices } from '../MGServices';
+import AdminLinkLogin from '../ctrl/AdminLinkLogin';
+import AdminLinkNickname from '../ctrl/AdminLinkNickname';
+import AdminLinkLevel from '../ctrl/AdminLinkLevel';
+import AdminLinkIP from '../ctrl/AdminLinkIP';
 
-const GameLookup = () => {
+const AdminPlayers = () => {
   const { setUserData, userData } = useContext(UserContext);
-  const { lookupUser, lookupUserByID, lookupUserByLevel, lookupUserByIP } = useApi();
+  const { lookupUser } = useApi();
   const lookupUserData = userData?.lookupUserData || [];
 
   const setLookupID = (e) => {
@@ -138,14 +142,9 @@ const GameLookup = () => {
     }
   };
 
-  const isDeputy = userData?.user?.deputy;
-  const isAdmin = userData?.user?.admin;
-  
   return (
     <div>
-      <h1>{userData.gameInfo.gameDisplayName} Lookup</h1>
-      <p>Look up your fellow players and see how you stand against them.</p>
-
+      <h1>{userData.gameInfo.gameDisplayName} Player Lookup</h1>
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <button
@@ -162,26 +161,22 @@ const GameLookup = () => {
           >
             Refresh
           </button>
-          {isDeputy && (
-            <>
-              <input
-                type="text"
-                name="lookupID"
-                placeholder="OID"
-                value={userData?.lookup?.id || ''}
-                onChange={setLookupID}
-                className="input-field"
-              />
-              <input
-                type="text"
-                name="lookupLogin"
-                placeholder="Account ID"
-                value={userData?.lookup?.login || ''}
-                onChange={setLookupLogin}
-                className="input-field"
-              />
-            </>
-          )}
+          <input
+            type="text"
+            name="lookupID"
+            placeholder="OID"
+            value={userData?.lookup?.id || ''}
+            onChange={setLookupID}
+            className="input-field"
+          />
+          <input
+            type="text"
+            name="lookupLogin"
+            placeholder="Account ID"
+            value={userData?.lookup?.login || ''}
+            onChange={setLookupLogin}
+            className="input-field"
+          />
           <input
             type="text"
             name="lookupNickname"
@@ -198,16 +193,14 @@ const GameLookup = () => {
             onChange={setLookupLevel}
             className="input-field"
           />
-          {isDeputy && (
-            <input
-              type="text"
-              name="lookupIP"
-              placeholder="IP Address"
-              value={userData?.lookup?.ip || ''}
-              onChange={setLookupIP}
-              className="input-field"
-            />
-          )}
+          <input
+            type="text"
+            name="lookupIP"
+            placeholder="IP Address"
+            value={userData?.lookup?.ip || ''}
+            onChange={setLookupIP}
+            className="input-field"
+          />
           <select
             name="lookupCountry"
             value={userData?.lookup?.cc || ''}
@@ -242,13 +235,13 @@ const GameLookup = () => {
         <LoadingSpinner />
       ) : Array.isArray(lookupUserData) && lookupUserData.length > 0 ? (
         lookupUserData.length === 1 ? (
-          <SingleUserTable player={lookupUserData[0]} isAdmin={isAdmin} isDeputy={isDeputy} isMe={lookupUserData[0].login === userData.player.login}/>
+          <SingleUserTable player={lookupUserData[0]}/>
         ) : (
           <div className="table-container">
             <table id="matches">
               <thead>
                 <tr>
-                    {userData?.user?.deputy && (<th>
+                    <th>
                       ID
                       <span
                         style={{ 
@@ -268,8 +261,8 @@ const GameLookup = () => {
                       >
                         &#9660;
                       </span>
-                    </th>)}
-                    {userData?.user?.deputy && (<th>
+                    </th>
+                    <th>
                       Login
                       <span
                         style={{ 
@@ -289,7 +282,7 @@ const GameLookup = () => {
                       >
                         &#9660;
                       </span>
-                    </th>)}
+                    </th>
                     <th>
                       Nickname 
                       <span
@@ -353,7 +346,7 @@ const GameLookup = () => {
                         &#9660;
                       </span>
                     </th>
-                    {userData?.user?.deputy && (<th>
+                    <th>
                       IP
                       <span
                         style={{ 
@@ -373,7 +366,7 @@ const GameLookup = () => {
                       >
                         &#9660;
                       </span>
-                    </th>)}
+                    </th>
                     <th>Banned</th>
                     <th>
                       Country
@@ -401,33 +394,24 @@ const GameLookup = () => {
               <tbody>
                 {lookupUserData.map((rec, index) => (
                   <tr key={index}>
-                    {isDeputy && <td>{rec.current.id}</td>}
-                    {isDeputy && <td>{rec.current.login}</td>}
+                    <td>{rec.current.id}</td>
                     <td>
-                      <span
-                        className="nickname-hover"
-                        onClick={() => lookupUserByID(rec.current.id)}
-                      >
-                        {rec.current.nickname}
-                      </span>
+                      {rec.current.login}
+                      <AdminLinkLogin val={rec.current.login}/>
+                    </td>
+                    <td>
+                      {rec.current.nickname}
+                      <AdminLinkNickname val={rec.current.nickname}/>
                     </td>
                     <td>{rec.current.experience.toLocaleString()}</td>
                     <td>
-                      <span
-                        className="nickname-hover"
-                        onClick={() => lookupUserByLevel(rec.current.level)}
-                      >
-                        {rec.current.level}
-                      </span>
+                      {rec.current.level}
+                      <AdminLinkLevel val={rec.current.level}/>
                     </td>
-                    {isDeputy && <td>
-                      <span
-                        className="nickname-hover"
-                        onClick={() => lookupUserByIP(rec.current.ip)}
-                      >
-                        {rec.current.ip}
-                      </span>
-                    </td>}
+                    <td>
+                      {rec.current.ip}
+                      <AdminLinkIP val={rec.current.ip}/>
+                    </td>
                     <td>{rec.current.banned ? 'Yes' : 'No'}</td>
                     <td>{rec.current.countryCode}</td>
                   </tr>
@@ -443,92 +427,23 @@ const GameLookup = () => {
   );
 };
 
-const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
-  const { userData } = useContext(UserContext);
-  const { lookupUserByLevel, lookupUserByNickname, takeAction } = useApi(); 
-  const [banUIVisible, setBanUIVisible] = useState(false);
-  const [reinstateUIVisible, setReinstateUIVisible] = useState(false);
-  const [audit, setAudit] = useState('');
-
-  const handleBanStart = () => {
-    setBanUIVisible(true);
-  };
-
-  const handleBanSubmit = async () => {
-    await takeAction(user.current.login, 'ban', audit);
-    setBanUIVisible(false);
-  };
-  
-  const handleBanCancel = () => {
-    setBanUIVisible(false);
-  };
-
-  const handleReinstateStart = () => {
-    setReinstateUIVisible(true);
-  };
-
-  const handleReinstateSubmit = async () => {
-    await takeAction(user.current.login, 'unban', audit);
-    setReinstateUIVisible(false);
-  };
-  
-  const handleReinstateCancel = () => {
-    setReinstateUIVisible(false);
-  };
+const SingleUserTable = ({ player: user }) => {
 
   return (
     <>
-    {isAdmin && (
-      <>
-      {!user.current.banned && (<button onClick={handleBanStart}>Ban</button>)}
-      {user.current.banned && (<button onClick={handleReinstateStart}>Reinstate</button>)}
-      <br/>
-      {banUIVisible && (
-        <div id="banUI">
-          <input
-                type="text"
-                name="audit"
-                placeholder="Reason"
-                value={audit}
-                onChange={(e) => setAudit(e.target.value)}
-                className="input-field"
-              />
-          <button onClick={handleBanSubmit}>Submit</button>
-          <button onClick={handleBanCancel}>Cancel</button>
-        </div>
-      )}
-      {reinstateUIVisible && (
-        <div id="banUI">
-          <input
-                type="text"
-                name="audit"
-                placeholder="Reason"
-                value={audit}
-                onChange={(e) => setAudit(e.target.value)}
-                className="input-field"
-              />
-          <button onClick={handleReinstateSubmit}>Submit</button>
-          <button onClick={handleReinstateCancel}>Cancel</button>
-        </div>
-      )}
-      </>
-    )}
   <table>
-    {isDeputy && (
-      <tr>
-        <th>Login</th>
-        <td>{user.current.login}</td>
-      </tr>
-    )}
+    <tr>
+      <th>Login</th>
+      <td>
+        {user.current.login}
+        <AdminLinkLogin val={user.current.login}/>
+      </td>
+    </tr>
     <tr>
       <th>Nickname</th>
       <td>
-        <span
-          className="nickname-hover"
-          onClick={() => lookupUserByNickname(user.current.nickname)}
-        >
-          {user.current.nickname}
-        </span>
+        {user.current.nickname}
+        <AdminLinkNickname val={user.current.nickname}/>
       </td>
     </tr>
     <tr>
@@ -538,12 +453,8 @@ const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
     <tr>
       <th>Level</th>
       <td>
-        <span
-          className="nickname-hover"
-          onClick={() => lookupUserByLevel(user.current.level)}
-        >
-          {user.current.level}
-        </span>
+        {user.current.level}
+        <AdminLinkLevel val={user.current.level}/>
       </td>
     </tr>
     <tr>
@@ -562,9 +473,7 @@ const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
       <th>Joined</th>
       <td>{user.current.timeJoined}</td>
     </tr>
-    {user.current.password && user.current.password.trim() !== '' 
-    && (isDeputy || isMe)
-    && (
+    {user.current.password && user.current.password.trim() !== '' && (
       <>
         <tr>
           <th>Password:</th>
@@ -572,9 +481,7 @@ const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
         </tr>
       </>
     )}
-    {user.nicknameOverride && user.nicknameOverride.trim() !== '' 
-      && (isDeputy || isMe)
-      && (
+    {user.nicknameOverride && user.nicknameOverride.trim() !== '' && (
       <>
         <tr>
           <th>Nick Override:</th>
@@ -587,27 +494,28 @@ const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
         <tr>
           <th>Times:</th>
           <td
-          style={{
-            backgroundColor: user.nicknameOverrideTimes >= 10
-              ? 'red'
-              : user.nicknameOverrideTimes >= 5
-              ? 'yellow'
-              : 'inherit',
-          }}
-          >{user.nicknameOverrideTimes}</td>
+            style={{
+              backgroundColor:
+                user.nicknameOverrideTimes >= 10
+                  ? 'red'
+                  : user.nicknameOverrideTimes >= 5
+                  ? 'yellow'
+                  : 'inherit',
+            }}
+          >
+            {user.nicknameOverrideTimes}
+          </td>
         </tr>
       </>
     )}
   </table>
-  {userData.user?.deputy && (
-    <div>
-      <NicknameHistory user={user} />
-      <XPHistory user={user} />
-      <RankHistory user={user} />
-    </div>
-  )}
+  <div>
+    <NicknameHistory user={user} />
+    <XPHistory user={user} />
+    <RankHistory user={user} />
+  </div>
   </>
   );
 };
 
-export default GameLookup;
+export default AdminPlayers;

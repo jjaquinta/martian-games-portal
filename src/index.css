@@ -68,3 +68,125 @@ body {
   text-decoration: underline;  /* Underline links on hover */
   text-decoration-color: #00f; /* Underline color */
 }
+
+.input-field {
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px; /* Padding for better spacing */
+  font-size: 16px; /* Font size for readability */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus */
+}
+
+.input-field:focus {
+  border-color: #76c7c0; /* Change border color on focus */
+  box-shadow: 0 0 5px rgba(118, 199, 192, 0.5); /* Highlight effect on focus */
+  outline: none; /* Remove default outline */
+}
+
+.label {
+  font-weight: bold; /* Bold labels */
+  margin-bottom: 5px; /* Space between label and input */
+  display: block; /* Make labels block elements */
+}
+
+.nickname-hover {
+  transition: color 0.3s, text-shadow 0.3s; /* Smooth transition */
+  cursor: pointer;
+  color: #007bff; /* Optional: give it a distinct color to indicate it’s clickable */
+  text-decoration: none; /* Remove underline if you want */
+}
+
+.nickname-hover:hover {
+  color: #00f; /* Brighter blue on hover */
+  text-shadow: 0px 0px 8px rgba(0, 174, 255, 0.8);
+  text-decoration: underline; /* Add underline on hover for emphasis */
+}
+
+.page-button {
+  background-color: #1a044d;
+  color: #fff;
+  border: none;
+  margin: 0 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.page-button:hover {
+  background-color: rgb(75, 13, 246);
+}
+
+.page-button.active {
+  background-color: #4b0df6;
+  font-weight: bold;
+  cursor: default;
+}  
+
+
+/* General pagination button styles */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 4px; /* Small gap for button spacing */
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.pagination-controls button {
+  background-color: transparent; /* Default transparent background */
+  color: #130244; /* Text color */
+  padding: 5px 10px; /* Padding for button */
+  margin: 0 5px; /* Spacing between buttons */
+  border: 1px solid #130244; /* Border color to match text */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor */
+  transition: background-color 0.3s, transform 0.2s; /* Smooth transition */
+}
+
+/* Hover effect for pagination buttons */
+.pagination-controls button:hover {
+  background-color: rgba(19, 2, 68, 0.1); /* Light background on hover */
+}
+
+/* Active page button style */
+.pagination-controls .active {
+  background-color: #130244; /* Solid background for active page */
+  color: white; /* White text on active button */
+  font-weight: bold; /* Bold text */
+  border-color: #130244; /* Match border with background */
+}
+
+/* Refresh button styling */
+.refresh-button {
+  background-color:rgba(76, 175, 80, 0.7);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.refresh-button:hover {
+  background-color: #218838;
+}
+
+
+.scrollable-cell {
+  max-height: 50px; /* Set the maximum height */
+  overflow-y: hidden; /* Hidden by default */
+  white-space: nowrap; /* Prevent text wrapping */
+  transition: overflow 0.3s; /* Smooth transition */
+}
+
+.scrollable-cell:hover {
+  overflow-y: auto; /* Show scroll bar on hover */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}

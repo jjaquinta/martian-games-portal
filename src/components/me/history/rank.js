@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../../UserContext';
-import RankHistory from '../../RankHistory';
+import RankHistory from '../../ctrl/RankHistory';
 import './nicknames.css'; // Import the CSS file for styling
 
 function MeHistoryRank() {
