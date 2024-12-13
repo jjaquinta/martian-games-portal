@@ -3,17 +3,9 @@ import { UserContext } from '../UserContext';
 import { useApi } from '../useAPI';
 import './reports.css';
 import LoadingSpinner from '../loadingspinner';
-import AdminUserLogin from '../ctrl/AdminUserLogin';
-import AdminUserNickname from '../ctrl/AdminUserNickname';
-import AdminUserLevel from '../ctrl/AdminUserLevel';
-import AdminLoginLogin from '../ctrl/AdminLoginLogin';
-import AdminLoginNickname from '../ctrl/AdminLoginNickname';
-import AdminReporterLogin from '../ctrl/AdminReporterLogin';
-import AdminReporterNickname from '../ctrl/AdminReporterNickname';
-import AdminReporterLevel from '../ctrl/AdminReporterLevel';
-import AdminReportedLogin from '../ctrl/AdminReportedLogin';
-import AdminReportedNickname from '../ctrl/AdminReportedNickname';
-import AdminReportedLevel from '../ctrl/AdminReportedLevel';
+import AdminLinkLogin from '../ctrl/AdminLinkLogin';
+import AdminLinkNickname from '../ctrl/AdminLinkNickname';
+import AdminLinkLevel from '../ctrl/AdminLinkLevel';
 
 const AdminReports = () => {
   const { setUserData, userData } = useContext(UserContext);
@@ -233,31 +225,6 @@ const AdminReports = () => {
           >
             Refresh
           </button>
-          <input
-            type="text"
-            name="lookupReportID"
-            placeholder="REP#"
-            value={userData?.lookupReport?.id || ''}
-            onChange={setLookupID}
-            className="input-field"
-          />
-          <input
-            type="text"
-            name="lookupReportLogin"
-            placeholder="Reporter Login"
-            value={userData?.lookupReport?.login || ''}
-            onChange={setLookupLogin}
-            className="input-field"
-          />
-          <input
-            type="text"
-            name="lookupReportReportLogin"
-            placeholder="Reported Login"
-            value={userData?.lookupReport?.reportlogin || ''}
-            onChange={setLookupReportLogin}
-            className="input-field"
-          />
-          <br/>
           <button
             className="refresh-button"
             onMouseOver={(e) => {
@@ -274,6 +241,23 @@ const AdminReports = () => {
           </button>
           <input
             type="text"
+            name="lookupReportID"
+            placeholder="REP#"
+            value={userData?.lookupReport?.id || ''}
+            onChange={setLookupID}
+            className="input-field"
+          />
+          <br/>
+          <input
+            type="text"
+            name="lookupReportLogin"
+            placeholder="Reporter Login"
+            value={userData?.lookupReport?.login || ''}
+            onChange={setLookupLogin}
+            className="input-field"
+          />
+          <input
+            type="text"
             name="lookupReportNickname"
             placeholder="Reporter Nickname"
             value={userData?.lookupReport?.nickname || ''}
@@ -286,6 +270,15 @@ const AdminReports = () => {
             placeholder="Reporter Level"
             value={userData?.lookupReport?.level || ''}
             onChange={setLookupLevel}
+            className="input-field"
+          />
+          <br/>
+          <input
+            type="text"
+            name="lookupReportReportLogin"
+            placeholder="Reported Login"
+            value={userData?.lookupReport?.reportlogin || ''}
+            onChange={setLookupReportLogin}
             className="input-field"
           />
           <input
@@ -495,43 +488,27 @@ const AdminReports = () => {
                     <td>{rec.time}</td>
                     <td>
                       {rec.login}
-                      <AdminUserLogin val={rec.login}/>
-                      <AdminLoginLogin val={rec.login}/>
-                      <AdminReporterLogin val={rec.login}/>
-                      <AdminReportedLogin val={rec.login}/>
+                      <AdminLinkLogin val={rec.login}/>
                     </td>
                     {lookupReportColumns.nickname && (<td>
                       {rec.nickname}
-                      <AdminUserNickname val={rec.nickname}/>
-                      <AdminLoginNickname val={rec.nickname}/>
-                      <AdminReporterNickname val={rec.nickname}/>
-                      <AdminReportedNickname val={rec.nickname}/>
+                      <AdminLinkNickname val={rec.nickname}/>
                     </td>)}
                     {lookupReportColumns.level && (<td>
                       {rec.level}
-                      <AdminUserLevel val={rec.level}/>
-                      <AdminReporterLevel val={rec.level}/>
-                      <AdminReportedLevel val={rec.level}/>
+                      <AdminLinkLevel val={rec.level}/>
                     </td>)}
                     <td>
                       {rec.reportLogin}
-                      <AdminUserLogin val={rec.reportLogin}/>
-                      <AdminLoginLogin val={rec.reportLogin}/>
-                      <AdminReporterLogin val={rec.reportLogin}/>
-                      <AdminReportedLogin val={rec.reportLogin}/>
+                      <AdminLinkLogin val={rec.reportLogin}/>
                     </td>
                     <td>
                       {rec.reportNickname}
-                      <AdminUserNickname val={rec.reportNickname}/>
-                      <AdminLoginNickname val={rec.reportNickname}/>
-                      <AdminReporterNickname val={rec.reportNickname}/>
-                      <AdminReportedNickname val={rec.reportNickname}/>
+                      <AdminLinkNickname val={rec.reportNickname}/>
                     </td>
                     <td>
                       {rec.reportLevel}
-                      <AdminUserLevel val={rec.reportLevel}/>
-                      <AdminReporterLevel val={rec.reportLevel}/>
-                      <AdminReportedLevel val={rec.reportLevel}/>
+                      <AdminLinkLevel val={rec.reportLevel}/>
                     </td>
                   </tr>
                 ))}
@@ -566,58 +543,42 @@ const SingleReportTable = ({ rec }) => {
       <th>Reporter Login</th>
       <td>
         {rec.login}
-        <AdminUserLogin val={rec.login}/>
-        <AdminLoginLogin val={rec.login}/>
-        <AdminReporterLogin val={rec.login}/>
-        <AdminReportedLogin val={rec.login}/>
+        <AdminLinkLogin val={rec.login}/>
       </td>
     </tr>
     <tr>
       <th>Reporter Nickname</th>
       <td>
         {rec.nickname}
-        <AdminUserNickname val={rec.nickname}/>
-        <AdminLoginNickname val={rec.nickname}/>
-        <AdminReporterNickname val={rec.nickname}/>
-        <AdminReportedNickname val={rec.nickname}/>
+        <AdminLinkNickname val={rec.nickname}/>
       </td>
     </tr>
     <tr>
       <th>Reporter Level</th>
       <td>
           {rec.level}
-          <AdminUserLevel val={rec.level}/>
-          <AdminReporterLevel val={rec.level}/>
-          <AdminReportedLevel val={rec.level}/>
+          <AdminLinkLevel val={rec.level}/>
       </td>
     </tr>
     <tr>
       <th>Reported Login</th>
       <td>
         {rec.reportLogin}
-        <AdminUserLogin val={rec.reportLogin}/>
-        <AdminLoginLogin val={rec.reportLogin}/>
-        <AdminReporterLogin val={rec.reportLogin}/>
-        <AdminReportedLogin val={rec.reportLogin}/>
+        <AdminLinkLogin val={rec.reportLogin}/>
       </td>
     </tr>
     <tr>
       <th>Reported Nickname</th>
       <td>
         {rec.reportNickname}
-        <AdminUserNickname val={rec.reportNickname}/>
-        <AdminLoginNickname val={rec.reportNickname}/>
-        <AdminReporterNickname val={rec.reportNickname}/>
-        <AdminReportedNickname val={rec.reportNickname}/>
+        <AdminLinkNickname val={rec.reportNickname}/>
       </td>
     </tr>
     <tr>
       <th>Reported Level</th>
       <td>
         {rec.reportLevel}
-        <AdminUserLevel val={rec.reportLevel}/>
-        <AdminReporterLevel val={rec.reportLevel}/>
-        <AdminReportedLevel val={rec.reportLevel}/>
+        <AdminLinkLevel val={rec.reportLevel}/>
       </td>
     </tr>
       <tr>

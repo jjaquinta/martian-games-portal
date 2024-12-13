@@ -2,16 +2,9 @@ import React, { useContext } from 'react';
 import { useApi } from '../useAPI';
 import { UserContext } from '../UserContext';
 import LoadingSpinner from '../loadingspinner';
-import AdminUserLogin from '../ctrl/AdminUserLogin';
-import AdminUserNickname from '../ctrl/AdminUserNickname';
-import AdminUserIP from '../ctrl/AdminUserIP';
-import AdminLoginLogin from '../ctrl/AdminLoginLogin';
-import AdminLoginNickname from '../ctrl/AdminLoginNickname';
-import AdminLoginIP from '../ctrl/AdminLoginIP';
-import AdminReporterLogin from '../ctrl/AdminReporterLogin';
-import AdminReporterNickname from '../ctrl/AdminReporterNickname';
-import AdminReportedLogin from '../ctrl/AdminReportedLogin';
-import AdminReportedNickname from '../ctrl/AdminReportedNickname';
+import AdminLinkLogin from '../ctrl/AdminLinkLogin';
+import AdminLinkNickname from '../ctrl/AdminLinkNickname';
+import AdminLinkIP from '../ctrl/AdminLinkIP';
 
 const AdminLogins = () => {
   const { setUserData, userData } = useContext(UserContext);
@@ -339,22 +332,15 @@ const AdminLogins = () => {
                     <td>{rec.time}</td>
                     <td>
                       {rec.login}
-                      <AdminUserLogin val={rec.login}/>
-                      <AdminLoginLogin val={rec.login}/>
-                      <AdminReporterLogin val={rec.login}/>
-                      <AdminReportedLogin val={rec.login}/>
+                      <AdminLinkLogin val={rec.login}/>
                     </td>
                     <td>
                       {rec.nickname}
-                      <AdminUserNickname val={rec.nickname}/>
-                      <AdminLoginNickname val={rec.nickname}/>
-                      <AdminReporterNickname val={rec.nickname}/>
-                      <AdminReportedNickname val={rec.nickname}/>
+                      <AdminLinkNickname val={rec.nickname}/>
                     </td>
                     <td>
                       {rec.ip}
-                      <AdminUserIP val={rec.ip}/>
-                      <AdminLoginIP val={rec.ip}/>
+                      <AdminLinkIP val={rec.ip}/>
                     </td>
                   </tr>
                 ))}
@@ -385,28 +371,21 @@ const SingleLoginTable = ({ rec }) => {
       <th>Login</th>
       <td>
         {rec.login}
-        <AdminUserLogin val={rec.login}/>
-        <AdminLoginLogin val={rec.login}/>
-        <AdminReporterLogin val={rec.login}/>
-        <AdminReportedLogin val={rec.login}/>
+        <AdminLinkLogin val={rec.login}/>
       </td>
     </tr>
     <tr>
       <th>Nickname</th>
       <td>
         {rec.nickname}
-        <AdminUserNickname val={rec.nickname}/>
-        <AdminLoginNickname val={rec.nickname}/>
-        <AdminReporterNickname val={rec.nickname}/>
-        <AdminReportedNickname val={rec.nickname}/>
+        <AdminLinkNickname val={rec.nickname}/>
       </td>
     </tr>
     <tr>
       <th>IP</th>
       <td>
         {rec.ip}
-        <AdminUserIP val={rec.ip}/>
-        <AdminLoginIP val={rec.ip}/>
+        <AdminLinkIP val={rec.ip}/>
       </td>
     </tr>
     <tr>
