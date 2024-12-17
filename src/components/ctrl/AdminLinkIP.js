@@ -21,6 +21,9 @@ const AdminLinkIP = ({ val }) => {
   const handleSubMenuOpen = (event) => setSubMenuAnchor(event.currentTarget);
   const handleSubMenuClose = () => setSubMenuAnchor(null);
 
+  if (!val) {
+    return null;
+  }
   return (
     <>
       <Tooltip title="More options">

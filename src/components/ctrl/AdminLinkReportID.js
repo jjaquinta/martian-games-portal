@@ -7,8 +7,8 @@ import SubMenuIcon from '@mui/icons-material/ArrowRight';
 import Tooltip from '@mui/material/Tooltip';
 import { useApi } from '../useAPI';
 
-const AdminLinkLevel = ({ val }) => {
-  const { lookupUserByLevel, lookupReportByLevel, lookupReportByReportLevel } = useApi();
+const AdminLinkNickname = ({ val }) => {
+  const { lookupReportByID, caseCreateFromReport } = useApi();
   const [anchorEl, setAnchorEl] = useState(null);
   const [subMenuAnchor, setSubMenuAnchor] = useState(null);
 
@@ -33,17 +33,9 @@ const AdminLinkLevel = ({ val }) => {
       </Tooltip>
 
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        <MenuItem onClick={() => lookupUserByLevel(val, '/portal/admin/players')}>
-          <img src="/portal/images/search_player16.png" alt="Lookup players by level" style={{ marginRight: '8px' }} />
-          Lookup level {val} players 
-        </MenuItem>
-        <MenuItem onClick={() => lookupReportByLevel(val, '/portal/admin/reports')}>
-          <img src="/portal/images/search_reporter16.png" alt="Lookup reporters by level" style={{ marginRight: '8px' }} />
-          Lookup reports made by level {val} players
-        </MenuItem>
-        <MenuItem onClick={() => lookupReportByReportLevel(val, '/portal/admin/reports')}>
-          <img src="/portal/images/search_reported16.png" alt="Lookup reported by level" style={{ marginRight: '8px' }} />
-          Lookup reports on level {val} players
+        <MenuItem onClick={() => lookupReportByID(val, '/portal/admin/reports')}>
+          <img src="/portal/images/search_reporter16.png" alt="Lookup reports by ID" style={{ marginRight: '8px' }} />
+          Lookup REP#{val}
         </MenuItem>
 
         {/* Example of a cascading submenu */}
@@ -58,11 +50,10 @@ const AdminLinkLevel = ({ val }) => {
 
       {/* Submenu for Advanced Options */}
       <Menu anchorEl={subMenuAnchor} open={subMenuOpen} onClose={handleSubMenuClose}>
-        <MenuItem onClick={() => console.log('Advanced Option 1')}>Advanced Option 1</MenuItem>
-        <MenuItem onClick={() => console.log('Advanced Option 2')}>Advanced Option 2</MenuItem>
+        <MenuItem onClick={() => caseCreateFromReport(val)}>New Case from REP#{val}</MenuItem>
       </Menu>
     </>
   );
 };
 
-export default AdminLinkLevel;
+export default AdminLinkNickname;

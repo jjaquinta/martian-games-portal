@@ -6,10 +6,11 @@ import LoadingSpinner from '../loadingspinner';
 import AdminLinkLogin from '../ctrl/AdminLinkLogin';
 import AdminLinkNickname from '../ctrl/AdminLinkNickname';
 import AdminLinkLevel from '../ctrl/AdminLinkLevel';
+import AdminLinkReportID from '../ctrl/AdminLinkReportID';
 
 const AdminReports = () => {
   const { setUserData, userData } = useContext(UserContext);
-  const { lookupReport, updateUserData } = useApi();
+  const { lookupReport } = useApi();
   const lookupReportData = userData?.lookupReportData || [];
   const lookupReportColumns = { nickname: false, level: false, reportNickname: false, reportLevel: false };
   
@@ -171,33 +172,6 @@ const AdminReports = () => {
       '', 
       '', 
       'id', 
-      '');
-
-    if (!result.success) {
-      console.error('lookupReport failed:', result.error || result.status);
-    }
-  };
-
-  const lookupByReportID= async (id) => {
-    var slimData = lookupReportData.filter(item => item.id === id);
-    if (slimData.length === 1) {
-        updateUserData({ lookupReportData: slimData });
-        return;
-    }
-
-    var login = '';
-    var reportlogin = '';
-    const result = await lookupReport(id, 
-      login,
-      '', 
-      '', 
-      reportlogin,
-      '', 
-      '', 
-      '', 
-      '', 
-      '', 
-      '', 
       '');
 
     if (!result.success) {
@@ -478,12 +452,8 @@ const AdminReports = () => {
                 {lookupReportData.map((rec, index) => (
                   <tr key={index}>
                     <td>
-                      <span
-                        className="nickname-hover"
-                        onClick={() => lookupByReportID(rec.id)}
-                      >
-                        REP#{rec.id}
-                      </span>
+                      REP#{rec.id}
+                      <AdminLinkReportID val={rec.id}/>
                     </td>
                     <td>{rec.time}</td>
                     <td>
@@ -529,7 +499,10 @@ const SingleReportTable = ({ rec }) => {
   <table>
     <tr>
       <th>ID</th>
-      <td>REP#{rec.id}</td>
+      <td>
+        REP#{rec.id}
+        <AdminLinkReportID val={rec.id}/>
+      </td>
     </tr>
     <tr>
       <th>Time</th>

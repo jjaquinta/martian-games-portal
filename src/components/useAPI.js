@@ -174,6 +174,12 @@ export const useApi = () => {
   };
 
   const lookupReportByID = async (id, destination = '/portal/admin/reports') => {  
+    const lookupReportData = userData?.lookupReportData || [];
+    var slimData = lookupReportData.filter(item => item.id === id);
+    if (slimData.length === 1) {
+        updateUserData({ lookupReportData: slimData });
+        return;
+    }
     const result = await lookupReport(id, '', '', '', '', '', '', '', '', '', '');
     if (!result.success) {
       console.error('Lookup Login failed:', result.error || result.status);
@@ -430,6 +436,74 @@ export const useApi = () => {
       setLoading(false);
     });
   };
+  
+  const caseCreate = (title, description, plaintiffLogin, plaintiffNickname, defendantLogin, defendantNickname, evidence) => {
+    setLoading(true);
+    const bodyParams = { title, description, plaintiffLogin, plaintiffNickname, defendantLogin, defendantNickname, evidence };
+    const url = `cases/new`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => {
+        updateUserData({ caseSelected: data });
+      },
+      "Create case failed"
+    ).finally(() => {
+      setLoading(false);
+    });
+  };
+
+  const caseCreateFromReport = async (rec, destination = '/portal/admin/cases') => {  
+    const result = await caseCreate('Escalated Report', '', rec.login, rec.nickname, rec.reportLogin, rec.reportNickname, 'REP#'+rec.id);
+    if (!result.success) {
+      console.error('Create case failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+  
+  const lookupCase = async (plaintiffLogin, defendantLogin, state) => {
+    const bodyParams = { plaintiffLogin, defendantLogin, state };
+    updateUserData({ lookupCase: bodyParams });
+    const url = `cases`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => updateUserData({ lookupCaseData: data }),
+      "Case lookup request failed"
+    );
+  };
+
+  const lookupCaseNew = async (destination = '/portal/admin/cases') => {  
+    const result = await lookupCase('', '', 'new');
+    if (!result.success) {
+      console.error('Case lookup failed:', result.error || result.status);
+    } else {
+      updateUserData({ lookupCaseNewData: userData.lookupCaseData, adminCaseDisplay: 'new' });
+      navigate(destination);
+    }
+  };
+
+  const caseSelect = async (data) => {  
+    updateUserData({ caseSelected: data, adminCaseDisplay: 'selected' });
+    navigate('/portal/admin/cases');
+  };
+  
+  const caseUpdate = async (uri, title, description, state) => {
+    const bodyParams = { uri, title, description, state };
+    const url = `cases/update`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => {
+        updateUserData({ caseSelected: data });
+      },
+      "Case lookup request failed"
+    );
+  };
 
   return {
     login,
@@ -466,5 +540,11 @@ export const useApi = () => {
     updateUserData,
     registerEmail,
     quickSwitch,
+    caseCreate,
+    caseCreateFromReport,
+    lookupCase,
+    lookupCaseNew,
+    caseSelect,
+    caseUpdate,
   };
 };
