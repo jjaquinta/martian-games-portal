@@ -505,6 +505,43 @@ export const useApi = () => {
     );
   };
 
+  const lookupAnalysis = async (finished, limit) => {
+    const bodyParams = { finished, limit };
+    updateUserData({ lookupAnalysis: bodyParams });
+    const url = `analysis`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => updateUserData({ lookupAnalysisData: data }),
+      "Login analysis request failed"
+    );
+  };
+
+  const analysisDelete = async (uri) => {
+    const bodyParams = { uri };
+    const url = `analysis/delete`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      () => lookupAnalysis('', '100'),
+      "Login delete analysis request failed"
+    );
+  };
+
+  const analysisCreate = async (type,one,two,three) => {
+    const bodyParams = { type,one,two,three };
+    const url = `analysis/submit`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      () => lookupAnalysis('', '100'),
+      "Login create analysis request failed"
+    );
+  };
+
   return {
     login,
     logout,
@@ -546,5 +583,8 @@ export const useApi = () => {
     lookupCaseNew,
     caseSelect,
     caseUpdate,
+    lookupAnalysis,
+    analysisDelete,
+    analysisCreate,
   };
 };
