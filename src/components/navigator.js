@@ -142,7 +142,7 @@ function Navigator() {
                   News
                 </Nav.Link>
                 <Nav.Link as={Link} to="/portal/beta/map" className={location.pathname === '/portal/beta/map' ? 'glow' : ''}>
-                  Map
+                  Map Builder
                 </Nav.Link>
               </>
             )}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Canvas, useLoader, useThree  } from '@react-three/fiber';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-import { TextureLoader } from 'three';
+import { MeshBasicMaterial, CylinderGeometry, ConeGeometry, TextureLoader } from 'three';
 import { OrbitControls } from '@react-three/drei';
 import './scene.css';
 
@@ -61,11 +61,44 @@ const Ground = ({ onClick }) => {
         }}
         >
         <planeGeometry args={[10000, 10000]} /> {/* Large plane size for horizon-to-horizon ground */}
-        <meshBasicMaterial color="green" />
+        <meshBasicMaterial color="grey" />
       </mesh>
     );
   };
-
+  
+  const Axis = ({ position = [0, 0, 0], rotation = [0, 0, 0] }) => {
+    const axisLength = 500;
+    const axisRadius = 10;
+    const coneLength = 20;
+    const coneRadius = 20;
+  
+    // Materials for the axes
+    const materials = {
+      x: new MeshBasicMaterial({ color: 'red' }),
+      y: new MeshBasicMaterial({ color: 'green' }),
+      z: new MeshBasicMaterial({ color: 'blue' }),
+    };
+  
+    return (
+      <group position={position} rotation={rotation}>
+        {/* X-axis */}
+        <mesh geometry={new CylinderGeometry(axisRadius, axisRadius, axisLength, 32)} material={materials.x} position={[axisLength / 2, 0, 0]} rotation={[0, 0, Math.PI / 2]} />
+        <mesh geometry={new ConeGeometry(coneRadius, coneLength, 32)} material={materials.x} position={[axisLength, 0, 0]} rotation={[0, 0, Math.PI / 2]} />
+        <mesh geometry={new ConeGeometry(coneRadius, coneLength, 32)} material={materials.x} position={[0, 0, 0]} rotation={[0, 0, -Math.PI / 2]} />
+  
+        {/* Y-axis */}
+        <mesh geometry={new CylinderGeometry(axisRadius, axisRadius, axisLength, 32)} material={materials.y} position={[0, axisLength / 2, 0]} />
+        <mesh geometry={new ConeGeometry(coneRadius, coneLength, 32)} material={materials.y} position={[0, axisLength, 0]} />
+        <mesh geometry={new ConeGeometry(coneRadius, coneLength, 32)} material={materials.y} position={[0, 0, 0]} rotation={[Math.PI, 0, 0]} />
+  
+        {/* Z-axis */}
+        <mesh geometry={new CylinderGeometry(axisRadius, axisRadius, axisLength, 32)} material={materials.z} position={[0, 0, axisLength / 2]} rotation={[Math.PI / 2, 0, 0]} />
+        <mesh geometry={new ConeGeometry(coneRadius, coneLength, 32)} material={materials.z} position={[0, 0, axisLength]} rotation={[Math.PI / 2, 0, 0]} />
+        <mesh geometry={new ConeGeometry(coneRadius, coneLength, 32)} material={materials.z} position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]} />
+      </group>
+    );
+  };
+  
 const CameraSetup = () => {
     const { camera } = useThree();
 
@@ -282,6 +315,10 @@ const Scene = () => {
                   border: '1px solid #ccc',
                   borderRadius: '4px',
                   cursor: 'pointer',
+                  color:
+                    button.label.includes('X') ? 'red' :
+                    button.label.includes('Y') ? 'green' :
+                    button.label.includes('Z') ? 'blue' : 'inherit', // Dynamically assign color
                 }}
               >
                 {button.label}
@@ -318,6 +355,12 @@ const Scene = () => {
       <spotLight position={[100, 100, 100]} angle={0.15} penumbra={1} />
       <pointLight position={[-100, -100, -100]} />
       <Ground onClick={setSelected} />
+      {selected && (
+        <Axis
+          position={selectedModel?.position || [0, 0, 0]}
+          rotation={selectedModel?.rotation || [0, 0, 0]}
+        />
+      )}
 
       {sceneDef.map((sceneElem, index) => (
         <ModelInst

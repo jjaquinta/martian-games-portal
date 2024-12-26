@@ -2,14 +2,15 @@ import React, { useContext, useState } from 'react';
 import { useApi } from '../useAPI';
 import { UserContext } from '../UserContext';
 import LoadingSpinner from '../loadingspinner';
+import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 const AdminAnalysis = () => {
-  const { setUserData, userData } = useContext(UserContext);
-  const { lookupAnalysis, analysisDelete, analysisCreate, updateUserData } = useApi();
+  const { userData } = useContext(UserContext);
+  const { lookupAnalysis, analysisDelete, analysisCreate } = useApi();
   const lookupAnalysisData = userData?.lookupAnalysisData || [];
   // speedhackscan
   const [commitChecked, setCommitChecked] = useState(false);
@@ -66,6 +67,11 @@ const AdminAnalysis = () => {
     await analysisCreate('ipusedby', ipsValue, '', '');
   };
 
+  const handleNicknameOverridesSubmit = async (e) => {
+    e.preventDefault();
+    await analysisCreate('nicknameoverrides', '', '', '');
+  };
+
   return (
     <div>
       <h1>{userData.gameInfo.gameDisplayName} Analysis Reports</h1>
@@ -81,9 +87,11 @@ const AdminAnalysis = () => {
             />
             and Auto-Ban{")"}
           </label>
-          <IconButton onClick={handleSpeedHackSubmit} color="error" aria-label="delete">
-            <PlayArrowIcon />
-          </IconButton>
+          <Tooltip title="Submit this analysis for processing on the server">
+            <IconButton onClick={handleSpeedHackSubmit} color="error" aria-label="delete">
+              <PlayArrowIcon />
+            </IconButton>
+          </Tooltip>
         </li>
         <li>
           Search for logins to&nbsp;
@@ -100,13 +108,15 @@ const AdminAnalysis = () => {
             <input
               type="checkbox"
               checked={commitChecked}
-              onChange={(e) => setCommitChecked(e.target.checked)}
+              onChange={(e) => setAnypassChecked(e.target.checked)}
             />
             &nbsp;with any password{")"}
           </label>
-          <IconButton onClick={handleAccountUsedBySubmit} color="error" aria-label="delete">
-            <PlayArrowIcon />
-          </IconButton>
+          <Tooltip title="Submit this analysis for processing on the server">
+            <IconButton onClick={handleAccountUsedBySubmit} color="error" aria-label="delete">
+              <PlayArrowIcon />
+            </IconButton>
+          </Tooltip>
         </li>
         <li>
           Search for logins from&nbsp;
@@ -119,9 +129,19 @@ const AdminAnalysis = () => {
               className="input-field"
             />
           &nbsp;
-          <IconButton onClick={handleIPsUsedBySubmit} color="error" aria-label="delete">
-            <PlayArrowIcon />
-          </IconButton>
+          <Tooltip title="Submit this analysis for processing on the server">
+            <IconButton onClick={handleIPsUsedBySubmit} color="error" aria-label="delete">
+              <PlayArrowIcon />
+            </IconButton>
+          </Tooltip>
+        </li>
+        <li>
+          Report on active Nickname Overrides&nbsp;
+          <Tooltip title="Submit this analysis for processing on the server">
+            <IconButton onClick={handleNicknameOverridesSubmit} color="error" aria-label="delete">
+              <PlayArrowIcon />
+            </IconButton>
+          </Tooltip>
         </li>
       </ul>
 
@@ -171,13 +191,17 @@ const AdminAnalysis = () => {
                   <td>{rec.finished ? '' : 'pending'}</td>
                   <td>
                     {rec.finished ? (
-                      <IconButton onClick={() => handleRowClick(rec.html)} color="error" aria-label="delete">
-                        <VisibilityIcon />
-                      </IconButton>
+                      <Tooltip title="View this analysis">
+                        <IconButton onClick={() => handleRowClick(rec.html)} color="error" aria-label="delete">
+                          <VisibilityIcon />
+                        </IconButton>
+                      </Tooltip>
                     ) : null}
-                    <IconButton onClick={() => analysisDelete(rec.uri)} color="error" aria-label="delete">
-                      <DeleteIcon />
-                    </IconButton>
+                    <Tooltip title="Delete this analysis">
+                      <IconButton onClick={() => analysisDelete(rec.uri)} color="error" aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
+                    </Tooltip>
                   </td>
                 </tr>
               ))}

@@ -103,6 +103,39 @@ body {
   text-decoration: underline; /* Add underline on hover for emphasis */
 }
 
+
+.table-container {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.8); /* White background with transparency */
+  border-radius: 15px; /* Rounded corners */
+  backdrop-filter: blur(10px); /* Frosted glass effect */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  padding: 20px; /* Padding inside the container */
+  height: 79vh; /* Set a fixed height, or use a desired value */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+#matches {
+  width: auto; /* Allow the table to adjust width based on content */
+  border-collapse: collapse; /* Collapse borders for cleaner look */
+}
+
+#matches th,
+#matches td {
+  white-space: nowrap; /* Prevent text wrapping inside cells */
+  padding: 8px 12px; /* Add padding for better spacing */
+  text-align: left; /* Align text to the left */
+  border-bottom: 1px solid #ccc; /* Optional: Add a bottom border for rows */
+}
+#matches th:nth-child(2), /* Example for second column */
+#matches td:nth-child(2) {
+  max-width: 200px; /* Set a maximum width */
+  text-overflow: ellipsis; /* Truncate text with ellipsis if it overflows */
+  overflow: hidden;
+}
+
+
+
 .page-button {
   background-color: #1a044d;
   color: #fff;

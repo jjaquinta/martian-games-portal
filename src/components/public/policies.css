@@ -38,16 +38,7 @@ table {
   ul {
     margin-left: 20px; /* Indent lists */
   }
-  
-  .table-container {
-    background: rgba(255, 255, 255, 0.8); /* White background with transparency */
-    border-radius: 15px; /* Rounded corners */
-    backdrop-filter: blur(10px); /* Frosted glass effect */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-    padding: 20px; /* Padding inside the container */
-    height: 79vh; /* Set a fixed height, or use a desired value */
-    overflow-y: auto; /* Enable vertical scrolling */
-  }
+
   
   
   table {

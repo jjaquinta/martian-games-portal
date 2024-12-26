@@ -51,6 +51,14 @@ export class MGServices {
     const date = new Date(time);
     return date.toLocaleDateString();
   }
+
+  static toDateTime(time) {
+    const date = new Date(time);
+    const dateString = date.toLocaleDateString();
+    const timeString = date.toLocaleTimeString();
+    return `${dateString} ${timeString}`;
+  }
+  
 }
 
 // Initialize the country data when the module is loaded

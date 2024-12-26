@@ -32,16 +32,18 @@ const XPHistory = ({ user }) => {
               <th>XP</th>
               <th>Level</th>
               <th>Change</th>
+              <th>Over</th>
               <th>Rate</th>
             </tr>
           </thead>
           <tbody>
             {currentEntries.map((entry, index) => (
               <tr key={index}>
-                <td>{MGServices.toDate(entry.timestamp)}</td>
+                <td>{MGServices.toDateTime(entry.timestamp)}</td>
                 <td>{entry.xp.toLocaleString()}</td>
                 <td>{entry.level}</td>
                 <td>{entry.xpchange}</td>
+                <td>{entry.elapsed}</td>
                 <td>{entry.xprate}</td>
               </tr>
             ))}

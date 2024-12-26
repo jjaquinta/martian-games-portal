@@ -7,6 +7,10 @@ import AdminLinkLogin from '../ctrl/AdminLinkLogin';
 import AdminLinkNickname from '../ctrl/AdminLinkNickname';
 import AdminLinkLevel from '../ctrl/AdminLinkLevel';
 import AdminLinkReportID from '../ctrl/AdminLinkReportID';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import SpeedIcon from '@mui/icons-material/Speed';
+import BugReportIcon from '@mui/icons-material/BugReport';
+import Tooltip from '@mui/material/Tooltip';
 
 const AdminReports = () => {
   const { setUserData, userData } = useContext(UserContext);
@@ -176,6 +180,19 @@ const AdminReports = () => {
 
     if (!result.success) {
       console.error('lookupReport failed:', result.error || result.status);
+    }
+  };
+
+  const getReportIcon = (type) => {
+    switch (type) {
+      case 'Speeding':
+        return <Tooltip title="speeding"><SpeedIcon color="primary" style={{ marginLeft: '8px' }} /></Tooltip>;
+      case 'SpeedHack':
+        return <Tooltip title="speed hack"><BugReportIcon color="error" style={{ marginLeft: '8px' }} /></Tooltip>;
+      case 'cheating':
+        return <></>;
+      default:
+        return <Tooltip title="cheating"><VerifiedUserIcon color="disabled" style={{ marginLeft: '8px' }} /></Tooltip>;
     }
   };
 
@@ -453,6 +470,7 @@ const AdminReports = () => {
                   <tr key={index}>
                     <td>
                       REP#{rec.id}
+                      {getReportIcon(rec.type)}
                       <AdminLinkReportID val={rec.id}/>
                     </td>
                     <td>{rec.time}</td>

@@ -5,6 +5,7 @@ import LoadingSpinner from '../loadingspinner';
 import AdminLinkLogin from '../ctrl/AdminLinkLogin';
 import AdminLinkNickname from '../ctrl/AdminLinkNickname';
 import AdminLinkIP from '../ctrl/AdminLinkIP';
+import CloseIcon from '@mui/icons-material/Close';
 
 const AdminLogins = () => {
   const { setUserData, userData } = useContext(UserContext);
@@ -315,6 +316,7 @@ const AdminLogins = () => {
                         &#9660;
                       </span>
                     </th>
+                    <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -341,6 +343,11 @@ const AdminLogins = () => {
                     <td>
                       {rec.ip}
                       <AdminLinkIP val={rec.ip}/>
+                    </td>
+                    <td>
+                      {rec.ban !== 0 && (
+                        <CloseIcon style={{ color: 'red', fontSize: '20px' }} titleAccess="Login failed" />
+                      )}
                     </td>
                   </tr>
                 ))}
