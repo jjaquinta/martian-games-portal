@@ -31,6 +31,7 @@ import AdminLogins from'./components/admin/logins';
 import AdminInvestigate from'./components/admin/investigate';
 import AdminCases from'./components/admin/cases';
 import AdminAnalysis from'./components/admin/analysis';
+import AdminLobby from'./components/admin/lobbychat';
 import YouTube from './components/public/loginYoutube'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -127,6 +128,7 @@ const router = createBrowserRouter([
         path: "admin",
         element: <ProtectedRoute><Outlet /></ProtectedRoute>,
         children: [
+          { path: "lobby", element: <AdminLobby/> },
           { path: "players", element: <AdminPlayers/> },
           { path: "reports", element: <AdminReports/> },
           { path: "logins", element: <AdminLogins/> },

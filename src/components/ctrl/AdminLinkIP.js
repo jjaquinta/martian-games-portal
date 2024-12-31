@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SubMenuIcon from '@mui/icons-material/ArrowRight';
 import Tooltip from '@mui/material/Tooltip';
+import PublicIcon from '@mui/icons-material/Public';
 import { useApi } from '../useAPI';
 
 const AdminLinkIP = ({ val }) => {
@@ -20,6 +21,13 @@ const AdminLinkIP = ({ val }) => {
 
   const handleSubMenuOpen = (event) => setSubMenuAnchor(event.currentTarget);
   const handleSubMenuClose = () => setSubMenuAnchor(null);
+  
+  const handleIPLookup = () => {
+    const ipLookupURL = `http://ip-api.com/json/${val}`;
+    window.open(ipLookupURL, '_blank');
+    handleClose(); // Close the main menu
+    handleSubMenuClose(); // Close the submenu
+  };
 
   if (!val) {
     return null;
@@ -54,7 +62,10 @@ const AdminLinkIP = ({ val }) => {
 
       {/* Submenu for Advanced Options */}
       <Menu anchorEl={subMenuAnchor} open={subMenuOpen} onClose={handleSubMenuClose}>
-        <MenuItem onClick={() => console.log('Advanced Option 1')}>Advanced Option 1</MenuItem>
+        <MenuItem onClick={handleIPLookup}>
+          <PublicIcon style={{ marginRight: '8px' }} />
+          IP Lookup
+        </MenuItem>
         <MenuItem onClick={() => console.log('Advanced Option 2')}>Advanced Option 2</MenuItem>
       </Menu>
     </>

@@ -157,6 +157,9 @@ function Navigator() {
             </Nav.Link>
             {expandedSections.Admin && (
               <>
+                <Nav.Link as={Link} to="/portal/admin/lobby" className={location.pathname === '/portal/admin/lobby' ? 'glow' : ''}>
+                  Lobby
+                </Nav.Link>
                 <Nav.Link as={Link} to="/portal/admin/players" className={location.pathname === '/portal/admin/players' ? 'glow' : ''}>
                   Players
                 </Nav.Link>

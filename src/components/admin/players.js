@@ -473,6 +473,10 @@ const SingleUserTable = ({ player: user }) => {
       <th>Joined</th>
       <td>{user.current.timeJoined}</td>
     </tr>
+    <tr>
+      <th>PC Key</th>
+      <td>{user.current.pckey}</td>
+    </tr>
     {user.current.password && user.current.password.trim() !== '' && (
       <>
         <tr>
