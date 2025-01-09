@@ -19,6 +19,9 @@ const AdminAnalysis = () => {
   const [anypassChecked, setAnypassChecked] = useState(false);
   // ipsUsedBy
   const [ips, setIps] = useState('');
+  // accountCompare
+  const [account1, setAccount1] = useState('');
+  const [account2, setAccount2] = useState('');
 
   const handleSubmit = async (e) => {
     if (e != null) {
@@ -59,6 +62,13 @@ const AdminAnalysis = () => {
     const anypassValue = anypassChecked ? 'anypass=true' : 'anypass=false';
     const accountValue = 'loginID='+account;
     await analysisCreate('accountusedby', accountValue, anypassValue, '');
+  };
+
+  const handleAccountCompareSubmit = async (e) => {
+    e.preventDefault();
+    const account1Value = 'loginID1='+account1;
+    const account2Value = 'loginID2='+account2;
+    await analysisCreate('compareaccounts', account1Value, account2Value, '');
   };
 
   const handleIPsUsedBySubmit = async (e) => {
@@ -139,6 +149,31 @@ const AdminAnalysis = () => {
           Report on active Nickname Overrides&nbsp;
           <Tooltip title="Submit this analysis for processing on the server">
             <IconButton onClick={handleNicknameOverridesSubmit} color="error" aria-label="delete">
+              <PlayArrowIcon />
+            </IconButton>
+          </Tooltip>
+        </li>
+        <li>
+          Compare login&nbsp;
+          <input
+              type="text"
+              name="account1"
+              placeholder="LOGIN#"
+              value={account1 || ''}
+              onChange={(e) => setAccount1(e.target.value)}
+              className="input-field"
+            />
+          &nbsp;{" and "}
+          <input
+              type="text"
+              name="account2"
+              placeholder="LOGIN#"
+              value={account2 || ''}
+              onChange={(e) => setAccount2(e.target.value)}
+              className="input-field"
+            />
+          <Tooltip title="Submit this analysis for processing on the server">
+            <IconButton onClick={handleAccountCompareSubmit} color="error" aria-label="delete">
               <PlayArrowIcon />
             </IconButton>
           </Tooltip>
