@@ -22,6 +22,8 @@ const AdminAnalysis = () => {
   // accountCompare
   const [account1, setAccount1] = useState('');
   const [account2, setAccount2] = useState('');
+  // findAlts
+  const [accountAlt, setAccountAlt] = useState('');
 
   const handleSubmit = async (e) => {
     if (e != null) {
@@ -69,6 +71,12 @@ const AdminAnalysis = () => {
     const account1Value = 'loginID1='+account1;
     const account2Value = 'loginID2='+account2;
     await analysisCreate('compareaccounts', account1Value, account2Value, '');
+  };
+
+  const handleFindAltsSubmit = async (e) => {
+    e.preventDefault();
+    const accountValue = 'loginID='+accountAlt;
+    await analysisCreate('findalts', accountValue, '', '');
   };
 
   const handleIPsUsedBySubmit = async (e) => {
@@ -174,6 +182,22 @@ const AdminAnalysis = () => {
             />
           <Tooltip title="Submit this analysis for processing on the server">
             <IconButton onClick={handleAccountCompareSubmit} color="error" aria-label="delete">
+              <PlayArrowIcon />
+            </IconButton>
+          </Tooltip>
+        </li>
+        <li>
+          Find alts for&nbsp;
+          <input
+              type="text"
+              name="accountAlt"
+              placeholder="LOGIN#"
+              value={accountAlt || ''}
+              onChange={(e) => setAccountAlt(e.target.value)}
+              className="input-field"
+            />
+          <Tooltip title="Submit this analysis for processing on the server">
+            <IconButton onClick={handleFindAltsSubmit} color="error" aria-label="delete">
               <PlayArrowIcon />
             </IconButton>
           </Tooltip>

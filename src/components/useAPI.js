@@ -476,6 +476,15 @@ export const useApi = () => {
     );
   };
 
+  const lookupCaseByID = async (uri) => {  
+    const lookupCaseData = userData?.lookupCaseData || [];
+    var slimData = lookupCaseData.filter(item => item.uri === uri);
+    if (slimData.length === 1) {
+        updateUserData({ lookupCaseData: slimData });
+        return;
+    }
+  };
+
   const lookupCaseNew = async (destination = '/portal/admin/cases') => {  
     const result = await lookupCase('', '', 'new');
     if (!result.success) {
@@ -580,6 +589,7 @@ export const useApi = () => {
     caseCreate,
     caseCreateFromReport,
     lookupCase,
+    lookupCaseByID,
     lookupCaseNew,
     caseSelect,
     caseUpdate,
