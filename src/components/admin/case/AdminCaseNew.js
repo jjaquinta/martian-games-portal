@@ -63,7 +63,7 @@ const AdminCaseNew = () => {
                   </td>
                   <td>
                     {rec.plantiffNickname}
-                    <AdminLinkNickname val={rec.plantiffNickname}/>
+                    <AdminLinkNickname val={rec.plantiffNickname} login={rec.plantiffLogin}/>
                   </td>
                   <td>
                     {rec.defendantLogin}
@@ -71,7 +71,7 @@ const AdminCaseNew = () => {
                   </td>
                   <td>
                     {rec.defendantNickname}
-                    <AdminLinkNickname val={rec.defendantNickname}/>
+                    <AdminLinkNickname val={rec.defendantNickname} login={rec.defendantLogin}/>
                   </td>
                   <td>{rec.title}</td>
                 </tr>

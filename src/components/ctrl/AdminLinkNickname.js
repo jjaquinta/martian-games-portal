@@ -6,9 +6,11 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SubMenuIcon from '@mui/icons-material/ArrowRight';
 import Tooltip from '@mui/material/Tooltip';
 import { useApi } from '../useAPI';
+import { quickApi } from '../quickAPI';
 
-const AdminLinkNickname = ({ val }) => {
+const AdminLinkNickname = ({ val, login }) => {
   const { lookupUserByNickname, lookupLoginByNickname, lookupReportByNickname, lookupReportByReportNickname } = useApi();
+  const { quickChangeName } = quickApi();
   const [anchorEl, setAnchorEl] = useState(null);
   const [subMenuAnchor, setSubMenuAnchor] = useState(null);
 
@@ -20,6 +22,12 @@ const AdminLinkNickname = ({ val }) => {
 
   const handleSubMenuOpen = (event) => setSubMenuAnchor(event.currentTarget);
   const handleSubMenuClose = () => setSubMenuAnchor(null);
+  
+  const handleQuickChangeName = () => {
+    quickChangeName(login, val);
+    handleClose(); // Close the main menu
+    handleSubMenuClose(); // Close the submenu
+  };
 
   if (!val) {
     return null;
@@ -62,7 +70,9 @@ const AdminLinkNickname = ({ val }) => {
 
       {/* Submenu for Advanced Options */}
       <Menu anchorEl={subMenuAnchor} open={subMenuOpen} onClose={handleSubMenuClose}>
-        <MenuItem onClick={() => console.log('Advanced Option 1')}>Advanced Option 1</MenuItem>
+        {login && login.trim() !== '' && (
+          <MenuItem onClick={() => handleQuickChangeName()}>Quick: CHANGE_NAME</MenuItem>
+        )}
         <MenuItem onClick={() => console.log('Advanced Option 2')}>Advanced Option 2</MenuItem>
       </Menu>
     </>

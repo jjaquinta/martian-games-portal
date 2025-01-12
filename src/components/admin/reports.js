@@ -480,7 +480,7 @@ const AdminReports = () => {
                     </td>
                     {lookupReportColumns.nickname && (<td>
                       {rec.nickname}
-                      <AdminLinkNickname val={rec.nickname}/>
+                      <AdminLinkNickname val={rec.nickname} login={rec.login}/>
                     </td>)}
                     {lookupReportColumns.level && (<td>
                       {rec.level}
@@ -492,7 +492,7 @@ const AdminReports = () => {
                     </td>
                     <td>
                       {rec.reportNickname}
-                      <AdminLinkNickname val={rec.reportNickname}/>
+                      <AdminLinkNickname val={rec.reportNickname} login={rec.reportLogin}/>
                     </td>
                     <td>
                       {rec.reportLevel}
@@ -541,7 +541,7 @@ const SingleReportTable = ({ rec }) => {
       <th>Reporter Nickname</th>
       <td>
         {rec.nickname}
-        <AdminLinkNickname val={rec.nickname}/>
+        <AdminLinkNickname val={rec.nickname} login={rec.login}/>
       </td>
     </tr>
     <tr>
@@ -562,7 +562,7 @@ const SingleReportTable = ({ rec }) => {
       <th>Reported Nickname</th>
       <td>
         {rec.reportNickname}
-        <AdminLinkNickname val={rec.reportNickname}/>
+        <AdminLinkNickname val={rec.reportNickname} login={rec.reportLogin}/>
       </td>
     </tr>
     <tr>

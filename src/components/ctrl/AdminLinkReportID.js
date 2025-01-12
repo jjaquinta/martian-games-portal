@@ -7,7 +7,7 @@ import SubMenuIcon from '@mui/icons-material/ArrowRight';
 import Tooltip from '@mui/material/Tooltip';
 import { useApi } from '../useAPI';
 
-const AdminLinkNickname = ({ val }) => {
+const AdminLinkReportID = ({ val }) => {
   const { lookupReportByID, caseCreateFromReport } = useApi();
   const [anchorEl, setAnchorEl] = useState(null);
   const [subMenuAnchor, setSubMenuAnchor] = useState(null);
@@ -56,4 +56,4 @@ const AdminLinkNickname = ({ val }) => {
   );
 };
 
-export default AdminLinkNickname;
+export default AdminLinkReportID;

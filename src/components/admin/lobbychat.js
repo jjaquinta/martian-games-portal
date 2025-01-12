@@ -133,7 +133,7 @@ const AdminLobbyChat = () => {
                   </td>
                   <td>{rec.nickname != null && <span>
                     {rec.nickname}
-                    <AdminLinkNickname val={rec.nickname}/>
+                    <AdminLinkNickname val={rec.nickname} login={rec.login}/>
                     </span>}</td>
                   <td>{rec.level}<AdminLinkLevel val={rec.level}/></td>
                   <td>

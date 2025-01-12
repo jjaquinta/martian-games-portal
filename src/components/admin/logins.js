@@ -338,7 +338,7 @@ const AdminLogins = () => {
                     </td>
                     <td>
                       {rec.nickname}
-                      <AdminLinkNickname val={rec.nickname}/>
+                      <AdminLinkNickname val={rec.nickname} login={rec.login}/>
                     </td>
                     <td>
                       {rec.ip}
@@ -385,7 +385,7 @@ const SingleLoginTable = ({ rec }) => {
       <th>Nickname</th>
       <td>
         {rec.nickname}
-        <AdminLinkNickname val={rec.nickname}/>
+        <AdminLinkNickname val={rec.nickname} login={rec.login}/>
       </td>
     </tr>
     <tr>

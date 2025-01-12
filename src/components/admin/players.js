@@ -401,7 +401,7 @@ const AdminPlayers = () => {
                     </td>
                     <td>
                       {rec.current.nickname}
-                      <AdminLinkNickname val={rec.current.nickname}/>
+                      <AdminLinkNickname val={rec.current.nickname} login={rec.current.login}/>
                     </td>
                     <td>{rec.current.experience.toLocaleString()}</td>
                     <td>
@@ -443,7 +443,7 @@ const SingleUserTable = ({ player: user }) => {
       <th>Nickname</th>
       <td>
         {user.current.nickname}
-        <AdminLinkNickname val={user.current.nickname}/>
+        <AdminLinkNickname val={user.current.nickname} login={user.corrent.login}/>
       </td>
     </tr>
     <tr>
