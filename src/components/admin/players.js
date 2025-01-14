@@ -432,6 +432,7 @@ const SingleUserTable = ({ player: user }) => {
   return (
     <>
   <table>
+    <tbody>
     <tr>
       <th>Login</th>
       <td>
@@ -443,7 +444,7 @@ const SingleUserTable = ({ player: user }) => {
       <th>Nickname</th>
       <td>
         {user.current.nickname}
-        <AdminLinkNickname val={user.current.nickname} login={user.corrent.login}/>
+        <AdminLinkNickname val={user.current.nickname} login={user.current.login}/>
       </td>
     </tr>
     <tr>
@@ -512,6 +513,7 @@ const SingleUserTable = ({ player: user }) => {
         </tr>
       </>
     )}
+    </tbody>
   </table>
   <div>
     <NicknameHistory user={user} />

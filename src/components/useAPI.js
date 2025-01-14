@@ -513,6 +513,62 @@ export const useApi = () => {
       "Case lookup request failed"
     );
   };
+  
+  const caseAddAction = async (uri, type, subtype, detail) => {
+    const bodyParams = { uri, type, subtype, detail };
+    const url = `cases/addaction`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => {
+        updateUserData({ caseSelected: data });
+      },
+      "Case add action request failed"
+    );
+  };
+  
+  const caseSubmit = async (uri) => {
+    const bodyParams = { uri };
+    const url = `cases/submit`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => {
+        updateUserData({ caseSelected: data });
+      },
+      "Case submit request failed"
+    );
+  };
+  
+  const caseReady = async (uri) => {
+    const bodyParams = { uri };
+    const url = `cases/ready`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => {
+        updateUserData({ caseSelected: data });
+      },
+      "Case ready request failed"
+    );
+  };
+  
+  const caseClaim = async (uri) => {
+    const bodyParams = { uri };
+    const url = `cases/claim`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => {
+        updateUserData({ caseSelected: data });
+      },
+      "Case claim request failed"
+    );
+  };
 
   const lookupAnalysis = async (finished, limit) => {
     const bodyParams = { finished, limit };
@@ -593,6 +649,10 @@ export const useApi = () => {
     lookupCaseNew,
     caseSelect,
     caseUpdate,
+    caseSubmit,
+    caseClaim,
+    caseReady,
+    caseAddAction,
     lookupAnalysis,
     analysisDelete,
     analysisCreate,

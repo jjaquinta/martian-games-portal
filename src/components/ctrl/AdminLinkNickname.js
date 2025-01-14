@@ -4,13 +4,14 @@ import MenuItem from '@mui/material/MenuItem';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SubMenuIcon from '@mui/icons-material/ArrowRight';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 import Tooltip from '@mui/material/Tooltip';
 import { useApi } from '../useAPI';
-import { quickApi } from '../quickAPI';
+import { useQuickApi } from '../useQuickAPI';
 
 const AdminLinkNickname = ({ val, login }) => {
   const { lookupUserByNickname, lookupLoginByNickname, lookupReportByNickname, lookupReportByReportNickname } = useApi();
-  const { quickChangeName } = quickApi();
+  const { quickChangeName } = useQuickApi();
   const [anchorEl, setAnchorEl] = useState(null);
   const [subMenuAnchor, setSubMenuAnchor] = useState(null);
 
@@ -71,7 +72,7 @@ const AdminLinkNickname = ({ val, login }) => {
       {/* Submenu for Advanced Options */}
       <Menu anchorEl={subMenuAnchor} open={subMenuOpen} onClose={handleSubMenuClose}>
         {login && login.trim() !== '' && (
-          <MenuItem onClick={() => handleQuickChangeName()}>Quick: CHANGE_NAME</MenuItem>
+          <MenuItem onClick={() => handleQuickChangeName()}><RocketLaunchIcon /> Set nickname to CHANGE_NAME</MenuItem>
         )}
         <MenuItem onClick={() => console.log('Advanced Option 2')}>Advanced Option 2</MenuItem>
       </Menu>

@@ -514,6 +514,7 @@ const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
       </>
     )}
   <table>
+    <tbody>
     {isDeputy && (
       <tr>
         <th>Login</th>
@@ -598,6 +599,7 @@ const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
         </tr>
       </>
     )}
+    </tbody>
   </table>
   {userData.user?.deputy && (
     <div>
