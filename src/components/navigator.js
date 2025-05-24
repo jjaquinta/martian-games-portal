@@ -125,6 +125,9 @@ function Navigator() {
                 {userData?.gameInfo?.dblobby && (<Nav.Link as={Link} to="/portal/game/lobbychat" className={location.pathname === '/portal/game/lobbychat' ? 'glow' : ''}>
                   Lobby Chat
                 </Nav.Link>)}
+                <Nav.Link as={Link} to="/portal/game/analysis" className={location.pathname === '/portal/game/lobbychat' ? 'glow' : ''}>
+                  Statistics
+                </Nav.Link>
               </>
             )}
           </>
@@ -143,6 +146,9 @@ function Navigator() {
                 </Nav.Link>
                 <Nav.Link as={Link} to="/portal/beta/map" className={location.pathname === '/portal/beta/map' ? 'glow' : ''}>
                   Map Builder
+                </Nav.Link>
+                <Nav.Link as={Link} to="/portal/beta/oldmap" className={location.pathname === '/portal/beta/oldmap' ? 'glow' : ''}>
+                  Old Map Builder
                 </Nav.Link>
               </>
             )}
@@ -168,6 +174,9 @@ function Navigator() {
                 </Nav.Link>
                 <Nav.Link as={Link} to="/portal/admin/logins" className={location.pathname === '/portal/admin/logins' ? 'glow' : ''}>
                   Logins
+                </Nav.Link>
+                <Nav.Link as={Link} to="/portal/admin/bannedips" className={location.pathname === '/portal/admin/bannedips' ? 'glow' : ''}>
+                  Banned ISP
                 </Nav.Link>
                 <Nav.Link as={Link} to="/portal/admin/investigate" className={location.pathname === '/portal/admin/investigate' ? 'glow' : ''}>
                   Investigate

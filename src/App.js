@@ -19,12 +19,14 @@ import MeCases from './components/me/cases';
 import GameLeaderboard from './components/game/leaderboard';
 import GameLookup from './components/game/lookup';
 import GameLobbyChat from './components/game/lobbychat';
+import GameAnalysis from './components/game/analysis';
 import Policies from './components/public/policies';
 import ModConduct from './components/public/ModConduct';
 import Contact from './components/public/contact';
 import PublicYouTube from './components/public/youtube';
 import BetaNews from './components/beta/news';
 import BetaMap from './components/beta/map';
+import BetaOldMap from './components/beta/oldmap';
 import AdminPlayers from'./components/admin/players';
 import AdminReports from'./components/admin/reports';
 import AdminLogins from'./components/admin/logins';
@@ -32,6 +34,7 @@ import AdminInvestigate from'./components/admin/investigate';
 import AdminCases from'./components/admin/cases';
 import AdminAnalysis from'./components/admin/analysis';
 import AdminLobby from'./components/admin/lobbychat';
+import AdminBannedIPs from'./components/admin/bannedips';
 import YouTube from './components/public/loginYoutube'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -115,6 +118,7 @@ const router = createBrowserRouter([
           { path: "leaderboard", element: <GameLeaderboard /> },
           { path: "lookup", element: <GameLookup /> },
           { path: "lobbychat", element: <GameLobbyChat /> },
+          { path: "analysis", element: <GameAnalysis /> },
         ]
       },
       {
@@ -122,7 +126,8 @@ const router = createBrowserRouter([
         element: <ProtectedRoute><Outlet /></ProtectedRoute>,
         children: [
           { path: "news", element: <BetaNews/> },
-          { path: "map", element: <BetaMap/> }
+          { path: "map", element: <BetaMap/> },
+          { path: "oldmap", element: <BetaOldMap/> }
         ]
       }, {
         path: "admin",
@@ -132,6 +137,7 @@ const router = createBrowserRouter([
           { path: "players", element: <AdminPlayers/> },
           { path: "reports", element: <AdminReports/> },
           { path: "logins", element: <AdminLogins/> },
+          { path: "bannedips", element: <AdminBannedIPs/> },
           { path: "cases", element: <AdminCases/> },
           { path: "investigate", element: <AdminInvestigate/> },
           { path: "analysis", element: <AdminAnalysis/> }

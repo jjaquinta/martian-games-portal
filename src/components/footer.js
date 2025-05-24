@@ -5,7 +5,7 @@ function Footer() {
   return (
     <footer className="bg-dark text-light py-3 mt-auto">
       <Container>
-        <p className="text-center mb-0">&copy; 2024 Martian games portal. All rights reserved.</p>
+        <p className="text-center mb-0">&copy; 2025 Martian Games. All rights reserved.</p>
       </Container>
     </footer>
   );

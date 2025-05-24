@@ -43,7 +43,49 @@ export const useApi = () => {
   };
 
   // Centralized function for making API requests
+  const apiAnyRequest = async (func, bodyParams, onSuccess, errorMsg, method = "POST", queryParams = {}, bodyObject = null) => {
+    // Convert query parameters to query string
+    const queryString = new URLSearchParams(queryParams).toString();
+    const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/${func}${queryString ? `?${queryString}` : ''}`;
+  
+    // Determine request body and headers
+    const useJson = bodyObject !== null;
+    const body = useJson
+      ? JSON.stringify(bodyObject)
+      : new URLSearchParams(bodyParams).toString();
+
+    try {
+      setBusy(true);
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': useJson ? 'application/json' : 'application/x-www-form-urlencoded',
+          'Authorization': `Bearer ${api_token}`,
+        },
+        body: method !== 'GET' ? body : undefined,
+      });
+      setBusy(false);
+  
+      if (response.status === 200) {
+        const data = await response.json();
+        onSuccess(data, response);
+        return { success: true, data };
+      } else {
+        setError(errorMsg);
+        return { success: false, status: response.status };
+      }
+    } catch (error) {
+      setBusy(false);
+      setError(errorMsg);
+      return { success: false, error };
+    }
+  };
+  const apiGetRequest = async (func, queryParams, onSuccess, errorMsg) => {
+    return apiAnyRequest(func, {}, onSuccess, errorMsg, "GET", queryParams);
+  };
   const apiRequest = async (func, bodyParams, onSuccess, errorMsg) => {
+      return apiAnyRequest(func, bodyParams, onSuccess, errorMsg, "POST", {});
+      /*
     const body = new URLSearchParams(bodyParams).toString();
     try {
       setBusy(true);
@@ -71,6 +113,7 @@ export const useApi = () => {
       setError(errorMsg);
       return { success: false, error };
     }
+      */
   };
 
   // Modified login function to retrieve token from response header
@@ -570,6 +613,52 @@ export const useApi = () => {
     );
   };
 
+  const lookupBannedIPs = async () => {
+    const bodyParams = {  };
+    updateUserData({ lookupBannedIPs: bodyParams });
+    const url = `bannedips`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => updateUserData({ lookupBannedIPsData: data }),
+      "banned ips lookup request failed"
+    );
+  };
+
+  const lookupMaps = async ( login, nickname, pub, orderup, orderdown) => {
+    const queryParams = { login, nickname, pub, orderup, orderdown };
+    updateUserData({ lookupMaps: queryParams });
+    const url = `maps`;
+
+    return apiGetRequest(
+      url,
+      queryParams,
+      (data) => updateUserData({ lookupMapsData: data, selectedMapsData: null }),
+      "Maps lookup request failed"
+    );
+  };
+
+  const createMap = async ( name, description) => {
+    const bodyObject = { name, description };
+    updateUserData({ createMaps: bodyObject });
+    const url = `map`;
+
+    return apiAnyRequest(
+      url,
+      {},
+      (data) => updateUserData({ selectedMapsData: data }),
+      "Map create request failed",
+      "POST",
+      {},
+      bodyObject
+    );
+  };
+
+  const selectMap = async ( data ) => {
+    updateUserData({ selectedMapsData: data});
+  }
+
   const lookupAnalysis = async (finished, limit) => {
     const bodyParams = { finished, limit };
     updateUserData({ lookupAnalysis: bodyParams });
@@ -656,5 +745,9 @@ export const useApi = () => {
     lookupAnalysis,
     analysisDelete,
     analysisCreate,
+    lookupBannedIPs,
+    lookupMaps,
+    createMap,
+    selectMap,
   };
 };

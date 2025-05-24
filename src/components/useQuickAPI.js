@@ -6,31 +6,30 @@ export const useQuickApi = () => {
   const { caseCreate, caseSubmit, caseReady, caseClaim, caseAddAction } = useApi();
   const { userData } = useContext(UserContext); // Use `useContext` at the top level of the hook
 
-  const quickChangeName = async (login, oldName) => {
+  const quickAction = async (defLogin, defName, title, description, ref,
+    actType, actSub, actDetail
+  ) => {
     if (!userData) {
       console.error('User data is not available');
       return;
     }
 
-    alert(`Change name for '${login}' from '${oldName}'`);
-
     try {
       // Step 1: Create a case
       let result = await caseCreate(
-        'Change Your Name',
-        'Your name does not meet community standards. Please change it to something that does.',
+        title,
+        description,
         userData?.player?.login,
         userData?.player?.nickname,
-        login,
-        oldName,
-        `PLAYER#${login}`
+        defLogin,
+        defName,
+        ref
       );
 
       if (!result.success) {
         console.error('Create case failed:', result.error || result.status);
         return;
       }
-      console.log(result?.data);
 
       const rec = result?.data || null;
       if (!rec?.uri) {
@@ -53,7 +52,7 @@ export const useQuickApi = () => {
       }
 
       // Step 4: Add action
-      result = await caseAddAction(rec.uri, 'nickname', 'CHANGE_NAME', 'Name does not meet community standards');
+      result = await caseAddAction(rec.uri, actType, actSub, actDetail);
       if (!result.success) {
         console.error('add action to case failed:', result.error || result.status);
         return;
@@ -71,7 +70,22 @@ export const useQuickApi = () => {
     }
   };
 
+  const quickChangeName = async (login, oldName) => {
+    quickAction(login, oldName, 'Inappropriate Name',
+        'Your name does not meet community standards. Please change it to something that does.',
+        `PLAYER#${login}`,
+        'nickname', 'CHANGE_NAME', 'Name does not meet community standards');
+  };
+
+  const quickBePolite = async (login, oldName, ref) => {
+    quickAction(login, oldName, 'Inappropriate Language',
+        'Your speech does not meet community standards. Please moderate your language.',
+        ref,
+        'nickname', 'BE_POLITE', 'Speech does not meet community standards');
+  };
+
   return {
     quickChangeName,
+    quickBePolite,
   };
 };

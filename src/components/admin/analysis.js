@@ -24,6 +24,9 @@ const AdminAnalysis = () => {
   const [account2, setAccount2] = useState('');
   // findAlts
   const [accountAlt, setAccountAlt] = useState('');
+  // progress
+  const [progLoginID, setProgLoginID] = useState('');
+  const [progDays, setProgDays] = useState('30');
 
   const handleSubmit = async (e) => {
     if (e != null) {
@@ -88,6 +91,18 @@ const AdminAnalysis = () => {
   const handleNicknameOverridesSubmit = async (e) => {
     e.preventDefault();
     await analysisCreate('nicknameoverrides', '', '', '');
+  };
+
+  const handleDailyStatsSubmit = async (e) => {
+    e.preventDefault();
+    await analysisCreate('dailystats', '', '', '');
+  };
+
+  const handleProgressSubmit = async (e) => {
+    e.preventDefault();
+    const progLoginIDValue = 'loginID='+progLoginID;
+    const progDaysValue = 'days='+progDays;
+    await analysisCreate('progress', progLoginIDValue, progDaysValue, '');
   };
 
   return (
@@ -162,6 +177,14 @@ const AdminAnalysis = () => {
           </Tooltip>
         </li>
         <li>
+          Report on Daily Statistics&nbsp;
+          <Tooltip title="Submit this analysis for processing on the server">
+            <IconButton onClick={handleDailyStatsSubmit} color="error" aria-label="delete">
+              <PlayArrowIcon />
+            </IconButton>
+          </Tooltip>
+        </li>
+        <li>
           Compare login&nbsp;
           <input
               type="text"
@@ -198,6 +221,30 @@ const AdminAnalysis = () => {
             />
           <Tooltip title="Submit this analysis for processing on the server">
             <IconButton onClick={handleFindAltsSubmit} color="error" aria-label="delete">
+              <PlayArrowIcon />
+            </IconButton>
+          </Tooltip>
+        </li>
+        <li>
+          Progress for&nbsp;
+          <input
+              type="text"
+              name="progLoginID"
+              placeholder="LOGIN#"
+              value={progLoginID || ''}
+              onChange={(e) => setProgLoginID(e.target.value)}
+              className="input-field"
+            />
+          over <input
+              type="text"
+              name="progDays"
+              placeholder="days"
+              value={progDays || '30'}
+              onChange={(e) => setProgDays(e.target.value)}
+              className="input-field"
+            /> days.
+          <Tooltip title="Submit this analysis for processing on the server">
+            <IconButton onClick={handleProgressSubmit} color="error" aria-label="delete">
               <PlayArrowIcon />
             </IconButton>
           </Tooltip>
