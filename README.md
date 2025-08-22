@@ -74,3 +74,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+# Release
+In order to produce a new release, use the following:
+
+git tag v1.0.0
+
+git push martian-games-portal v1.0.0
+
+The workflow script should build and post the new release.
