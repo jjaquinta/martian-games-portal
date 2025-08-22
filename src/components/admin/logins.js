@@ -5,7 +5,7 @@ import LoadingSpinner from '../loadingspinner';
 import AdminLinkLogin from '../ctrl/AdminLinkLogin';
 import AdminLinkNickname from '../ctrl/AdminLinkNickname';
 import AdminLinkIP from '../ctrl/AdminLinkIP';
-import CloseIcon from '@mui/icons-material/Close';
+//import CloseIcon from '@mui/icons-material/Close';
 import BlockIcon from '@mui/icons-material/Block';            // For banned user
 import PublicOffIcon from '@mui/icons-material/PublicOff';    // For VPN
 import LanIcon from '@mui/icons-material/Lan';                // For banned IP

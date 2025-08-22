@@ -9,16 +9,6 @@ const ClanLookup = () => {
   const { lookupClan } = useApi();
   const lookupClanData = userData?.lookupClanData || [];
 
-  const setLookupID = (e) => {
-    const updatedID = e.target.value;
-    setUserData((prevData) => ({
-      ...prevData,
-      lookupClan: {
-        ...prevData.lookupClan,
-        id: updatedID,
-      },
-    }));
-  };
   const setLookupTag = (e) => {
     const updatedTag = e.target.value;
     setUserData((prevData) => ({
