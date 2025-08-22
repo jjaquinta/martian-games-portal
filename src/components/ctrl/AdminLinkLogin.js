@@ -8,7 +8,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { useApi } from '../useAPI';
 
 const AdminLinkLogin = ({ val }) => {
-  const { lookupUserByLogin, lookupLoginByLogin, lookupReportByLogin, lookupReportByReportLogin } = useApi();
+  const { lookupUserByLogin, lookupLoginByLogin, lookupScoreByLogin, lookupReportByLogin, lookupReportByReportLogin } = useApi();
   const [anchorEl, setAnchorEl] = useState(null);
   const [subMenuAnchor, setSubMenuAnchor] = useState(null);
 
@@ -40,6 +40,10 @@ const AdminLinkLogin = ({ val }) => {
         <MenuItem onClick={() => lookupLoginByLogin(val, '/portal/admin/logins')}>
           <img src="/portal/images/search_login16.png" alt="Lookup logins by login ID" style={{ marginRight: '8px' }} />
           Lookup logins for login {val}
+        </MenuItem>
+        <MenuItem onClick={() => lookupScoreByLogin(val, '/portal/admin/scores')}>
+          <img src="/portal/images/search_score16.png" alt="Lookup scores by login ID" style={{ marginRight: '8px' }} />
+          Lookup scores for login {val}
         </MenuItem>
         <MenuItem onClick={() => lookupReportByLogin(val, '/portal/admin/reports')}>
           <img src="/portal/images/search_reporter16.png" alt="Lookup reports by reporter login ID" style={{ marginRight: '8px' }} />

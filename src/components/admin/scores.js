@@ -5,24 +5,19 @@ import LoadingSpinner from '../loadingspinner';
 import AdminLinkLogin from '../ctrl/AdminLinkLogin';
 import AdminLinkNickname from '../ctrl/AdminLinkNickname';
 import AdminLinkIP from '../ctrl/AdminLinkIP';
-import CloseIcon from '@mui/icons-material/Close';
-import BlockIcon from '@mui/icons-material/Block';            // For banned user
-import PublicOffIcon from '@mui/icons-material/PublicOff';    // For VPN
-import LanIcon from '@mui/icons-material/Lan';                // For banned IP
-import WifiOffIcon from '@mui/icons-material/WifiOff';        // For banned ISP
 
-const AdminLogins = () => {
+const AdminScores = () => {
   const { setUserData, userData } = useContext(UserContext);
-  const { lookupLogin, updateUserData } = useApi();
-  const lookupLoginData = userData?.lookupLoginData || [];
+  const { lookupScore, updateUserData } = useApi();
+  const lookupScoreData = userData?.lookupScoreData || [];
 
 
   const setLookupID = (e) => {
     const updatedID = e.target.value;
     setUserData((prevData) => ({
       ...prevData,
-      lookupLogin: {
-        ...prevData.lookupLogin,
+      lookupScore: {
+        ...prevData.lookupScore,
         id: updatedID,
       },
     }));
@@ -31,8 +26,8 @@ const AdminLogins = () => {
     const updatedLogin = e.target.value;
     setUserData((prevData) => ({
       ...prevData,
-      lookupLogin: {
-        ...prevData.lookupLogin,
+      lookupScore: {
+        ...prevData.lookupScore,
         login: updatedLogin,
       },
     }));
@@ -41,8 +36,8 @@ const AdminLogins = () => {
     const updatedNickname = e.target.value;
     setUserData((prevData) => ({
       ...prevData,
-      lookupLogin: {
-        ...prevData.lookupLogin,
+      lookupScore: {
+        ...prevData.lookupScore,
         nickname: updatedNickname,
       },
     }));
@@ -51,8 +46,8 @@ const AdminLogins = () => {
     const updatedIP = e.target.value;
     setUserData((prevData) => ({
       ...prevData,
-      lookupLogin: {
-        ...prevData.lookupLogin,
+      lookupScore: {
+        ...prevData.lookupScore,
         ip: updatedIP,
       },
     }));
@@ -61,8 +56,8 @@ const AdminLogins = () => {
     const updatedTime = e.target.value;
     setUserData((prevData) => ({
       ...prevData,
-      lookupLogin: {
-        ...prevData.lookupLogin,
+      lookupScore: {
+        ...prevData.lookupScore,
         time: updatedTime,
       },
     }));
@@ -72,49 +67,49 @@ const AdminLogins = () => {
     if (e != null) {
       e.preventDefault();
     }
-    const result = await lookupLogin(userData?.lookupLogin?.id, 
-      userData?.lookupLogin?.login || '', 
-      userData?.lookupLogin?.nickname || '', 
-      userData?.lookupLogin?.ip || '', 
-      userData?.lookupLogin?.time || '', 
-      userData?.lookupLogin?.sortup || '', 
-      userData?.lookupLogin?.sortdown || 'id');
+    const result = await lookupScore(userData?.lookupScore?.id, 
+      userData?.lookupScore?.login || '', 
+      userData?.lookupScore?.nickname || '', 
+      userData?.lookupScore?.ip || '', 
+      userData?.lookupScore?.time || '', 
+      userData?.lookupScore?.sortup || '', 
+      userData?.lookupScore?.sortdown || 'id');
 
     if (!result.success) {
-      console.error('lookupLogin failed:', result.error || result.status);
+      console.error('lookupScore failed:', result.error || result.status);
     }
   };
 
   const sortUp = async (column) => {
-    const result = await lookupLogin(userData?.lookupLogin?.id || '', 
-      userData?.lookupLogin?.login || '', 
-      userData?.lookupLogin?.nickname || '', 
-      userData?.lookupLogin?.ip || '', 
-      userData?.lookupLogin?.time || '', 
+    const result = await lookupScore(userData?.lookupScore?.id || '', 
+      userData?.lookupScore?.login || '', 
+      userData?.lookupScore?.nickname || '', 
+      userData?.lookupScore?.ip || '', 
+      userData?.lookupScore?.time || '', 
       column, 
       '');
 
     if (!result.success) {
-      console.error('lookupLogin failed:', result.error || result.status);
+      console.error('lookupScore failed:', result.error || result.status);
     }
   };
   
   const sortDown = async (column) => {
-    const result = await lookupLogin(userData?.lookupLogin?.id || '', 
-      userData?.lookupLogin?.login || '', 
-      userData?.lookupLogin?.nickname || '', 
-      userData?.lookupLogin?.ip || '', 
-      userData?.lookupLogin?.time || '', 
+    const result = await lookupScore(userData?.lookupScore?.id || '', 
+      userData?.lookupScore?.login || '', 
+      userData?.lookupScore?.nickname || '', 
+      userData?.lookupScore?.ip || '', 
+      userData?.lookupScore?.time || '', 
       '', 
       column);
 
     if (!result.success) {
-      console.error('lookupLogin failed:', result.error || result.status);
+      console.error('lookupScore failed:', result.error || result.status);
     }
   };
 
   const doClear = async () => {
-    const result = await lookupLogin('', 
+    const result = await lookupScore('', 
       '', 
       '', 
       '', 
@@ -123,19 +118,19 @@ const AdminLogins = () => {
       '');
 
     if (!result.success) {
-      console.error('lookupLogin failed:', result.error || result.status);
+      console.error('lookupScore failed:', result.error || result.status);
     }
   };
 
   const lookupUserByLoginID= async (id) => {
-    var slimData = lookupLoginData.filter(item => item.id === id);
+    var slimData = lookupScoreData.filter(item => item.id === id);
     if (slimData.length === 1) {
-        updateUserData({ lookupLoginData: slimData });
+        updateUserData({ lookupScoreData: slimData });
         return;
     }
 
     var login = '';
-    const result = await lookupLogin(id, 
+    const result = await lookupScore(id, 
       login,
       '', 
       '', 
@@ -144,13 +139,13 @@ const AdminLogins = () => {
       '');
 
     if (!result.success) {
-      console.error('lookupLogin failed:', result.error || result.status);
+      console.error('lookupScore failed:', result.error || result.status);
     }
   };
   
   return (
     <div>
-      <h1>{userData.gameInfo.gameDisplayName} Logins Lookup</h1>
+      <h1>{userData.gameInfo.gameDisplayName} Scores Lookup</h1>
 
       <div className="form-container">
         <form onSubmit={handleSubmit}>
@@ -172,7 +167,7 @@ const AdminLogins = () => {
             type="text"
             name="lookupLoginID"
             placeholder="LOGIN#"
-            value={userData?.lookupLogin?.id || ''}
+            value={userData?.lookupScore?.id || ''}
             onChange={setLookupID}
             className="input-field"
           />
@@ -180,7 +175,7 @@ const AdminLogins = () => {
             type="text"
             name="lookupLogin"
             placeholder="Login"
-            value={userData?.lookupLogin?.login || ''}
+            value={userData?.lookupScore?.login || ''}
             onChange={setLookupLogin}
             className="input-field"
           />
@@ -188,7 +183,7 @@ const AdminLogins = () => {
             type="text"
             name="lookupNickname"
             placeholder="Nickname"
-            value={userData?.lookupLogin?.nickname || ''}
+            value={userData?.lookupScore?.nickname || ''}
             onChange={setLookupNickname}
             className="input-field"
           />
@@ -196,7 +191,7 @@ const AdminLogins = () => {
             type="text"
             name="lookupIP"
             placeholder="IP"
-            value={userData?.lookupLogin?.ip || ''}
+            value={userData?.lookupScore?.ip || ''}
             onChange={setLookupIP}
             className="input-field"
           />
@@ -204,7 +199,7 @@ const AdminLogins = () => {
             type="text"
             name="lookupTime"
             placeholder="time"
-            value={userData?.lookupLogin?.time || ''}
+            value={userData?.lookupScore?.time || ''}
             onChange={setLookupTime}
             className="input-field"
           />
@@ -227,9 +222,9 @@ const AdminLogins = () => {
 
       {userData.busy ? (
         <LoadingSpinner />
-      ) : Array.isArray(lookupLoginData) && lookupLoginData.length > 0 ? (
-        lookupLoginData.length === 1 ? (
-          <SingleLoginTable rec={lookupLoginData[0]}/>
+      ) : Array.isArray(lookupScoreData) && lookupScoreData.length > 0 ? (
+        lookupScoreData.length === 1 ? (
+          <SingleScoreTable rec={lookupScoreData[0]}/>
         ) : (
           <div className="table-container">
             <table id="matches">
@@ -240,7 +235,7 @@ const AdminLogins = () => {
                       <span
                         style={{ 
                           cursor: 'pointer',
-                          color: userData?.lookupLogin?.orderup === 'id' ? 'black' : 'inherit',
+                          color: userData?.lookupScore?.orderup === 'id' ? 'black' : 'inherit',
                         }}
                         onClick={() => sortUp('id')}
                       >
@@ -249,7 +244,7 @@ const AdminLogins = () => {
                       <span
                         style={{ 
                           cursor: 'pointer',
-                          color: userData?.lookupLogin?.orderdown === 'id' ? 'black' : 'inherit',
+                          color: userData?.lookupScore?.orderdown === 'id' ? 'black' : 'inherit',
                         }}
                         onClick={() => sortDown('id')}
                       >
@@ -262,7 +257,7 @@ const AdminLogins = () => {
                       <span
                         style={{ 
                           cursor: 'pointer',
-                          color: userData?.lookupLogin?.orderup === 'login' ? 'black' : 'inherit',
+                          color: userData?.lookupScore?.orderup === 'login' ? 'black' : 'inherit',
                         }}
                         onClick={() => sortUp('login')}
                       >
@@ -271,7 +266,7 @@ const AdminLogins = () => {
                       <span
                         style={{ 
                           cursor: 'pointer',
-                          color: userData?.lookupLogin?.orderdown === 'login' ? 'black' : 'inherit',
+                          color: userData?.lookupScore?.orderdown === 'login' ? 'black' : 'inherit',
                         }}
                         onClick={() => sortDown('login')}
                       >
@@ -283,7 +278,7 @@ const AdminLogins = () => {
                       <span
                         style={{ 
                           cursor: 'pointer',
-                          color: userData?.lookupLogin?.orderup === 'nickname' ? 'black' : 'inherit',
+                          color: userData?.lookupScore?.orderup === 'nickname' ? 'black' : 'inherit',
                         }}                        
                         onClick={() => sortUp('nickname')}
                       >
@@ -292,19 +287,20 @@ const AdminLogins = () => {
                       <span
                         style={{ 
                           cursor: 'pointer',
-                          color: userData?.lookupLogin?.orderdown === 'nickname' ? 'black' : 'inherit',
+                          color: userData?.lookupScore?.orderdown === 'nickname' ? 'black' : 'inherit',
                         }}                        
                         onClick={() => sortDown('nickname')}
                       >
                         &#9660;
                       </span>
                     </th>
+                    <th>Experience</th>
                     <th>
                       IP
                       <span
                         style={{ 
                           cursor: 'pointer',
-                          color: userData?.lookupLogin?.orderup === 'ip' ? 'black' : 'inherit',
+                          color: userData?.lookupScore?.orderup === 'ip' ? 'black' : 'inherit',
                         }}                        
                         onClick={() => sortUp('ip')}
                       >
@@ -313,18 +309,18 @@ const AdminLogins = () => {
                       <span
                         style={{ 
                           cursor: 'pointer',
-                          color: userData?.lookupLogin?.orderdown === 'ip' ? 'black' : 'inherit',
+                          color: userData?.lookupScore?.orderdown === 'ip' ? 'black' : 'inherit',
                         }}                        
                         onClick={() => sortDown('ip')}
                       >
                         &#9660;
                       </span>
                     </th>
-                    <th></th>
+                    <th>Memo</th>
                 </tr>
               </thead>
               <tbody>
-                {lookupLoginData.map((rec, index) => (
+                {lookupScoreData.map((rec, index) => (
                   <tr key={index}>
                     <td>
                       {rec.id}
@@ -344,23 +340,13 @@ const AdminLogins = () => {
                       {rec.nickname}
                       <AdminLinkNickname val={rec.nickname} login={rec.login}/>
                     </td>
+                    <td>{rec.experience.toLocaleString()}</td>
                     <td>
                       {rec.ip}
                       <AdminLinkIP val={rec.ip}/>
                     </td>
                       <td>
-                        {rec.ban === 1 && (
-                          <BlockIcon style={{ color: 'red', fontSize: 20 }} titleAccess="Login denied: User account is banned" />
-                        )}
-                        {rec.ban === 2 && (
-                          <LanIcon style={{ color: 'red', fontSize: 20 }} titleAccess="Login denied: IP address is banned" />
-                        )}
-                        {rec.ban === 3 && (
-                          <PublicOffIcon style={{ color: 'red', fontSize: 20 }} titleAccess="Login denied: VPN usage detected" />
-                        )}
-                        {rec.ban === 4 && (
-                          <WifiOffIcon style={{ color: 'red', fontSize: 20 }} titleAccess="Login denied: ISP is banned" />
-                        )}
+                        {rec.memo}
                       </td>
                   </tr>
                 ))}
@@ -369,19 +355,19 @@ const AdminLogins = () => {
           </div>
         )
       ) : (
-        <div>No reports to display</div>
+        <div>No scores to display</div>
       )}
     </div>
   );
 };
 
-const SingleLoginTable = ({ rec }) => {
+const SingleScoreTable = ({ rec }) => {
   return (
     <>
   <table>
     <tr>
       <th>ID</th>
-      <td>LOGIN#{rec.id}</td>
+      <td>SCORE#{rec.id}</td>
     </tr>
     <tr>
       <th>Time</th>
@@ -402,6 +388,25 @@ const SingleLoginTable = ({ rec }) => {
       </td>
     </tr>
     <tr>
+      <th>Old Nickname</th>
+      <td>
+        {rec.nicknameOld}
+        <AdminLinkNickname val={rec.nicknameOld} login={rec.login}/>
+      </td>
+    </tr>
+    <tr>
+      <th>Experience</th>
+      <td>{rec.experience.toLocaleString()}</td>
+    </tr>
+    <tr>
+      <th>Old Experience</th>
+      <td>{rec.experienceOld.toLocaleString()}</td>
+    </tr>
+    <tr>
+      <th>New Experience</th>
+      <td>{rec.experienceNew.toLocaleString()}</td>
+    </tr>
+    <tr>
       <th>IP</th>
       <td>
         {rec.ip}
@@ -409,29 +414,20 @@ const SingleLoginTable = ({ rec }) => {
       </td>
     </tr>
     <tr>
-      <th>Ban</th>
+      <th>Status</th>
       <td>
-        {rec.ban === 1 && (
-          <BlockIcon style={{ color: 'red', fontSize: 20 }} titleAccess="Login denied: User account is banned" />
-        )}
-        {rec.ban === 2 && (
-          <LanIcon style={{ color: 'red', fontSize: 20 }} titleAccess="Login denied: IP address is banned" />
-        )}
-        {rec.ban === 3 && (
-          <PublicOffIcon style={{ color: 'red', fontSize: 20 }} titleAccess="Login denied: VPN usage detected" />
-        )}
-        {rec.ban === 4 && (
-          <WifiOffIcon style={{ color: 'red', fontSize: 20 }} titleAccess="Login denied: ISP is banned" />
-        )}
+        {rec.status}
       </td>
     </tr>
     <tr>
-      <th>Game Version</th>
-      <td>{rec.gameVersion}</td>
+      <th>Memo</th>
+      <td>
+        {rec.memo}
+      </td>
     </tr>
   </table>
   </>
   );
 };
 
-export default AdminLogins;
+export default AdminScores;

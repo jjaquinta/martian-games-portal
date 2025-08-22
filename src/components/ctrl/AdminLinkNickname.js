@@ -10,7 +10,7 @@ import { useApi } from '../useAPI';
 import { useQuickApi } from '../useQuickAPI';
 
 const AdminLinkNickname = ({ val, login }) => {
-  const { lookupUserByNickname, lookupLoginByNickname, lookupReportByNickname, lookupReportByReportNickname } = useApi();
+  const { lookupUserByNickname, lookupLoginByNickname, lookupScoreByNickname, lookupReportByNickname, lookupReportByReportNickname } = useApi();
   const { quickChangeName } = useQuickApi();
   const [anchorEl, setAnchorEl] = useState(null);
   const [subMenuAnchor, setSubMenuAnchor] = useState(null);
@@ -49,6 +49,10 @@ const AdminLinkNickname = ({ val, login }) => {
         <MenuItem onClick={() => lookupLoginByNickname(val, '/portal/admin/logins')}>
           <img src="/portal/images/search_login16.png" alt="Lookup logins by nickname" style={{ marginRight: '8px' }} />
           Lookup logins with nickname {val}
+        </MenuItem>
+        <MenuItem onClick={() => lookupScoreByNickname(val, '/portal/admin/scores')}>
+          <img src="/portal/images/search_score16.png" alt="Lookup scores by nickname" style={{ marginRight: '8px' }} />
+          Lookup scores with nickname {val}
         </MenuItem>
         <MenuItem onClick={() => lookupReportByNickname(val, '/portal/admin/reports')}>
           <img src="/portal/images/search_reporter16.png" alt="Lookup reports by nickname" style={{ marginRight: '8px' }} />

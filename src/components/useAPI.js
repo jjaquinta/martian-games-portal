@@ -334,6 +334,95 @@ export const useApi = () => {
     }
   };
 
+  const lookupScore = async (id, login, nickname, ip, time, orderup, orderdown) => {
+    const bodyParams = { id, login, nickname, ip, time, orderup, orderdown };
+    updateUserData({ lookupScore: bodyParams });
+    const url = `scores`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => updateUserData({ lookupScoreData: data }),
+      "Score lookup request failed"
+    );
+  };
+
+  const lookupScoreByID = async (id, destination = '/portal/admin/scores') => {  
+    const result = await lookupScore(id, '', '', '', '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Score failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
+  const lookupScoreByLogin = async (login, destination = '/portal/admin/scores') => {  
+    const result = await lookupScore('', login, '', '', '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Score failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
+  const lookupScoreByNickname = async (nickname, destination = '/portal/admin/scores') => {  
+    const result = await lookupScore('', '', nickname, '', '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Score failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
+  const lookupScoreByIP = async (ip, destination = '/portal/admin/scores') => {  
+    const result = await lookupScore('', '', '', ip, '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Score failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
+  const lookupClan = async (id, tag, name, time, orderup, orderdown) => {
+    const bodyParams = { id, tag, name, time, orderup, orderdown };
+    updateUserData({ lookupClan: bodyParams });
+    const url = `clans`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => updateUserData({ lookupClanData: data }),
+      "Clan lookup request failed"
+    );
+  };
+
+  const lookupClanByID = async (id, destination = '/portal/game/clans') => {  
+    const result = await lookupClan(id, '', '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Clan failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
+  const lookupClanByTag = async (tag, destination = '/portal/game/clans') => {  
+    const result = await lookupClan('', login, '', '', '', '');
+    if (!result.success) {
+      console.error('Lookup Clan failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
+  const lookupClanByName = async (name, destination = '/portal/game/clans') => {  
+    const result = await lookupClan('', '', name, '', '', '');
+    if (!result.success) {
+      console.error('Lookup Clan failed:', result.error || result.status);
+    } else {
+      navigate(destination);
+    }
+  };
+
   const takeAction = async (login, action, audit) => {
     const bodyParams = { login, action, audit };
     updateUserData({ actionParams: bodyParams });
@@ -659,6 +748,21 @@ export const useApi = () => {
     updateUserData({ selectedMapsData: data});
   }
 
+  const saveMap = async ( data ) => {
+    const bodyObject = data;
+    const url = `map`;
+
+    return apiAnyRequest(
+      url,
+      {},
+      (data) => updateUserData({ selectedMapsData: data }),
+      "Map save request failed",
+      "PATCH",
+      {},
+      bodyObject
+    );
+  }
+
   const lookupAnalysis = async (finished, limit) => {
     const bodyParams = { finished, limit };
     updateUserData({ lookupAnalysis: bodyParams });
@@ -728,6 +832,15 @@ export const useApi = () => {
     lookupLoginByLogin,
     lookupLoginByNickname,
     lookupLoginByIP,
+    lookupScore,
+    lookupScoreByID,
+    lookupScoreByLogin,
+    lookupScoreByNickname,
+    lookupScoreByIP,
+    lookupClan,
+    lookupClanByID,
+    lookupClanByTag,
+    lookupClanByName,
     updateUserData,
     registerEmail,
     quickSwitch,
@@ -749,5 +862,6 @@ export const useApi = () => {
     lookupMaps,
     createMap,
     selectMap,
+    saveMap,
   };
 };

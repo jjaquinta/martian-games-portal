@@ -1,18 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useApi } from '../useAPI';
 
 const MapScene = ({ rec }) => {
-    const { selectMap } = useApi();
+    const { selectMap, saveMap } = useApi();
   
-    const doBack = async () => {
+    const [name, setName] = useState(rec.name);
+    const [description, setDescription] = useState(rec.description);
+    const [pub, setPub] = useState(rec.pub);
+
+    const doCancel = async () => {
         await selectMap(null);
       };
+
+      const doSave = async () => {
+        const updatedRec = { ...rec, name, description, pub };
+        await saveMap(updatedRec);
+    };
 
       return (
     <>
         <div className="form-container">
-            <button type="button" className="refresh-button" onClick={doBack}>
-                Back
+            <button type="button" className="refresh-button" onClick={doCancel}>
+                Cancel
+            </button>
+            <button type="button" className="refresh-button" onClick={doSave}>
+                Save
             </button>
         </div>
         <table>
@@ -35,17 +47,37 @@ const MapScene = ({ rec }) => {
             </tr>
             <tr>
             <th>Public</th>
-            <td>{rec.pub}</td>
+            <td>
+                <input
+                    type="checkbox"
+                    checked={pub}
+                    onChange={(e) => setPub(e.target.checked)}
+                />
+            </td>
             </tr>
             <tr>
-            <th>Name</th>
-            <td>{rec.name}</td>
+                <th>Name</th>
+                <td>
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="input-field"
+                    />
+                </td>
             </tr>
             <tr>
-            <th colSpan="2">Description</th>
+                <th colSpan="2">Description</th>
             </tr>
             <tr>
-            <td colSpan="2">{rec.description}</td>
+                <td colSpan="2">
+                    <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        className="input-field"
+                        rows={4}
+                    />
+                </td>
             </tr>
         </tbody>
         </table>

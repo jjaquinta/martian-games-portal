@@ -119,6 +119,9 @@ function Navigator() {
                 <Nav.Link as={Link} to="/portal/game/leaderboard" className={location.pathname === '/portal/game/leaderboard' ? 'glow' : ''}>
                   Leaderboard
                 </Nav.Link>
+                <Nav.Link as={Link} to="/portal/game/clans" className={location.pathname === '/portal/game/clans' ? 'glow' : ''}>
+                  Clans
+                </Nav.Link>
                 <Nav.Link as={Link} to="/portal/game/lookup" className={location.pathname === '/portal/game/lookup' ? 'glow' : ''}>
                   Player Lookup
                 </Nav.Link>
@@ -174,6 +177,9 @@ function Navigator() {
                 </Nav.Link>
                 <Nav.Link as={Link} to="/portal/admin/logins" className={location.pathname === '/portal/admin/logins' ? 'glow' : ''}>
                   Logins
+                </Nav.Link>
+                <Nav.Link as={Link} to="/portal/admin/scores" className={location.pathname === '/portal/admin/scores' ? 'glow' : ''}>
+                  Scores
                 </Nav.Link>
                 <Nav.Link as={Link} to="/portal/admin/bannedips" className={location.pathname === '/portal/admin/bannedips' ? 'glow' : ''}>
                   Banned ISP

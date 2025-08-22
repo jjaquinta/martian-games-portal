@@ -9,7 +9,7 @@ import PublicIcon from '@mui/icons-material/Public';
 import { useApi } from '../useAPI';
 
 const AdminLinkIP = ({ val }) => {
-  const { lookupUserByIP, lookupLoginByIP } = useApi();
+  const { lookupUserByIP, lookupLoginByIP, lookupScoreByIP } = useApi();
   const [anchorEl, setAnchorEl] = useState(null);
   const [subMenuAnchor, setSubMenuAnchor] = useState(null);
 
@@ -23,7 +23,7 @@ const AdminLinkIP = ({ val }) => {
   const handleSubMenuClose = () => setSubMenuAnchor(null);
   
   const handleIPLookup = () => {
-    const ipLookupURL = `http://ip-api.com/json/${val}`;
+    const ipLookupURL = `http://ip-api.com/json/${val}?fields=country,regionName,city,zip,lat,lon,proxy,hosting,isp,org,as`;
     window.open(ipLookupURL, '_blank');
     handleClose(); // Close the main menu
     handleSubMenuClose(); // Close the submenu
@@ -48,6 +48,10 @@ const AdminLinkIP = ({ val }) => {
         <MenuItem onClick={() => lookupLoginByIP(val, '/portal/admin/logins')}>
           <img src="/portal/images/search_login16.png" alt="Lookup logins by ip" style={{ marginRight: '8px' }} />
           Lookup logins from ip {val}
+        </MenuItem>
+        <MenuItem onClick={() => lookupScoreByIP(val, '/portal/admin/scores')}>
+          <img src="/portal/images/search_score16.png" alt="Lookup scores by ip" style={{ marginRight: '8px' }} />
+          Lookup scores from ip {val}
         </MenuItem>
 
         {/* Example of a cascading submenu */}

@@ -84,6 +84,7 @@ const MePassword = () => {
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}          
             className="form-input"
+            maxLength={24}
           />
         </div>
         <button type="submit" className="submit-button" disabled={loading}>Change</button>

@@ -17,6 +17,7 @@ import MeReports from './components/me/reports';
 import MeActions from './components/me/actions';
 import MeCases from './components/me/cases';
 import GameLeaderboard from './components/game/leaderboard';
+import ClanLookup from './components/game/clanboard';
 import GameLookup from './components/game/lookup';
 import GameLobbyChat from './components/game/lobbychat';
 import GameAnalysis from './components/game/analysis';
@@ -30,6 +31,7 @@ import BetaOldMap from './components/beta/oldmap';
 import AdminPlayers from'./components/admin/players';
 import AdminReports from'./components/admin/reports';
 import AdminLogins from'./components/admin/logins';
+import AdminScores from'./components/admin/scores';
 import AdminInvestigate from'./components/admin/investigate';
 import AdminCases from'./components/admin/cases';
 import AdminAnalysis from'./components/admin/analysis';
@@ -116,6 +118,7 @@ const router = createBrowserRouter([
         element: <ProtectedRoute><Outlet /></ProtectedRoute>,
         children: [
           { path: "leaderboard", element: <GameLeaderboard /> },
+          { path: "clans", element: <ClanLookup /> },
           { path: "lookup", element: <GameLookup /> },
           { path: "lobbychat", element: <GameLobbyChat /> },
           { path: "analysis", element: <GameAnalysis /> },
@@ -137,6 +140,7 @@ const router = createBrowserRouter([
           { path: "players", element: <AdminPlayers/> },
           { path: "reports", element: <AdminReports/> },
           { path: "logins", element: <AdminLogins/> },
+          { path: "scores", element: <AdminScores/> },
           { path: "bannedips", element: <AdminBannedIPs/> },
           { path: "cases", element: <AdminCases/> },
           { path: "investigate", element: <AdminInvestigate/> },
