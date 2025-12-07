@@ -1,98 +1,162 @@
 /* src/components/PublicPolicies.css */
 
-table {
-    width: 100%; /* Full width for the table */
-    border-collapse: collapse; /* Collapse borders */
-    table-layout: fixed; /* Fixed layout to maintain column widths */
-  }
-  
-  th, td {
-    padding: 10px; /* Padding for table cells */
-    text-align: right; /* Align text to the right */
-    overflow: hidden; /* Prevent overflow */
-    text-overflow: ellipsis; /* Add ellipsis for overflow text */
-    white-space: nowrap; /* Prevent text wrapping */
-  }
-  
-  th {
-    background-color: rgba(242, 242, 242, 0.9); /* Light background for headers */
-  }
+.table-container {
+  background: rgba(15, 23, 41, 0.85);
+  /* Midnight Blue glass */
+  border-radius: 16px;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(74, 158, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  padding: 40px;
+  margin: 30px auto;
+  max-width: 1200px;
+  color: var(--color-text-primary, #e8edf5);
+}
 
+h1,
+h2,
+h3 {
+  font-family: 'Montserrat', sans-serif;
+  color: #e8edf5;
+  margin-top: 1.5em;
+  margin-bottom: 0.8em;
+}
 
-  body {
-    background: linear-gradient(135deg, #e0e0e0, #ffffff); /* Light gradient background */
-    font-family: 'Arial', sans-serif; /* Use a clean font */
-    margin: 0;
-    padding: 0; /* Remove padding to keep the layout tight */
-  }
-  
-  
-  h1, h2, h3 {
-    color: #333; /* Darker color for headings */
-  }
-  
-  p {
-    line-height: 1.6; /* Improve readability */
-  }
-  
-  ul {
-    margin-left: 20px; /* Indent lists */
-  }
-
-  
-  
-  table {
-    width: 100%; /* Full width for the table */
-    border-collapse: collapse; /* Collapse borders */
-  }
-  
-  th, td {
-    padding: 10px; /* Padding for table cells */
-    text-align: right; /* Align text to the right */
-  }
-  
-  th {
-    background-color: rgba(242, 242, 242, 0.9); /* Light background for headers */
-  }
-  
-  button {
-    padding: 10px 20px; /* Button padding */
-    background-color: #007bff; /* Bootstrap primary color */
-    color: white; /* White text */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor */
-    transition: background-color 0.3s; /* Smooth transition */
-  }
-  
-  button:hover {
-    background-color: #569ae4; /* Darker blue on hover */
-  }
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #d4af37;
+  /* Premium Gold */
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  margin-top: 0;
+  border-bottom: 2px solid rgba(74, 158, 255, 0.3);
+  padding-bottom: 15px;
+  display: inline-block;
+}
 
 h2 {
-  position: relative; /* Position relative for pseudo-elements */
+  font-size: 1.8rem;
+  color: #4a9eff;
+  /* Electric Blue */
+  position: relative;
 }
 
-h2 a {
-  text-decoration: none !important; /* Force no underline */
-  color: #007bff; /* Bootstrap primary color */
-  transition: color 0.3s, transform 0.3s, text-shadow 0.3s; /* Smooth transition for color, transform, and text-shadow */
+h3 {
+  font-size: 1.4rem;
+  color: #c0c8d4;
+  /* Platinum */
 }
 
-h2 a:hover,
-a:hover { /* Apply hover effect to all links */
-  color: #00aaff; /* Light blue color on hover */
-  transform: scale(1.05); /* Slightly enlarge on hover */
-  text-shadow: 0 0 10px rgba(0, 170, 255, 0.7), 0 0 20px rgba(0, 170, 255, 0.5); /* Stronger glowing effect */
+p,
+li {
+  font-family: 'Lato', sans-serif;
+  line-height: 1.7;
+  color: #c0c8d4;
+  font-size: 1.05rem;
 }
 
-h2 a:focus,
-a:focus { /* Apply focus effect to all links */
-  outline: none; /* Remove default outline on focus */
-  text-shadow: 0 0 10px rgba(0, 170, 255, 0.7), 0 0 20px rgba(0, 170, 255, 0.5); /* Glowing effect on focus */
+ul,
+ol {
+  margin-left: 20px;
 }
 
-/* Additional rule to ensure no underlines */
-* a {
-  text-decoration: none !important; /* Ensure all links have no underline */
+a {
+  color: #4a9eff !important;
+  text-decoration: none !important;
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
+
+a:hover {
+  color: #d4af37 !important;
+  /* Gold hover */
+  text-shadow: 0 0 12px rgba(212, 175, 55, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 20px 0;
+  background: rgba(26, 35, 50, 0.4);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+th,
+td {
+  padding: 16px;
+  text-align: right;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+th {
+  background-color: rgba(74, 158, 255, 0.1);
+  color: #d4af37;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Styles for Inputs */
+input[type="text"] {
+  background: rgba(15, 23, 41, 0.6);
+  border: 1px solid rgba(74, 158, 255, 0.3);
+  color: #ffffff;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-family: 'Lato', sans-serif;
+  width: 100%;
+  max-width: 150px;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #4a9eff;
+  box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.2);
+  background: rgba(15, 23, 41, 0.8);
+}
+
+/* Button Styles */
+button {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, #2a3f5f, #4a9eff);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
+  text-transform: uppercase;
+}
+
+button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(74, 158, 255, 0.5);
+  background: linear-gradient(135deg, #3d5a80, #6bb0ff);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Remove body override to let global theme apply */
+/* h2 anchor positioning fix overrides removed as they break flex layout sometimes, keeping simple */

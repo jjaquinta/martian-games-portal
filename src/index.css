@@ -1,225 +1,690 @@
 /*************************************
-GENERAL
+IMPORTS & FONTS
 *************************************/
-body {
-	margin-left: 15px;
-	margin-right: 15px;
-	margin-top: 12px;
-	padding: 0;
-	font: 12px/1.4em "Lucida Grande", Verdana, sans-serif;
-	color: #DDD;
-	overflow-y: scroll;
-	text-rendering: optimizeLegibility;
-	background-color: #000000;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap');
+
+/*************************************
+CSS CUSTOM PROPERTIES - MIDNIGHT BLUE PREMIUM THEME
+*************************************/
+:root {
+  /* Midnight Blue Premium Color Palette */
+  --color-midnight-dark: #0f1729;
+  --color-midnight: #1a2332;
+  --color-midnight-medium: #2a3f5f;
+  --color-midnight-light: #3d5a80;
+
+  /* Platinum Silver */
+  --color-platinum: #c0c8d4;
+  --color-platinum-light: #e8edf5;
+  --color-platinum-dark: #98a2b3;
+
+  /* Electric Blue Accent */
+  --color-electric-blue: #4a9eff;
+  --color-electric-blue-light: #6bb0ff;
+  --color-electric-blue-dark: #2d7fd9;
+
+  /* Premium Gold */
+  --color-gold: #d4af37;
+  --color-gold-light: #e8c968;
+  --color-gold-dark: #b8941f;
+
+  /* Background Colors */
+  --color-bg-dark: #0a0f1a;
+  --color-bg-medium: #0f1729;
+  --color-bg-light: #1a2332;
+
+  /* Text Colors */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #e8edf5;
+  --color-text-muted: #c0c8d4;
+  --color-text-subtle: #98a2b3;
+
+  /* Gradients - Premium & Sophisticated */
+  --gradient-midnight: linear-gradient(135deg, #0f1729, #1a2332);
+  --gradient-midnight-blue: linear-gradient(135deg, #1a2332, #2a3f5f);
+  --gradient-electric: linear-gradient(135deg, #4a9eff, #6bb0ff);
+  --gradient-gold: linear-gradient(135deg, #d4af37, #e8c968);
+  --gradient-premium: linear-gradient(135deg, #2a3f5f, #4a9eff);
+  --gradient-platinum: linear-gradient(135deg, #c0c8d4, #e8edf5);
+
+  /* Shadows & Effects - Refined */
+  --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-elevated: 0 12px 32px rgba(0, 0, 0, 0.5);
+  --shadow-glow-blue: 0 0 24px rgba(74, 158, 255, 0.3);
+  --shadow-glow-gold: 0 0 24px rgba(212, 175, 55, 0.3);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(26, 35, 50, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: blur(12px);
+
+  /* Typography */
+  --font-heading: 'Montserrat', sans-serif;
+  --font-body: 'Lato', sans-serif;
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
 }
 
+/*************************************
+
+/*************************************
+GENERAL & RESET
+*************************************/
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  overflow-x: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--gradient-navy);
+  background-attachment: fixed;
+  position: relative;
+}
+
+/* Subtle starfield background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.6), transparent),
+    radial-gradient(1px 1px at 60% 70%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 50% 50%, rgba(255, 255, 255, 0.5), transparent),
+    radial-gradient(1px 1px at 80% 10%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 90% 60%, rgba(255, 255, 255, 0.4), transparent),
+    radial-gradient(1px 1px at 33% 80%, rgba(255, 255, 255, 0.3), transparent),
+    radial-gradient(1px 1px at 15% 90%, rgba(255, 255, 255, 0.5), transparent);
+  background-size: 200% 200%;
+  background-position: 0% 0%;
+  animation: starfield 120s ease-in-out infinite;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes starfield {
+
+  0%,
+  100% {
+    background-position: 0% 0%;
+  }
+
+  50% {
+    background-position: 100% 100%;
+  }
+}
+
+/*************************************
+TEXT ANIMATIONS
+*************************************/
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes fadeInWords {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLetters {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes expandLetterSpacing {
+  from {
+    letter-spacing: -0.5em;
+    opacity: 0;
+  }
+
+  to {
+    letter-spacing: 0.2em;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 0;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-top: 0;
+}
+
+
+/*************************************
+HEADER & FOOTER STYLES
+*************************************/
 .header-text {
-  font-size: 9pt;  /* Adjust font size as needed */
-  color: #888;          /* Light gray color */
-  text-align: center;  /* Center align the text */
-  margin-top: 1em;      /* Add some margin from top content */
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-top: 1em;
+  font-family: var(--font-body);
 }
+
 .header-error {
-  font-size: 10pt;           /* Slightly larger font size for readability */
-  color: #ff4c4c;            /* Bright red for contrast */
-  text-align: center;        /* Center align the text */
-  margin-top: 1em;           /* Add margin from top content */
-  text-shadow: 1px 1px 2px #333; /* Optional text shadow for better readability */
+  font-size: 1.1rem;
+  color: var(--color-mars-red);
+  text-align: center;
+  margin-top: 1em;
+  padding: 12px 24px;
+  background: rgba(255, 69, 0, 0.1);
+  border: 1px solid var(--color-mars-red);
+  border-radius: 8px;
+  text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+  animation: pulse-error 2s ease-in-out infinite;
 }
+
+@keyframes pulse-error {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
+}
+
 .header-success {
-  font-size: 10pt;           /* Slightly larger font size for readability */
-  color: #4cff4c;            /* Bright red for contrast */
-  text-align: center;        /* Center align the text */
-  margin-top: 1em;           /* Add margin from top content */
-  text-shadow: 1px 1px 2px #333; /* Optional text shadow for better readability */
+  font-size: 1.1rem;
+  color: #4cff4c;
+  text-align: center;
+  margin-top: 1em;
+  padding: 12px 24px;
+  background: rgba(76, 255, 76, 0.1);
+  border: 1px solid #4cff4c;
+  border-radius: 8px;
+  text-shadow: 0 0 10px rgba(76, 255, 76, 0.5);
+  animation: pulse-success 2s ease-in-out infinite;
 }
+
+@keyframes pulse-success {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.9;
+  }
+}
+
 .header-logo {
-  font-size: 9pt;  /* Adjust font size as needed */
-  color: #888;          /* Light gray color */
-  text-align: left;  /* Center align the text */
-  margin-top: 1em;      /* Add some margin from top content */
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  text-align: left;
+  margin-top: 1em;
+  font-family: var(--font-heading);
+  font-weight: 600;
 }
 
 .footer-text {
-  font-size: 0.8rem;  /* Adjust font size as needed */
-  color: #888;          /* Light gray color */
-  text-align: center;  /* Center align the text */
-  margin-top: 1em;      /* Add some margin from top content */
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-top: 1em;
+  font-family: var(--font-body);
 }
 
 .footer-text a {
-  color: inherit;  /* Inherit the color from the .footer-text class */
-  text-decoration: none;  /* Remove underline from links */
+  color: var(--color-electric-blue);
+  text-decoration: none;
+  transition: var(--transition-fast);
+  position: relative;
+}
+
+.footer-text a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-electric);
+  transition: width var(--transition-medium);
 }
 
 .footer-text a:hover {
-  text-decoration: underline;  /* Underline links on hover */
+  color: var(--color-gold);
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.5);
 }
 
+.footer-text a:hover::after {
+  width: 100%;
+}
 
+/*************************************
+LINKS & NAVIGATION
+*************************************/
 .mglink a {
-  color: #FFF;
-  text-decoration: none; /* remove underline */
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: var(--transition-medium);
+  position: relative;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 .mglink a:hover {
-  background-color: rgba(0, 0, 0, 0.1); /* Slightly darker background */
-  color: #eee; /* Adjust text color for contrast */
-  text-decoration: underline;  /* Underline links on hover */
-  text-decoration-color: #00f; /* Underline color */
+  background: var(--glass-bg);
+  color: var(--color-electric-blue);
+  text-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+  transform: translateY(-1px);
 }
 
+
+/*************************************
+FORM ELEMENTS
+*************************************/
 .input-field {
-  border: 1px solid #ccc; /* Light gray border */
-  border-radius: 5px; /* Rounded corners */
-  padding: 10px; /* Padding for better spacing */
-  font-size: 16px; /* Font size for readability */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for focus */
+  border: 2px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-family: var(--font-body);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition-medium);
 }
 
 .input-field:focus {
-  border-color: #76c7c0; /* Change border color on focus */
-  box-shadow: 0 0 5px rgba(118, 199, 192, 0.5); /* Highlight effect on focus */
-  outline: none; /* Remove default outline */
+  border-color: var(--color-electric-blue);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2), var(--shadow-card);
+  outline: none;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.input-field::placeholder {
+  color: var(--color-text-muted);
 }
 
 .label {
-  font-weight: bold; /* Bold labels */
-  margin-bottom: 5px; /* Space between label and input */
-  display: block; /* Make labels block elements */
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
 }
 
 .nickname-hover {
-  transition: color 0.3s, text-shadow 0.3s; /* Smooth transition */
+  transition: all var(--transition-medium);
   cursor: pointer;
-  color: #007bff; /* Optional: give it a distinct color to indicate it’s clickable */
-  text-decoration: none; /* Remove underline if you want */
+  color: var(--color-electric-blue);
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  display: inline-block;
+}
+
+.nickname-hover::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-electric);
+  transition: width var(--transition-medium);
 }
 
 .nickname-hover:hover {
-  color: #00f; /* Brighter blue on hover */
-  text-shadow: 0px 0px 8px rgba(0, 174, 255, 0.8);
-  text-decoration: underline; /* Add underline on hover for emphasis */
+  color: var(--color-gold);
+  text-shadow: 0 0 12px rgba(0, 212, 255, 0.6);
+  transform: translateY(-1px);
+}
+
+.nickname-hover:hover::after {
+  width: 100%;
 }
 
 
+/*************************************
+TABLES & DATA DISPLAY
+*************************************/
 .table-container {
   flex: 1;
-  background: rgba(255, 255, 255, 0.8); /* White background with transparency */
-  border-radius: 15px; /* Rounded corners */
-  backdrop-filter: blur(10px); /* Frosted glass effect */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  padding: 20px; /* Padding inside the container */
-  height: 79vh; /* Set a fixed height, or use a desired value */
-  overflow-y: auto; /* Enable vertical scrolling */
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-card);
+  padding: 24px;
+  height: 79vh;
+  overflow-y: auto;
+  transition: var(--transition-medium);
+}
+
+.table-container:hover {
+  box-shadow: var(--shadow-elevated);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Custom scrollbar */
+.table-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: var(--gradient-mars);
+  border-radius: 10px;
+  transition: var(--transition-fast);
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: var(--gradient-electric);
 }
 
 #matches {
-  width: auto; /* Allow the table to adjust width based on content */
-  border-collapse: collapse; /* Collapse borders for cleaner look */
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--color-text-primary);
 }
 
 #matches th,
 #matches td {
-  white-space: nowrap; /* Prevent text wrapping inside cells */
-  padding: 8px 12px; /* Add padding for better spacing */
-  text-align: left; /* Align text to the left */
-  border-bottom: 1px solid #ccc; /* Optional: Add a bottom border for rows */
+  white-space: nowrap;
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--glass-border);
+  font-family: var(--font-body);
 }
-#matches th:nth-child(2), /* Example for second column */
+
+#matches th {
+  background: var(--glass-bg);
+  font-weight: 600;
+  color: var(--color-electric-blue);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  position: sticky;
+  top: 0;
+  backdrop-filter: var(--glass-blur);
+}
+
+#matches tr {
+  transition: var(--transition-fast);
+}
+
+#matches tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+#matches th:nth-child(2),
 #matches td:nth-child(2) {
-  max-width: 200px; /* Set a maximum width */
-  text-overflow: ellipsis; /* Truncate text with ellipsis if it overflows */
+  max-width: 200px;
+  text-overflow: ellipsis;
   overflow: hidden;
 }
 
 
 
+
+/*************************************
+BUTTONS & CONTROLS
+*************************************/
 .page-button {
-  background-color: #1a044d;
-  color: #fff;
-  border: none;
+  background: var(--gradient-mars);
+  color: var(--color-text-primary);
+  border: 2px solid transparent;
   margin: 0 5px;
-  padding: 8px 12px;
+  padding: 10px 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  transition: all var(--transition-medium);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left var(--transition-slow);
+}
+
+.page-button:hover::before {
+  left: 100%;
 }
 
 .page-button:hover {
-  background-color: rgb(75, 13, 246);
+  background: var(--gradient-electric);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-elevated), var(--shadow-glow-blue);
+  border-color: var(--color-electric-blue);
 }
 
 .page-button.active {
-  background-color: #4b0df6;
-  font-weight: bold;
+  background: var(--gradient-gold);
+  font-weight: 700;
   cursor: default;
-}  
+  box-shadow: var(--shadow-elevated), 0 0 20px rgba(255, 215, 0, 0.4);
+  border-color: var(--color-gold);
+}
 
+.page-button.active:hover {
+  transform: none;
+}
 
-/* General pagination button styles */
+/* Pagination */
 .pagination {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 10px;
-  gap: 4px; /* Small gap for button spacing */
+  margin-top: 20px;
+  gap: 8px;
 }
 
 .pagination-controls {
   display: flex;
   justify-content: center;
-  margin-top: 15px;
+  align-items: center;
+  margin-top: 20px;
+  gap: 8px;
 }
 
 .pagination-controls button {
-  background-color: transparent; /* Default transparent background */
-  color: #130244; /* Text color */
-  padding: 5px 10px; /* Padding for button */
-  margin: 0 5px; /* Spacing between buttons */
-  border: 1px solid #130244; /* Border color to match text */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer; /* Pointer cursor */
-  transition: background-color 0.3s, transform 0.2s; /* Smooth transition */
-}
-
-/* Hover effect for pagination buttons */
-.pagination-controls button:hover {
-  background-color: rgba(19, 2, 68, 0.1); /* Light background on hover */
-}
-
-/* Active page button style */
-.pagination-controls .active {
-  background-color: #130244; /* Solid background for active page */
-  color: white; /* White text on active button */
-  font-weight: bold; /* Bold text */
-  border-color: #130244; /* Match border with background */
-}
-
-/* Refresh button styling */
-.refresh-button {
-  background-color:rgba(76, 175, 80, 0.7);
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
+  background: var(--glass-bg);
+  color: var(--color-text-primary);
+  padding: 8px 16px;
+  margin: 0;
+  border: 2px solid var(--glass-border);
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-family: var(--font-body);
+  font-weight: 500;
+  transition: all var(--transition-medium);
+  backdrop-filter: var(--glass-blur);
+}
+
+.pagination-controls button:hover {
+  background: var(--glass-bg);
+  border-color: var(--color-electric-blue);
+  color: var(--color-electric-blue);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+
+.pagination-controls .active {
+  background: var(--gradient-mars);
+  color: var(--color-text-primary);
+  font-weight: 700;
+  border-color: var(--color-mars-red);
+  box-shadow: var(--shadow-card), var(--shadow-glow-mars);
+}
+
+.pagination-controls .active:hover {
+  transform: none;
+}
+
+/* Refresh button */
+.refresh-button {
+  background: var(--gradient-electric);
+  color: var(--color-text-primary);
+  border: 2px solid var(--color-electric-blue);
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 600;
+  transition: all var(--transition-medium);
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: hidden;
+}
+
+.refresh-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left var(--transition-slow);
+}
+
+.refresh-button:hover::before {
+  left: 100%;
 }
 
 .refresh-button:hover {
-  background-color: #218838;
+  background: var(--gradient-gold);
+  border-color: var(--color-gold);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: var(--shadow-elevated), 0 0 20px rgba(0, 212, 255, 0.5);
+}
+
+.refresh-button:active {
+  transform: translateY(0) scale(1);
 }
 
 
+
+/*************************************
+UTILITY CLASSES
+*************************************/
 .scrollable-cell {
-  max-height: 50px; /* Set the maximum height */
-  overflow-y: hidden; /* Hidden by default */
-  white-space: nowrap; /* Prevent text wrapping */
-  transition: overflow 0.3s; /* Smooth transition */
+  max-height: 50px;
+  overflow-y: hidden;
+  white-space: nowrap;
+  transition: all var(--transition-medium);
+  border-radius: 4px;
+  padding: 4px;
 }
 
 .scrollable-cell:hover {
-  overflow-y: auto; /* Show scroll bar on hover */
-  cursor: pointer; /* Change cursor to pointer on hover */
+  overflow-y: auto;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  max-height: 150px;
+}
+
+/* Custom scrollbar for scrollable cells */
+.scrollable-cell::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-cell::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.scrollable-cell::-webkit-scrollbar-thumb {
+  background: var(--gradient-mars);
+  border-radius: 3px;
 }

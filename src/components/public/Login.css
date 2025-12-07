@@ -1,137 +1,206 @@
 /* src/components/public/Login.css */
 
 .login-container {
-  max-width: 400px; /* Set a max width for the login form */
-  margin: auto; /* Center the login form */
-  padding: 20px; /* Add padding */
-  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-  backdrop-filter: blur(10px); /* Blur effect for glassmorphism */
-  transition: background-color 0.3s, transform 0.2s, border-color 0.3s; /* Transition effects */
-  position: relative; /* Fix positioning within parent container */
+  max-width: 420px;
+  margin: 6vh auto;
+  padding: 40px;
+  background: rgba(15, 23, 41, 0.75);
+  /* Midnight Blue glass */
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(74, 158, 255, 0.15);
+  position: relative;
   width: 100%;
+  animation: fadeInUp 0.5s ease-out backwards;
 }
 
-
-
-
 .background-video {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   min-width: 100%;
   min-height: 100%;
-  width:fit-content;
-  height:fit-content;
+  width: auto;
+  height: auto;
   z-index: -1;
   transform: translate(-50%, -50%);
-  object-fit:cover; /* Ensures the video covers the entire area */
-  transition: opacity 0.5s ease-in-out; /* Add a transition effect */
-  overflow-x: hidden;
-
-  
+  object-fit: cover;
+  filter: brightness(0.6) contrast(1.1);
+  /* Darken video for better text contrast */
 }
 
 .login-content {
-  position: relative; /* Position relative for content */
-  z-index: 1; /* Bring content above the video */
-  color: white; /* Change text color for visibility */
-  text-align: center; /* Center text */
-  padding: 20px; /* Add some padding */
-  
+  position: relative;
+  z-index: 1;
+  text-align: center;
 }
 
-
-
 .login-title {
-  text-align: center; /* Center the title */
-  margin-bottom: 20px; /* Space below the title */
-  font-weight: bold; /* Bold title */
-  color: #fede3e; /* Gold color for the title */
-  font-family: cursive;
+  text-align: center;
+  margin-bottom: 30px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: #d4af37;
+  /* Premium Gold */
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .login-form {
   display: flex;
-  flex-direction: column; /* Stack form elements vertically */
+  flex-direction: column;
+  gap: 15px;
 }
 
+/* Force override of Bootstrap's .form-control and .form-select */
+.login-form .login-input,
+.login-form .login-select,
+.login-form .form-control,
+.login-form .form-select {
+  border: 1px solid rgba(74, 158, 255, 0.3) !important;
+  border-radius: 8px !important;
+  padding: 12px 16px !important;
+  background-color: rgba(15, 20, 25, 0.6) !important;
+  backdrop-filter: blur(10px);
+  color: #ffffff !important;
+  font-family: 'Lato', sans-serif !important;
+  font-size: 1rem !important;
+  width: 100%;
+  transition: all 0.3s ease;
+}
 
+.login-form .login-input::placeholder {
+  color: #98a2b3 !important;
+  opacity: 1 !important;
+}
+
+.login-form .login-input:focus,
+.login-form .login-select:focus,
+.login-form .form-control:focus,
+.login-form .form-select:focus {
+  border-color: #4a9eff !important;
+  box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.2) !important;
+  background-color: rgba(15, 20, 25, 0.85) !important;
+  color: #ffffff !important;
+  outline: none !important;
+}
+
+/* Fix Autofill background color */
+.login-form .login-input:-webkit-autofill,
+.login-form .login-input:-webkit-autofill:hover,
+.login-form .login-input:-webkit-autofill:focus,
+.login-form .login-input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px rgba(15, 20, 25, 0.95) inset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
 
 .login-input,
 .login-select {
-  border: 2px solid rgba(212, 175, 55, 0.5); /* Semi-transparent gold border */
-  border-radius: 5px; /* Rounded corners */
-  padding: 10px; /* Padding for inputs */
-  margin-bottom: 15px; /* Space between inputs */
-  transition: border-color 0.3s; /* Transition for border color */
-  background-color: rgba(255, 255, 255, 0.1); /* More transparent background for inputs */
-  backdrop-filter: blur(10px); /* Blur effect for glassmorphism */
-  color: white; /* Ensure text color is white for visibility */
-  font-family: cursive; /* Match the style to the title */
+  border: 1px solid rgba(74, 158, 255, 0.3);
+  /* Electric Blue Subtle */
+  border-radius: 8px;
+  padding: 12px 16px;
+  background-color: rgba(15, 20, 25, 0.6);
+  backdrop-filter: blur(10px);
+  color: #ffffff;
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  width: 100%;
+  transition: all 0.3s ease;
 }
 
-/* Ensure focus styles are retained */
+.login-input::placeholder {
+  color: #98a2b3;
+}
+
 .login-input:focus,
 .login-select:focus {
-  border-color: #d4af37; /* Solid gold border on focus */
-  box-shadow: 0 0 5px rgba(212, 175, 55, 0.5); /* Gold shadow on focus */
-  outline: none; /* Remove default outline */
+  border-color: #4a9eff;
+  /* Electric Blue Focus */
+  box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.2);
+  background-color: rgba(15, 20, 25, 0.85);
+  outline: none;
 }
 
 .login-button {
-  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
-  color: #f16202; /* Gold text color */
-  border: 2px solid rgba(212, 175, 55, 0.5); /* Semi-transparent gold border */
-  border-radius: 5px; /* Rounded corners */
-  padding: 10px; /* Padding for buttons */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s, transform 0.2s, border-color 0.3s; /* Transition effects */
-  backdrop-filter: blur(10px); /* Blur effect for glassmorphism */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  background: linear-gradient(135deg, #2a3f5f, #4a9eff);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 12px rgba(74, 158, 255, 0.3);
+  text-transform: uppercase;
+  margin-top: 10px;
 }
 
 .login-button:hover {
-  background-color: rgba(255, 255, 255, 0.4); /* Slightly more opaque on hover */
-  border-color: #d4af37; /* Solid gold border on hover */
-  transform: translateY(-2px); /* Lift effect on hover */
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #3d5a80, #6bb0ff);
+  box-shadow: 0 6px 20px rgba(74, 158, 255, 0.5);
 }
 
 .login-button:active {
-  transform: translateY(0); /* Reset lift effect on click */
+  transform: translateY(0);
 }
-/* Add this to Login.css */
 
 .mute-button {
-  position: absolute; /* Position in top-right corner */
+  position: absolute;
   top: 20px;
   right: 20px;
-  background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent background */
-  color: #d4af37; /* Gold color */
-  border: none;
-  border-radius: 50%; /* Circular button */
-  padding: 10px;
-  font-size: 20px;
-  cursor: pointer;
+  background-color: rgba(15, 23, 41, 0.6);
+  color: #d4af37;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s;
-  z-index: 2; /* Keep above other content */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+  font-size: 1.2rem;
+  /* Ensure base font size for em units */
+}
+
+/* Explicitly target the SVG icon from react-icons */
+.mute-button svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  /* Inherit gold/grey color */
+  display: block;
+  /* Remove line-height issues */
 }
 
 .mute-button:hover {
-  background-color: rgba(255, 255, 255, 0.5); /* Slightly more opaque on hover */
+  background-color: rgba(212, 175, 55, 0.2);
+  color: #fff;
+  transform: scale(1.1);
+  border-color: #d4af37;
 }
 
 .mute-button.muted {
-  background-color: rgba(255, 0, 0, 0.7); /* Red background when muted */
+  color: #98a2b3;
+  border-color: rgba(152, 162, 179, 0.3);
 }
 
-.mute-button .icon {
-  font-size: 24px; /* Adjust icon size */
+.mute-button.muted:hover {
+  color: #c0c8d4;
+  border-color: rgba(152, 162, 179, 0.6);
 }
+
 .loading-dots {
   display: flex;
   justify-content: center;
@@ -139,27 +208,40 @@
 }
 
 .dot {
-  width: 10px;
-  height: 10px;
-  margin: 5px 5px;
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
   border-radius: 50%;
-  background-color: #007bff; /* Change to desired color */
+  background-color: #4a9eff;
   animation: bounce 0.6s infinite alternate;
 }
 
 .dot:nth-child(2) {
-  animation-delay: 0.2s; /* Delay for the second dot */
+  animation-delay: 0.2s;
 }
 
 .dot:nth-child(3) {
-  animation-delay: 0.4s; /* Delay for the third dot */
+  animation-delay: 0.4s;
 }
 
 @keyframes bounce {
   0% {
     transform: translateY(0);
   }
+
   100% {
-    transform: translateY(-10px); /* Adjust the height of the bounce */
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
