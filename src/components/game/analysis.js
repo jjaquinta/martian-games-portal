@@ -40,8 +40,8 @@ const GameAnalysis = () => {
   };
 
   return (
-    <div>
-      <h1>{userData.gameInfo.gameDisplayName} Analysis Reports</h1>
+    <div className="table-container fade-in-up" style={{ maxWidth: '1200px', margin: '40px auto' }}>
+      <h1 className="premium-header">{userData.gameInfo.gameDisplayName} Analysis Reports</h1>
 
       <div className="form-container">
         <form onSubmit={handleSubmit}>
@@ -65,29 +65,29 @@ const GameAnalysis = () => {
       {userData.busy ? (
         <LoadingSpinner />
       ) : Array.isArray(lookupAnalysisData) && lookupAnalysisData.length > 0 ? (
-        <div className="table-container">
+        <div className="table-wrapper">
           <table id="matches">
             <thead>
               <tr>
-                  <th>Time</th>
-                  <th>Title</th>
-                  <th>Finished</th>
-                  <th></th>
+                <th>Time</th>
+                <th>Title</th>
+                <th>Finished</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {lookupAnalysisData.map((rec, index) => (
                 <tr
-                    key={index}
-                  >
+                  key={index}
+                >
                   <td>{rec.submittedAtDisplay}</td>
                   <td>{rec.title}</td>
                   <td>{rec.finished ? '' : 'pending'}</td>
                   <td>
                     {rec.finished ? (
                       <Tooltip title="View this analysis">
-                        <IconButton onClick={() => handleRowClick(rec.html)} color="error" aria-label="delete">
-                          <VisibilityIcon />
+                        <IconButton onClick={() => handleRowClick(rec.html)} color="primary" aria-label="view">
+                          <VisibilityIcon style={{ color: '#4a9eff' }} />
                         </IconButton>
                       </Tooltip>
                     ) : null}
@@ -96,9 +96,9 @@ const GameAnalysis = () => {
               ))}
             </tbody>
           </table>
-        </div>        
+        </div>
       ) : (
-        <div>No analysis reports to display</div>
+        <div style={{ color: '#c0c8d4', marginTop: '20px' }}>No analysis reports to display</div>
       )}
     </div>
   );

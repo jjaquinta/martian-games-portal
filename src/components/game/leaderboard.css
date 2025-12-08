@@ -13,26 +13,32 @@
 
 /* Style for select elements */
 .leaderboard-form select {
-    background-color:#146cf1;/* Match the theme */
-    color: white; /* Text color */
-    padding: 8px 12px; /* Same padding as the refresh button */
+    background-color: #146cf1;
+    /* Match the theme */
+    color: white;
+    /* Text color */
+    padding: 8px 12px;
+    /* Same padding as the refresh button */
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Add transition for effects */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    /* Add transition for effects */
 }
 
 /* Hover effect for select elements */
 .leaderboard-form select:hover {
-    background-color: #141493; /* Change background on hover */
-    transform: translateY(-2px); /* Lift effect */
+    background-color: #141493;
+    /* Change background on hover */
+    transform: translateY(-2px);
+    /* Lift effect */
 }
 
 /* Style for name links */
 .name-link {
     cursor: pointer;
-    color: blue;
-  
+    color: var(--color-electric-blue);
+
     transition: color 0.3s, text-shadow 0.3s;
 }
 
@@ -44,18 +50,22 @@
 /* Responsive adjustments */
 @media (max-width: 600px) {
     .page-button {
-        padding: 6px 10px; /* Reduce padding on smaller screens */
-        font-size: 14px; /* Adjust font size for better fit */
+        padding: 6px 10px;
+        /* Reduce padding on smaller screens */
+        font-size: 14px;
+        /* Adjust font size for better fit */
     }
 }
 
 @media (max-width: 400px) {
     .pagination {
-        justify-content: space-between; /* Spread out buttons if needed */
+        justify-content: space-between;
+        /* Spread out buttons if needed */
     }
-    
+
     .page-button {
-        padding: 4px 8px; /* Compact padding on very small screens */
+        padding: 4px 8px;
+        /* Compact padding on very small screens */
         font-size: 12px;
     }
 }

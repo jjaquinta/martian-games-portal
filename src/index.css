@@ -13,10 +13,10 @@ CSS CUSTOM PROPERTIES - MIDNIGHT BLUE PREMIUM THEME
   --color-midnight-medium: #2a3f5f;
   --color-midnight-light: #3d5a80;
 
-  /* Platinum Silver */
-  --color-platinum: #c0c8d4;
-  --color-platinum-light: #e8edf5;
-  --color-platinum-dark: #98a2b3;
+  /* Platinum Silver - High Contrast */
+  --color-platinum: #dae1e8;
+  --color-platinum-light: #ffffff;
+  --color-platinum-dark: #b0b8c4;
 
   /* Electric Blue Accent */
   --color-electric-blue: #4a9eff;
@@ -24,20 +24,21 @@ CSS CUSTOM PROPERTIES - MIDNIGHT BLUE PREMIUM THEME
   --color-electric-blue-dark: #2d7fd9;
 
   /* Premium Gold */
-  --color-gold: #d4af37;
-  --color-gold-light: #e8c968;
+  --color-gold: #ffd700;
+  /* Brighter Gold */
+  --color-gold-light: #ffea70;
   --color-gold-dark: #b8941f;
 
   /* Background Colors */
-  --color-bg-dark: #0a0f1a;
-  --color-bg-medium: #0f1729;
-  --color-bg-light: #1a2332;
+  --color-bg-dark: #050a10;
+  --color-bg-medium: #0a0f1a;
+  --color-bg-light: #151b29;
 
-  /* Text Colors */
+  /* Text Colors - High Visibility */
   --color-text-primary: #ffffff;
-  --color-text-secondary: #e8edf5;
-  --color-text-muted: #c0c8d4;
-  --color-text-subtle: #98a2b3;
+  --color-text-secondary: #f0f4f8;
+  --color-text-muted: #e0e6ed;
+  --color-text-subtle: #c0c8d4;
 
   /* Gradients - Premium & Sophisticated */
   --gradient-midnight: linear-gradient(135deg, #0f1729, #1a2332);
@@ -47,17 +48,19 @@ CSS CUSTOM PROPERTIES - MIDNIGHT BLUE PREMIUM THEME
   --gradient-premium: linear-gradient(135deg, #2a3f5f, #4a9eff);
   --gradient-platinum: linear-gradient(135deg, #c0c8d4, #e8edf5);
 
-  /* Shadows & Effects - Refined */
-  --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.3);
-  --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.4);
-  --shadow-elevated: 0 12px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow-blue: 0 0 24px rgba(74, 158, 255, 0.3);
-  --shadow-glow-gold: 0 0 24px rgba(212, 175, 55, 0.3);
+  /* Shadows & Effects - High Contrast */
+  --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.6);
+  --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.7);
+  --shadow-elevated: 0 12px 32px rgba(0, 0, 0, 0.8);
+  --shadow-glow-blue: 0 0 24px rgba(74, 158, 255, 0.4);
+  --shadow-glow-gold: 0 0 24px rgba(212, 175, 55, 0.4);
 
-  /* Glassmorphism */
-  --glass-bg: rgba(26, 35, 50, 0.15);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-blur: blur(12px);
+  /* Glassmorphism - High Contrast */
+  --glass-bg: rgba(10, 15, 25, 0.9);
+  /* Opaque for readability */
+  --glass-border: rgba(100, 180, 255, 0.25);
+  /* Stronger border */
+  --glass-blur: blur(20px);
 
   /* Typography */
   --font-heading: 'Montserrat', sans-serif;
@@ -89,7 +92,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: var(--gradient-navy);
+  background: var(--gradient-midnight);
   background-attachment: fixed;
   position: relative;
 }
@@ -462,43 +465,88 @@ TABLES & DATA DISPLAY
   background: var(--gradient-electric);
 }
 
-#matches {
+.table-container table,
+#leaders,
+#matches,
+#chats,
+#reports,
+#logins,
+#scores,
+#players {
   width: 100%;
   border-collapse: collapse;
-  color: var(--color-text-primary);
+  color: var(--color-text-primary) !important;
+  background-color: transparent !important;
 }
 
+.table-container th,
+.table-container td,
+#leaders th,
+#leaders td,
 #matches th,
-#matches td {
+#matches td,
+#chats th,
+#chats td {
   white-space: nowrap;
   padding: 12px 16px;
   text-align: left;
   border-bottom: 1px solid var(--glass-border);
   font-family: var(--font-body);
+  background-color: transparent !important;
+  color: var(--color-text-primary) !important;
 }
 
-#matches th {
+/* Override any potential Bootstrap striped rows */
+.table-container tr:nth-of-type(odd),
+.table-container tr:nth-of-type(even),
+#leaders tr:nth-of-type(odd),
+#leaders tr:nth-of-type(even),
+#matches tr:nth-of-type(odd),
+#matches tr:nth-of-type(even),
+#chats tr:nth-of-type(odd),
+#chats tr:nth-of-type(even) {
+  background-color: transparent !important;
+  color: var(--color-text-primary) !important;
+}
+
+.table-container th,
+#leaders th,
+#matches th,
+#chats th {
   background: var(--glass-bg);
   font-weight: 600;
-  color: var(--color-electric-blue);
+  color: var(--color-electric-blue) !important;
   text-transform: uppercase;
   font-size: 0.85rem;
   letter-spacing: 1px;
   position: sticky;
   top: 0;
   backdrop-filter: var(--glass-blur);
+  z-index: 10;
 }
 
-#matches tr {
+.table-container tr,
+#leaders tr,
+#matches tr,
+#chats tr {
   transition: var(--transition-fast);
 }
 
-#matches tr:hover {
-  background: rgba(255, 255, 255, 0.03);
+.table-container tr:hover,
+#leaders tr:hover,
+#matches tr:hover,
+#chats tr:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
 }
 
+.table-container th:nth-child(2),
+.table-container td:nth-child(2),
+#leaders th:nth-child(2),
+#leaders td:nth-child(2),
 #matches th:nth-child(2),
-#matches td:nth-child(2) {
+#matches td:nth-child(2),
+#chats th:nth-child(2),
+#chats td:nth-child(2) {
   max-width: 200px;
   text-overflow: ellipsis;
   overflow: hidden;

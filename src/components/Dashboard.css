@@ -166,21 +166,25 @@
 
 .dashboard-card {
   position: relative;
-  background: rgba(26, 35, 50, 0.8);
-  border: 2px solid rgba(255, 255, 255, 0.12);
+  background: rgba(15, 23, 41, 0.9);
+  /* Darkened from 0.8 for contrast */
+  border: 2px solid rgba(120, 160, 255, 0.2);
+  /* Brighter border */
   border-radius: 16px;
   padding: 40px 32px;
   text-decoration: none;
-  color: white;
+  color: #ffffff;
+  /* Pure white text */
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
   backdrop-filter: blur(24px);
   box-shadow:
-    0 10px 40px rgba(0, 0, 0, 0.6),
-    0 4px 12px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    0 10px 40px rgba(0, 0, 0, 0.8),
+    /* Stronger shadow */
+    0 4px 12px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
   transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   overflow: hidden;
   animation: fadeInUp 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
@@ -291,7 +295,10 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   text-align: center;
-  color: #b8c5d6;
+  color: #e0e6ed;
+  /* Brighter than #b8c5d6 */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  /* Added shadow for readability */
   transition: all 0.5s ease;
   position: relative;
 }

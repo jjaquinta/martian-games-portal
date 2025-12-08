@@ -78,14 +78,14 @@ const GameLookup = () => {
     if (e != null) {
       e.preventDefault();
     }
-  
-    const result = await lookupUser(userData?.lookup?.id || '', 
-      userData?.lookup?.login || '', 
-      userData?.lookup?.nickname || '', 
-      userData?.lookup?.level || '', 
-      userData?.lookup?.ip || '', 
-      userData?.lookup?.cc || '', 
-      userData?.lookup?.sortup || '', 
+
+    const result = await lookupUser(userData?.lookup?.id || '',
+      userData?.lookup?.login || '',
+      userData?.lookup?.nickname || '',
+      userData?.lookup?.level || '',
+      userData?.lookup?.ip || '',
+      userData?.lookup?.cc || '',
+      userData?.lookup?.sortup || '',
       userData?.lookup?.sortdown || 'xp');
 
     if (!result.success) {
@@ -94,43 +94,43 @@ const GameLookup = () => {
   };
 
   const sortUp = async (column) => {
-    const result = await lookupUser(userData?.lookup?.id || '', 
-      userData?.lookup?.login || '', 
-      userData?.lookup?.nickname || '', 
-      userData?.lookup?.level || '', 
-      userData?.lookup?.ip || '', 
-      userData?.lookup?.cc || '', 
-      column, 
+    const result = await lookupUser(userData?.lookup?.id || '',
+      userData?.lookup?.login || '',
+      userData?.lookup?.nickname || '',
+      userData?.lookup?.level || '',
+      userData?.lookup?.ip || '',
+      userData?.lookup?.cc || '',
+      column,
       '');
 
     if (!result.success) {
       console.error('Lookup failed:', result.error || result.status);
     }
   };
-  
+
   const sortDown = async (column) => {
-    const result = await lookupUser(userData?.lookup?.id || '', 
-      userData?.lookup?.login || '', 
-      userData?.lookup?.nickname || '', 
-      userData?.lookup?.level || '', 
-      userData?.lookup?.ip || '', 
-      userData?.lookup?.cc || '', 
-      '', 
+    const result = await lookupUser(userData?.lookup?.id || '',
+      userData?.lookup?.login || '',
+      userData?.lookup?.nickname || '',
+      userData?.lookup?.level || '',
+      userData?.lookup?.ip || '',
+      userData?.lookup?.cc || '',
+      '',
       column);
 
     if (!result.success) {
       console.error('Lookup failed:', result.error || result.status);
     }
   };
-  
+
   const doClear = async () => {
-    const result = await lookupUser('', 
-      '', 
-      '', 
-      '', 
+    const result = await lookupUser('',
       '',
       '',
-      '', 
+      '',
+      '',
+      '',
+      '',
       'xp');
 
     if (!result.success) {
@@ -140,11 +140,11 @@ const GameLookup = () => {
 
   const isDeputy = userData?.user?.deputy;
   const isAdmin = userData?.user?.admin;
-  
+
   return (
-    <div>
-      <h1>{userData.gameInfo.gameDisplayName} Lookup</h1>
-      <p>Look up your fellow players and see how you stand against them.</p>
+    <div className="table-container fade-in-up" style={{ maxWidth: '1200px', margin: '40px auto' }}>
+      <h1 className="premium-header">{userData.gameInfo.gameDisplayName} Lookup</h1>
+      <p className="premium-text" style={{ marginBottom: '30px' }}>Look up your fellow players and see how you stand against them.</p>
 
       <div className="form-container">
         <form onSubmit={handleSubmit}>
@@ -216,9 +216,9 @@ const GameLookup = () => {
           >
             <option value="">{`Any Country`}</option>
             {Object.entries(MGServices.countryCodes).map(([code, name]) => (
-            <option key={code} value={code}>
+              <option key={code} value={code}>
                 {name}
-            </option>
+              </option>
             ))}
           </select>
           <button
@@ -242,160 +242,160 @@ const GameLookup = () => {
         <LoadingSpinner />
       ) : Array.isArray(lookupUserData) && lookupUserData.length > 0 ? (
         lookupUserData.length === 1 ? (
-          <SingleUserTable player={lookupUserData[0]} isAdmin={isAdmin} isDeputy={isDeputy} isMe={lookupUserData[0].login === userData.player.login}/>
+          <SingleUserTable player={lookupUserData[0]} isAdmin={isAdmin} isDeputy={isDeputy} isMe={lookupUserData[0].login === userData.player.login} />
         ) : (
-          <div className="table-container">
+          <div className="table-wrapper">
             <table id="matches">
               <thead>
                 <tr>
-                    {userData?.user?.deputy && (<th>
-                      ID
-                      <span
-                        style={{ 
-                          cursor: 'pointer',
-                          color: userData.lookup.orderup === 'id' ? 'black' : 'inherit',
-                        }}
-                        onClick={() => sortUp('id')}
-                      >
-                        &#9650;
-                      </span>
-                      <span
-                        style={{ 
-                          cursor: 'pointer',
-                          color: userData.lookup.orderdown === 'id' ? 'black' : 'inherit',
-                        }}
-                        onClick={() => sortDown('id')}
-                      >
-                        &#9660;
-                      </span>
-                    </th>)}
-                    {userData?.user?.deputy && (<th>
-                      Login
-                      <span
-                        style={{ 
-                          cursor: 'pointer',
-                          color: userData.lookup.orderup === 'login' ? 'black' : 'inherit',
-                        }}
-                        onClick={() => sortUp('login')}
-                      >
-                        &#9650;
-                      </span>
-                      <span
-                        style={{ 
-                          cursor: 'pointer',
-                          color: userData.lookup.orderdown === 'login' ? 'black' : 'inherit',
-                        }}
-                        onClick={() => sortDown('login')}
-                      >
-                        &#9660;
-                      </span>
-                    </th>)}
-                    <th>
-                      Nickname 
-                      <span
-                        style={{ 
-                          cursor: 'pointer',
-                          color: userData.lookup.orderup === 'nickname' ? 'black' : 'inherit',
-                        }}                        
-                        onClick={() => sortUp('nickname')}
-                      >
-                        &#9650;
-                      </span>
-                      <span
-                        style={{ 
-                          cursor: 'pointer',
-                          color: userData.lookup.orderdown === 'nickname' ? 'black' : 'inherit',
-                        }}                        
-                        onClick={() => sortDown('nickname')}
-                      >
-                        &#9660;
-                      </span>
-                    </th>
-                    <th>
-                      XP
-                      <span
-                        style={{ 
-                          cursor: 'pointer',
-                          color: userData.lookup.orderup === 'xp' ? 'black' : 'inherit',
-                        }}                        
-                        onClick={() => sortUp('xp')}
-                      >
-                        &#9650;
-                      </span>
-                      <span
-                        style={{ 
-                          cursor: 'pointer',
-                          color: userData.lookup.orderdown === 'xp' ? 'black' : 'inherit',
-                        }}                        
-                        onClick={() => sortDown('xp')}
-                      >
-                        &#9660;
-                      </span>
-                    </th>
-                    <th>
-                      Level
-                      <span
-                        style={{ 
-                          cursor: 'pointer',
-                          color: userData.lookup.orderup === 'xp' ? 'black' : 'inherit',
-                        }}                        
-                        onClick={() => sortUp('xp')}
-                      >
-                        &#9650;
-                      </span>
-                      <span
-                        style={{ 
-                          cursor: 'pointer',
-                          color: userData.lookup.orderdown === 'xp' ? 'black' : 'inherit',
-                        }}                        
-                        onClick={() => sortDown('xp')}
-                      >
-                        &#9660;
-                      </span>
-                    </th>
-                    {userData?.user?.deputy && (<th>
-                      IP
-                      <span
-                        style={{ 
-                          cursor: 'pointer',
-                          color: userData.lookup.orderup === 'ip' ? 'black' : 'inherit',
-                        }}                        
-                        onClick={() => sortUp('ip')}
-                      >
-                        &#9650;
-                      </span>
-                      <span
-                        style={{ 
-                          cursor: 'pointer',
-                          color: userData.lookup.orderdown === 'ip' ? 'black' : 'inherit',
-                        }}                        
-                        onClick={() => sortDown('ip')}
-                      >
-                        &#9660;
-                      </span>
-                    </th>)}
-                    <th>Banned</th>
-                    <th>
-                      Country
-                      <span
-                        style={{ 
-                          cursor: 'pointer',
-                          color: userData.lookup.orderup === 'countryCode' ? 'black' : 'inherit',
-                        }}                        
-                        onClick={() => sortUp('countryCode')}
-                      >
-                        &#9650;
-                      </span>
-                      <span
-                        style={{ 
-                          cursor: 'pointer',
-                          color: userData.lookup.orderdown === 'countryCode' ? 'black' : 'inherit',
-                        }}                        
-                        onClick={() => sortDown('countryCode')}
-                      >
-                        &#9660;
-                      </span>
-                    </th>
+                  {userData?.user?.deputy && (<th>
+                    ID
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: userData.lookup.orderup === 'id' ? '#4a9eff' : 'inherit',
+                      }}
+                      onClick={() => sortUp('id')}
+                    >
+                      &#9650;
+                    </span>
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: userData.lookup.orderdown === 'id' ? '#4a9eff' : 'inherit',
+                      }}
+                      onClick={() => sortDown('id')}
+                    >
+                      &#9660;
+                    </span>
+                  </th>)}
+                  {userData?.user?.deputy && (<th>
+                    Login
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: userData.lookup.orderup === 'login' ? '#4a9eff' : 'inherit',
+                      }}
+                      onClick={() => sortUp('login')}
+                    >
+                      &#9650;
+                    </span>
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: userData.lookup.orderdown === 'login' ? '#4a9eff' : 'inherit',
+                      }}
+                      onClick={() => sortDown('login')}
+                    >
+                      &#9660;
+                    </span>
+                  </th>)}
+                  <th>
+                    Nickname
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: userData.lookup.orderup === 'nickname' ? '#4a9eff' : 'inherit',
+                      }}
+                      onClick={() => sortUp('nickname')}
+                    >
+                      &#9650;
+                    </span>
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: userData.lookup.orderdown === 'nickname' ? '#4a9eff' : 'inherit',
+                      }}
+                      onClick={() => sortDown('nickname')}
+                    >
+                      &#9660;
+                    </span>
+                  </th>
+                  <th>
+                    XP
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: userData.lookup.orderup === 'xp' ? '#4a9eff' : 'inherit',
+                      }}
+                      onClick={() => sortUp('xp')}
+                    >
+                      &#9650;
+                    </span>
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: userData.lookup.orderdown === 'xp' ? '#4a9eff' : 'inherit',
+                      }}
+                      onClick={() => sortDown('xp')}
+                    >
+                      &#9660;
+                    </span>
+                  </th>
+                  <th>
+                    Level
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: userData.lookup.orderup === 'xp' ? '#4a9eff' : 'inherit',
+                      }}
+                      onClick={() => sortUp('xp')}
+                    >
+                      &#9650;
+                    </span>
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: userData.lookup.orderdown === 'xp' ? '#4a9eff' : 'inherit',
+                      }}
+                      onClick={() => sortDown('xp')}
+                    >
+                      &#9660;
+                    </span>
+                  </th>
+                  {userData?.user?.deputy && (<th>
+                    IP
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: userData.lookup.orderup === 'ip' ? '#4a9eff' : 'inherit',
+                      }}
+                      onClick={() => sortUp('ip')}
+                    >
+                      &#9650;
+                    </span>
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: userData.lookup.orderdown === 'ip' ? '#4a9eff' : 'inherit',
+                      }}
+                      onClick={() => sortDown('ip')}
+                    >
+                      &#9660;
+                    </span>
+                  </th>)}
+                  <th>Banned</th>
+                  <th>
+                    Country
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: userData.lookup.orderup === 'countryCode' ? '#4a9eff' : 'inherit',
+                      }}
+                      onClick={() => sortUp('countryCode')}
+                    >
+                      &#9650;
+                    </span>
+                    <span
+                      style={{
+                        cursor: 'pointer',
+                        color: userData.lookup.orderdown === 'countryCode' ? '#4a9eff' : 'inherit',
+                      }}
+                      onClick={() => sortDown('countryCode')}
+                    >
+                      &#9660;
+                    </span>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -437,7 +437,7 @@ const GameLookup = () => {
           </div>
         )
       ) : (
-        <div>No users to display</div>
+        <div style={{ marginTop: '20px', color: '#c0c8d4' }}>No users to display</div>
       )}
     </div>
   );
@@ -445,7 +445,7 @@ const GameLookup = () => {
 
 const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
   const { userData } = useContext(UserContext);
-  const { lookupUserByLevel, lookupUserByNickname, takeAction } = useApi(); 
+  const { lookupUserByLevel, lookupUserByNickname, takeAction } = useApi();
   const [banUIVisible, setBanUIVisible] = useState(false);
   const [reinstateUIVisible, setReinstateUIVisible] = useState(false);
   const [audit, setAudit] = useState('');
@@ -458,7 +458,7 @@ const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
     await takeAction(user.current.login, 'ban', audit);
     setBanUIVisible(false);
   };
-  
+
   const handleBanCancel = () => {
     setBanUIVisible(false);
   };
@@ -471,21 +471,21 @@ const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
     await takeAction(user.current.login, 'unban', audit);
     setReinstateUIVisible(false);
   };
-  
+
   const handleReinstateCancel = () => {
     setReinstateUIVisible(false);
   };
 
   return (
     <>
-    {isAdmin && (
-      <>
-      {!user.current.banned && (<button onClick={handleBanStart}>Ban</button>)}
-      {user.current.banned && (<button onClick={handleReinstateStart}>Reinstate</button>)}
-      <br/>
-      {banUIVisible && (
-        <div id="banUI">
-          <input
+      {isAdmin && (
+        <>
+          {!user.current.banned && (<button onClick={handleBanStart}>Ban</button>)}
+          {user.current.banned && (<button onClick={handleReinstateStart}>Reinstate</button>)}
+          <br />
+          {banUIVisible && (
+            <div id="banUI">
+              <input
                 type="text"
                 name="audit"
                 placeholder="Reason"
@@ -493,13 +493,13 @@ const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
                 onChange={(e) => setAudit(e.target.value)}
                 className="input-field"
               />
-          <button onClick={handleBanSubmit}>Submit</button>
-          <button onClick={handleBanCancel}>Cancel</button>
-        </div>
-      )}
-      {reinstateUIVisible && (
-        <div id="banUI">
-          <input
+              <button onClick={handleBanSubmit}>Submit</button>
+              <button onClick={handleBanCancel}>Cancel</button>
+            </div>
+          )}
+          {reinstateUIVisible && (
+            <div id="banUI">
+              <input
                 type="text"
                 name="audit"
                 placeholder="Reason"
@@ -507,108 +507,108 @@ const SingleUserTable = ({ player: user, isAdmin, isDeputy, isMe }) => {
                 onChange={(e) => setAudit(e.target.value)}
                 className="input-field"
               />
-          <button onClick={handleReinstateSubmit}>Submit</button>
-          <button onClick={handleReinstateCancel}>Cancel</button>
+              <button onClick={handleReinstateSubmit}>Submit</button>
+              <button onClick={handleReinstateCancel}>Cancel</button>
+            </div>
+          )}
+        </>
+      )}
+      <table>
+        <tbody>
+          {isDeputy && (
+            <tr>
+              <th>Login</th>
+              <td>{user.current.login}</td>
+            </tr>
+          )}
+          <tr>
+            <th>Nickname</th>
+            <td>
+              <span
+                className="nickname-hover"
+                onClick={() => lookupUserByNickname(user.current.nickname)}
+              >
+                {user.current.nickname}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <th>XP</th>
+            <td>{user.current.experience.toLocaleString()}</td>
+          </tr>
+          <tr>
+            <th>Level</th>
+            <td>
+              <span
+                className="nickname-hover"
+                onClick={() => lookupUserByLevel(user.current.level)}
+              >
+                {user.current.level}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <th>Banned</th>
+            <td>{user.current.banned ? 'Yes' : 'No'}</td>
+          </tr>
+          <tr>
+            <th>Country</th>
+            <td>{user.current.countryCode}</td>
+          </tr>
+          <tr>
+            <th>Last Login</th>
+            <td>{user.current.lastLogin}</td>
+          </tr>
+          <tr>
+            <th>Joined</th>
+            <td>{user.current.timeJoined}</td>
+          </tr>
+          {user.current.password && user.current.password.trim() !== ''
+            && (isDeputy || isMe)
+            && (
+              <>
+                <tr>
+                  <th>Password:</th>
+                  <td>{user.current.password}</td>
+                </tr>
+              </>
+            )}
+          {user.nicknameOverride && user.nicknameOverride.trim() !== ''
+            && (isDeputy || isMe)
+            && (
+              <>
+                <tr>
+                  <th>Nick Override:</th>
+                  <td>{user.nicknameOverride}</td>
+                </tr>
+                <tr>
+                  <th>Since:</th>
+                  <td>{user.nicknameOverrideDateDisplay}</td>
+                </tr>
+                <tr>
+                  <th>Times:</th>
+                  <td
+                    style={{
+                      backgroundColor: user.nicknameOverrideTimes >= 10
+                        ? 'red'
+                        : user.nicknameOverrideTimes >= 5
+                          ? 'yellow'
+                          : 'inherit',
+                    }}
+                  >{user.nicknameOverrideTimes}</td>
+                </tr>
+              </>
+            )}
+        </tbody>
+      </table>
+      {userData.user?.deputy && (
+        <div>
+          <NicknameHistory user={user} />
+          <XPHistory user={user} />
+          <RankHistory user={user} />
         </div>
       )}
-      </>
-    )}
-  <table>
-    <tbody>
-    {isDeputy && (
-      <tr>
-        <th>Login</th>
-        <td>{user.current.login}</td>
-      </tr>
-    )}
-    <tr>
-      <th>Nickname</th>
-      <td>
-        <span
-          className="nickname-hover"
-          onClick={() => lookupUserByNickname(user.current.nickname)}
-        >
-          {user.current.nickname}
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <th>XP</th>
-      <td>{user.current.experience.toLocaleString()}</td>
-    </tr>
-    <tr>
-      <th>Level</th>
-      <td>
-        <span
-          className="nickname-hover"
-          onClick={() => lookupUserByLevel(user.current.level)}
-        >
-          {user.current.level}
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <th>Banned</th>
-      <td>{user.current.banned ? 'Yes' : 'No'}</td>
-    </tr>
-    <tr>
-      <th>Country</th>
-      <td>{user.current.countryCode}</td>
-    </tr>
-    <tr>
-      <th>Last Login</th>
-      <td>{user.current.lastLogin}</td>
-    </tr>
-    <tr>
-      <th>Joined</th>
-      <td>{user.current.timeJoined}</td>
-    </tr>
-    {user.current.password && user.current.password.trim() !== '' 
-    && (isDeputy || isMe)
-    && (
-      <>
-        <tr>
-          <th>Password:</th>
-          <td>{user.current.password}</td>
-        </tr>
-      </>
-    )}
-    {user.nicknameOverride && user.nicknameOverride.trim() !== '' 
-      && (isDeputy || isMe)
-      && (
-      <>
-        <tr>
-          <th>Nick Override:</th>
-          <td>{user.nicknameOverride}</td>
-        </tr>
-        <tr>
-          <th>Since:</th>
-          <td>{user.nicknameOverrideDateDisplay}</td>
-        </tr>
-        <tr>
-          <th>Times:</th>
-          <td
-          style={{
-            backgroundColor: user.nicknameOverrideTimes >= 10
-              ? 'red'
-              : user.nicknameOverrideTimes >= 5
-              ? 'yellow'
-              : 'inherit',
-          }}
-          >{user.nicknameOverrideTimes}</td>
-        </tr>
-      </>
-    )}
-    </tbody>
-  </table>
-  {userData.user?.deputy && (
-    <div>
-      <NicknameHistory user={user} />
-      <XPHistory user={user} />
-      <RankHistory user={user} />
-    </div>
-  )}
-  </>
+    </>
   );
 };
 
