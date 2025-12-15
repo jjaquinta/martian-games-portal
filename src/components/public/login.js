@@ -82,7 +82,7 @@ const PublicLogin = () => {
         setUserData(result.data);
         navigate('/portal/me/stats');
       } else {
-        setError(result.error || 'Login failed. Please try again.');
+        setError(result.errorMsg || 'Login failed. Please try again.');
         console.error('Login failed:', result);
       }
     } catch (err) {

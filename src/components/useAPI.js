@@ -47,6 +47,7 @@ export const useApi = () => {
     // Convert query parameters to query string
     const queryString = new URLSearchParams(queryParams).toString();
     const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/${func}${queryString ? `?${queryString}` : ''}`;
+    console.log(`API Request to ${url} with method ${method}`);
   
     // Determine request body and headers
     const useJson = bodyObject !== null;
@@ -71,13 +72,15 @@ export const useApi = () => {
         onSuccess(data, response);
         return { success: true, data };
       } else {
+        console.error(`API Request Failed for ${func}, status:`, response.status);
         setError(errorMsg);
-        return { success: false, status: response.status };
+        return { success: false, errorMsg, status: response.status };
       }
     } catch (error) {
+      console.error(`API Request Failed for ${func}:`, error);
       setBusy(false);
       setError(errorMsg);
-      return { success: false, error };
+      return { success: false, errorMsg };
     }
   };
   const apiGetRequest = async (func, queryParams, onSuccess, errorMsg) => {
@@ -335,7 +338,7 @@ export const useApi = () => {
   };
 
   const lookupScore = async (id, login, nickname, ip, time, orderup, orderdown) => {
-    const bodyParams = { id, login, nickname, ip, time, orderup, orderdown };
+    const bodyParams = { id, login, nickname, ip, time, orderup, orderdown, limit: 1000 };
     updateUserData({ lookupScore: bodyParams });
     const url = `scores`;
 

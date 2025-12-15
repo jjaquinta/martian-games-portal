@@ -294,7 +294,27 @@ const AdminScores = () => {
                         &#9660;
                       </span>
                     </th>
-                    <th>Experience</th>
+                    <th>
+                      Experience
+                      <span
+                        style={{ 
+                          cursor: 'pointer',
+                          color: userData?.lookupScore?.orderup === 'xp' ? 'black' : 'inherit',
+                        }}                        
+                        onClick={() => sortUp('xp')}
+                      >
+                        &#9650;
+                      </span>
+                      <span
+                        style={{ 
+                          cursor: 'pointer',
+                          color: userData?.lookupScore?.orderdown === 'xp' ? 'black' : 'inherit',
+                        }}                        
+                        onClick={() => sortDown('xp')}
+                      >
+                        &#9660;
+                      </span>
+                    </th>
                     <th>
                       IP
                       <span
