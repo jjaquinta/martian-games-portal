@@ -28,18 +28,19 @@ import PublicYouTube from './components/public/youtube';
 import BetaNews from './components/beta/news';
 import BetaMap from './components/beta/map';
 import BetaOldMap from './components/beta/oldmap';
-import AdminPlayers from'./components/admin/players';
-import AdminReports from'./components/admin/reports';
-import AdminLogins from'./components/admin/logins';
-import AdminScores from'./components/admin/scores';
-import AdminInvestigate from'./components/admin/investigate';
-import AdminCases from'./components/admin/cases';
-import AdminAnalysis from'./components/admin/analysis';
-import AdminLobby from'./components/admin/lobbychat';
-import AdminBannedIPs from'./components/admin/bannedips';
-import YouTube from './components/public/loginYoutube'; 
+import AdminPlayers from './components/admin/players';
+import AdminReports from './components/admin/reports';
+import AdminLogins from './components/admin/logins';
+import AdminScores from './components/admin/scores';
+import AdminInvestigate from './components/admin/investigate';
+import AdminCases from './components/admin/cases';
+import AdminAnalysis from './components/admin/analysis';
+import AdminLobby from './components/admin/lobbychat';
+import AdminBannedIPs from './components/admin/bannedips';
+import YouTube from './components/public/loginYoutube';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import ErrorPage from './components/ErrorPage';
 
 const ProtectedRoute = ({ children }) => {
   const { userData } = useContext(UserContext);
@@ -56,13 +57,13 @@ const Layout = ({ children }) => {
   // Check if the current route is a protected route
 
 
-  const isProtectedRoute = (location.pathname.startsWith('/portal/me') || 
-  location.pathname.startsWith('/portal/game') ||
-  location.pathname.startsWith('/portal/beta') ||
-  location.pathname.startsWith('/portal/admin')||
-  location.pathname.startsWith('/portal/public'))  &&
-  location.pathname !== '/portal/public/login';
-                         
+  const isProtectedRoute = (location.pathname.startsWith('/portal/me') ||
+    location.pathname.startsWith('/portal/game') ||
+    location.pathname.startsWith('/portal/beta') ||
+    location.pathname.startsWith('/portal/admin') ||
+    location.pathname.startsWith('/portal/public')) &&
+    location.pathname !== '/portal/public/login';
+
 
   return (
     <div className="d-flex flex-column min-vh-100">
@@ -90,6 +91,7 @@ const router = createBrowserRouter([
   {
     path: "/portal",
     element: <Layout><Outlet /></Layout>,
+    errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Dashboard /> },
       { path: "public/login", element: <PublicLogin /> },
@@ -97,9 +99,9 @@ const router = createBrowserRouter([
       { path: "public/policies", element: <Policies /> },
       { path: "public/mod-conduct", element: <ModConduct /> },
       { path: "public/contact", element: <Contact /> },
-      { path: "public/youtube", element: <PublicYouTube/> },
-      { path: "public/loginYoutube", element: <YouTube/> },
-      { 
+      { path: "public/youtube", element: <PublicYouTube /> },
+      { path: "public/loginYoutube", element: <YouTube /> },
+      {
         path: "me",
         element: <ProtectedRoute><Outlet /></ProtectedRoute>,
         children: [
@@ -128,24 +130,24 @@ const router = createBrowserRouter([
         path: "beta",
         element: <ProtectedRoute><Outlet /></ProtectedRoute>,
         children: [
-          { path: "news", element: <BetaNews/> },
-          { path: "map", element: <BetaMap/> },
-          { path: "oldmap", element: <BetaOldMap/> }
+          { path: "news", element: <BetaNews /> },
+          { path: "map", element: <BetaMap /> },
+          { path: "oldmap", element: <BetaOldMap /> }
         ]
       }, {
         path: "admin",
         element: <ProtectedRoute><Outlet /></ProtectedRoute>,
         children: [
-          { path: "lobby", element: <AdminLobby/> },
-          { path: "players", element: <AdminPlayers/> },
-          { path: "reports", element: <AdminReports/> },
-          { path: "logins", element: <AdminLogins/> },
-          { path: "scores", element: <AdminScores/> },
-          { path: "bannedips", element: <AdminBannedIPs/> },
-          { path: "cases", element: <AdminCases/> },
-          { path: "investigate", element: <AdminInvestigate/> },
-          { path: "analysis", element: <AdminAnalysis/> }
-        
+          { path: "lobby", element: <AdminLobby /> },
+          { path: "players", element: <AdminPlayers /> },
+          { path: "reports", element: <AdminReports /> },
+          { path: "logins", element: <AdminLogins /> },
+          { path: "scores", element: <AdminScores /> },
+          { path: "bannedips", element: <AdminBannedIPs /> },
+          { path: "cases", element: <AdminCases /> },
+          { path: "investigate", element: <AdminInvestigate /> },
+          { path: "analysis", element: <AdminAnalysis /> }
+
         ]
       }
     ]

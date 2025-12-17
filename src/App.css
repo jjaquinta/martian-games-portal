@@ -3,7 +3,6 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-
 }
 
 .App {
@@ -11,13 +10,11 @@ body {
   flex-direction: column;
   min-height: 100vh;
   text-align: center;
-
 }
 
 .App-header {
   background-color: #282c34;
   height: 10vh;
-  /* Fixed height for header */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,23 +23,50 @@ body {
 
 .App-content {
   flex: 1;
-  /* Expands to fill available space */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  /* Optional padding */
   overflow: auto;
-  /* Enables scrolling both vertically and horizontally */
-
 }
 
 .App-footer {
   background-color: #282c34;
   height: 10vh;
-  /* Fixed height for footer */
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
+}
+
+/* Sidebar styling */
+.sidebar {
+  background: rgba(26, 26, 46, 0.85) !important;
+  backdrop-filter: blur(12px);
+  border-right: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+  padding: 20px 0;
+}
+
+.sidebar .nav-link {
+  color: #b8c5d6 !important;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  padding: 12px 20px;
+  margin: 4px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.sidebar .nav-link:hover {
+  background: rgba(0, 212, 255, 0.1);
+  color: #00d4ff !important;
+  transform: translateX(4px);
+}
+
+.sidebar .nav-link.active {
+  background: linear-gradient(135deg, rgba(255, 69, 0, 0.2), rgba(0, 212, 255, 0.2));
+  color: #ffd700 !important;
+  font-weight: 600;
+  border-left: 3px solid #ffd700;
 }

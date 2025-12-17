@@ -6,7 +6,9 @@ import { Form, Alert } from 'react-bootstrap';
 import './Login.css';
 import loginAudio from '../audio/loginScreenAudio.mp3';
 import bgVideo from '../video/bgvideo.mp4';
-import { FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
+// React Icons removed in favor of MUI Icons for reliability
+import VolumeOff from '@mui/icons-material/VolumeOff';
+import VolumeUp from '@mui/icons-material/VolumeUp';
 
 const PublicLogin = () => {
   const [username, setUsername] = useState(localStorage.getItem('username') || '');
@@ -152,13 +154,19 @@ const PublicLogin = () => {
           >
             Login as Guest
           </button>
-          <button 
-            type="button" 
-            onClick={toggleMute} 
+          import VolumeOff from '@mui/icons-material/VolumeOff';
+          import VolumeUp from '@mui/icons-material/VolumeUp';
+
+          // ... (in component)
+
+          <button
+            type="button"
+            onClick={toggleMute}
             className={`mute-button ${isMuted ? 'muted' : ''}`}
             aria-label={isMuted ? 'Unmute' : 'Mute'}
+            title={isMuted ? 'Unmute' : 'Mute'}
           >
-            {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
+            {isMuted ? <VolumeOff sx={{ fontSize: 24 }} /> : <VolumeUp sx={{ fontSize: 24 }} />}
           </button>
         </Form>
         {loading && (

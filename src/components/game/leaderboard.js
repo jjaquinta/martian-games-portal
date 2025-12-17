@@ -81,16 +81,25 @@ const GameLeaderboard = () => {
   };
 
   return (
-    <div className="leaderboard-page-container">
-      <h2 id="leaderboard">{userData.gameInfo.gameDisplayName} Leaderboard</h2>
+    <div className="table-container fade-in-up" style={{ maxWidth: '1200px', margin: '40px auto' }}>
+      <h2 id="leaderboard" className="premium-header">{userData.gameInfo.gameDisplayName} Leaderboard</h2>
 
       {loading ? ( // Conditionally render LoadingSpinner
         <LoadingSpinner />
       ) : (
         <>
           <form onSubmit={handleSubmit} className="leaderboard-form">
-            <input type="submit" value="Refresh" className="refresh-button" />
-            <select name="country" value={country} onChange={(e) => setCountry(e.target.value)}>
+            <input
+              type="submit"
+              value="Refresh"
+              className="refresh-button"
+            />
+            <select
+              name="country"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              className="input-field"
+            >
               <option value="">All</option>
               {COUNTRY_CODES.map((cc) => (
                 <option key={cc} value={cc}>
@@ -98,14 +107,24 @@ const GameLeaderboard = () => {
                 </option>
               ))}
             </select>
-            <select name="mode" value={mode} onChange={(e) => setMode(e.target.value)}>
+            <select
+              name="mode"
+              value={mode}
+              onChange={(e) => setMode(e.target.value)}
+              className="input-field"
+            >
               {MODE_CODES.map((cc) => (
                 <option key={cc} value={cc}>
                   {MODE_NAMES[cc] || cc}
                 </option>
               ))}
             </select>
-            <select name="recent" value={recent} onChange={(e) => setRecent(e.target.value)}>
+            <select
+              name="recent"
+              value={recent}
+              onChange={(e) => setRecent(e.target.value)}
+              className="input-field"
+            >
               <option value="false">Everyone</option>
               <option value="true">Active Only</option>
             </select>
@@ -129,13 +148,13 @@ const GameLeaderboard = () => {
                   <tr key={index}>
                     <td valign="top">{indexOfFirstItem + index + 1}</td>
                     <td valign="top">
-                      <span className="name-link" onClick={() => lookupUserByID(rec.current.id)}>
+                      <span className="nickname-hover" onClick={() => lookupUserByID(rec.current.id)}>
                         {rec.current.nickname}
                       </span>
                     </td>
                     <td align="right" valign="top">{rec.current.experience.toLocaleString()}</td>
                     <td align="right" valign="top">
-                      <span className="name-link" onClick={() => lookupUserByLevel(rec.current.level)}>
+                      <span className="nickname-hover" onClick={() => lookupUserByLevel(rec.current.level)}>
                         {rec.current.level}
                       </span>
                     </td>
@@ -146,7 +165,7 @@ const GameLeaderboard = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7" valign="top">No matched users</td>
+                  <td colSpan="7" valign="top" style={{ textAlign: 'center', padding: '20px' }}>No matched users</td>
                 </tr>
               )}
             </tbody>

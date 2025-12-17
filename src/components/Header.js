@@ -1,35 +1,43 @@
 import React, { useContext } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserContext } from './UserContext'; // If UserContext.js is in src
+import { UserContext } from './UserContext';
 import { useApi } from './useAPI';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import './Header.css';
 
 function Header() {
-  const { userData, setUserData } = useContext(UserContext); // Access user data and setUserData
-  const navigate = useNavigate(); // Initialize navigation
+  const { userData, setUserData } = useContext(UserContext);
+  const navigate = useNavigate();
   const { quickSwitch } = useApi();
 
   const handleLogout = () => {
-    setUserData(null); // Clear user data on logout
-    navigate('/portal'); // Redirect to login page
+    setUserData(null);
+    navigate('/portal');
   };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg">
-      <Container>
-        <Navbar.Brand as={Link} to="/portal">Martian Games Portal</Navbar.Brand>
-        <div className="text-center w-100">
-          <Navbar.Text>
-            {userData && userData.player ? (
-              <>Welcome {userData.player.login} / {userData.player.nickname} to {userData.gameInfo.gameDisplayName}!</>
-            ) : (
-              <>Please log in with the ID you use for the game</>
-            )}
-          </Navbar.Text>
-        </div>
+    <Navbar variant="dark" expand="lg" className="premium-navbar">
+      <Container fluid>
+        <Navbar.Brand as={Link} to="/portal" className="navbar-brand-premium">
+          <RocketLaunchIcon className="brand-icon" />
+          Martian Games Portal
+        </Navbar.Brand>
+
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto">
+          <div className="navbar-center-wrapper">
+            <Navbar.Text className="navbar-welcome-text">
+              {userData && userData.player ? (
+                <>Welcome {userData.player.login} / {userData.player.nickname} to {userData.gameInfo.gameDisplayName}!</>
+              ) : (
+                <>Please log in with the ID you use for the game</>
+              )}
+            </Navbar.Text>
+          </div>
+
+          <Nav className="ms-auto align-items-center">
             {userData ? (
               <>
                 {Array.isArray(userData?.user?.links) && userData.user.links.length > 0 && (
@@ -40,12 +48,7 @@ function Header() {
                         quickSwitch(game, login);
                       }
                     }}
-                    style={{
-                      marginLeft: '10px',
-                      padding: '5px',
-                      border: '1px solid #ccc',
-                      borderRadius: '4px',
-                    }}
+                    className="quick-switch-select"
                   >
                     <option value="">Quick Switch</option>
                     {userData.user.links.map((link, index) => (
@@ -58,12 +61,15 @@ function Header() {
                     ))}
                   </select>
                 )}
-                <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+                <Nav.Link onClick={handleLogout} className="nav-link-premium">
+                  Logout
+                </Nav.Link>
               </>
             ) : (
-              <Nav.Link as={Link} to="/portal/public/login">Login</Nav.Link> 
+              <Nav.Link as={Link} to="/portal/public/login" className="nav-link-premium">
+                Login
+              </Nav.Link>
             )}
-
           </Nav>
         </Navbar.Collapse>
       </Container>
