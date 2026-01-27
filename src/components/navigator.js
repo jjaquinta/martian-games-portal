@@ -190,6 +190,9 @@ function Navigator() {
                 <Nav.Link as={Link} to="/portal/admin/analysis" className={location.pathname === '/portal/admin/analysis' ? 'glow' : ''}>
                   Analysis
                 </Nav.Link>
+                <Nav.Link as={Link} to="/portal/admin/news" className={location.pathname === '/portal/admin/news' ? 'glow' : ''}>
+                  News
+                </Nav.Link>
                 <Nav.Link as={Link} to="/portal/admin/cases" className={location.pathname === '/portal/admin/cases' ? 'glow' : ''}>
                   Cases
                 </Nav.Link>

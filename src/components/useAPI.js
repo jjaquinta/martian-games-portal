@@ -463,6 +463,18 @@ export const useApi = () => {
     );
   };
 
+  const lookupNews = async (newNews) => {
+    const bodyParams = { news:newNews };
+    const url = `news`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => updateUserData({ lookupNews: data }),
+      "News lookup request failed"
+    );
+  };
+
   const changePassword = async (login, newpassword, newnickname) => {
     const bodyParams = { login, password: newpassword, nickname: newnickname };
     const url = `setpassword`;
@@ -866,5 +878,6 @@ export const useApi = () => {
     createMap,
     selectMap,
     saveMap,
+    lookupNews,
   };
 };

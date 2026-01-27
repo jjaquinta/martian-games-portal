@@ -37,6 +37,7 @@ import AdminCases from'./components/admin/cases';
 import AdminAnalysis from'./components/admin/analysis';
 import AdminLobby from'./components/admin/lobbychat';
 import AdminBannedIPs from'./components/admin/bannedips';
+import AdminNews from'./components/admin/news';
 import YouTube from './components/public/loginYoutube'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -144,6 +145,7 @@ const router = createBrowserRouter([
           { path: "bannedips", element: <AdminBannedIPs/> },
           { path: "cases", element: <AdminCases/> },
           { path: "investigate", element: <AdminInvestigate/> },
+          { path: "news", element: <AdminNews/> },
           { path: "analysis", element: <AdminAnalysis/> }
         
         ]
