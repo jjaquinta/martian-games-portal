@@ -24,6 +24,9 @@ function Dashboard() {
               </li>
             )}
             <li className="dashboard-item">
+              <Link to="/portal/public/downloads" className="dashboard-button">Downloads</Link>
+            </li>
+            <li className="dashboard-item">
               <Link to="/portal/public/policies" className="dashboard-button">Policies</Link>
             </li>
             <li className="dashboard-item">

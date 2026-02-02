@@ -25,6 +25,7 @@ import Policies from './components/public/policies';
 import ModConduct from './components/public/ModConduct';
 import Contact from './components/public/contact';
 import PublicYouTube from './components/public/youtube';
+import PublicDownloads from './components/public/downloads';
 import BetaNews from './components/beta/news';
 import BetaMap from './components/beta/map';
 import BetaOldMap from './components/beta/oldmap';
@@ -98,6 +99,7 @@ const router = createBrowserRouter([
       { path: "public/policies", element: <Policies /> },
       { path: "public/mod-conduct", element: <ModConduct /> },
       { path: "public/contact", element: <Contact /> },
+      { path: "public/downloads", element: <PublicDownloads /> },
       { path: "public/youtube", element: <PublicYouTube/> },
       { path: "public/loginYoutube", element: <YouTube/> },
       { 

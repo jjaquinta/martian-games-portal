@@ -52,6 +52,9 @@ function Navigator() {
             <Nav.Link as={Link} to="/portal/public/contact" className={location.pathname === '/portal/public/contact' ? 'glow' : ''}>
               Contact
             </Nav.Link>
+            <Nav.Link as={Link} to="/portal/public/downloads" className={location.pathname === '/portal/public/downloads' ? 'glow' : ''}>
+              Downloads
+            </Nav.Link>
             <Nav.Link as={Link} to="/portal/public/loginYoutube" className={location.pathname === '/portal/public/loginYoutube' ? 'glow' : ''}>
               Youtube
             </Nav.Link>

@@ -11,7 +11,7 @@ import { useQuickApi } from '../useQuickAPI';
 
 const AdminLinkNickname = ({ val, login }) => {
   const { lookupUserByNickname, lookupLoginByNickname, lookupScoreByNickname, lookupReportByNickname, lookupReportByReportNickname } = useApi();
-  const { quickChangeName } = useQuickApi();
+  const { quickChangeName, quickBePolite, quickPleaseUpgrade } = useQuickApi();
   const [anchorEl, setAnchorEl] = useState(null);
   const [subMenuAnchor, setSubMenuAnchor] = useState(null);
 
@@ -26,6 +26,16 @@ const AdminLinkNickname = ({ val, login }) => {
   
   const handleQuickChangeName = () => {
     quickChangeName(login, val);
+    handleClose(); // Close the main menu
+    handleSubMenuClose(); // Close the submenu
+  };
+  const handleQuickBePolite = () => {
+    quickBePolite(login, val);
+    handleClose(); // Close the main menu
+    handleSubMenuClose(); // Close the submenu
+  };
+  const handleQuickPleaseUpgrade = () => {
+    quickPleaseUpgrade(login, val);
     handleClose(); // Close the main menu
     handleSubMenuClose(); // Close the submenu
   };
@@ -76,9 +86,12 @@ const AdminLinkNickname = ({ val, login }) => {
       {/* Submenu for Advanced Options */}
       <Menu anchorEl={subMenuAnchor} open={subMenuOpen} onClose={handleSubMenuClose}>
         {login && login.trim() !== '' && (
+          <>
           <MenuItem onClick={() => handleQuickChangeName()}><RocketLaunchIcon /> Set nickname to CHANGE_NAME</MenuItem>
+          <MenuItem onClick={() => handleQuickBePolite(login, val)}><RocketLaunchIcon /> Set nickname to BE_POLITE</MenuItem>
+          <MenuItem onClick={() => handleQuickPleaseUpgrade(login, val)}><RocketLaunchIcon /> Set nickname to PLEASE_UPGRADE</MenuItem>
+          </>
         )}
-        <MenuItem onClick={() => console.log('Advanced Option 2')}>Advanced Option 2</MenuItem>
       </Menu>
     </>
   );

@@ -84,8 +84,16 @@ export const useQuickApi = () => {
         'nickname', 'BE_POLITE', 'Speech does not meet community standards');
   };
 
+  const quickPleaseUpgrade = async (login, oldName, ref) => {
+    quickAction(login, oldName, 'Upgrade Client',
+        'Your client is outdated. Please upgrade to the latest version.',
+        ref,
+        'nickname', 'PLEASE_UPGRADE', 'Client is outdated');
+  };
+
   return {
     quickChangeName,
     quickBePolite,
+    quickPleaseUpgrade
   };
 };
