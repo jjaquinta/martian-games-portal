@@ -46,7 +46,7 @@ export const useApi = () => {
   const apiAnyRequest = async (func, bodyParams, onSuccess, errorMsg, method = "POST", queryParams = {}, bodyObject = null) => {
     // Convert query parameters to query string
     const queryString = new URLSearchParams(queryParams).toString();
-    const url = `https://maincastle.serveminecraft.net:8089/tankoff/api/${func}${queryString ? `?${queryString}` : ''}`;
+    const url = `https://martiangames.com/api/${func}${queryString ? `?${queryString}` : ''}`;
     console.log(`API Request to ${url} with method ${method}`);
   
     // Determine request body and headers
