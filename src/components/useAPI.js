@@ -386,6 +386,32 @@ export const useApi = () => {
     }
   };
 
+  const lookupScoreThisMonth = async () => {
+    const bodyParams = { ago: 0 };
+    updateUserData({ lookupScoreThisMonth: bodyParams });
+    const url = `scoretotals`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => updateUserData({ lookupScoreThisMonthData: data }),
+      "Score this month lookup request failed"
+    );
+  };
+
+  const lookupScoreLastMonth = async () => {
+    const bodyParams = { ago: 1 };
+    updateUserData({ lookupScoreLastMonth: bodyParams });
+    const url = `scoretotals`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => updateUserData({ lookupScoreLastMonthData: data }),
+      "Score last month lookup request failed"
+    );
+  };
+
   const lookupClan = async (id, tag, name, time, orderup, orderdown) => {
     const bodyParams = { id, tag, name, time, orderup, orderdown };
     updateUserData({ lookupClan: bodyParams });
@@ -879,5 +905,7 @@ export const useApi = () => {
     selectMap,
     saveMap,
     lookupNews,
+    lookupScoreThisMonth,
+    lookupScoreLastMonth,
   };
 };

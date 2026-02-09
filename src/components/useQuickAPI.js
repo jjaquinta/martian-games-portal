@@ -94,6 +94,12 @@ export const useQuickApi = () => {
   return {
     quickChangeName,
     quickBePolite,
-    quickPleaseUpgrade
+    quickPleaseUpgrade,
+    quickCreateAccount: async (login, oldName, ref) => {
+      quickAction(login, oldName, 'Create Account',
+          'An account has been created for you. Please log in with your new credentials.',
+          ref,
+          'nickname', 'CREATE_ACCOUNT', 'Account creation requested by admin');
+    }
   };
 };

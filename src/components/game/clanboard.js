@@ -6,8 +6,10 @@ import LoadingSpinner from '../loadingspinner';
 
 const ClanLookup = () => {
   const { setUserData, userData } = useContext(UserContext);
-  const { lookupClan } = useApi();
+  const { lookupClan, lookupScoreThisMonth, lookupScoreLastMonth } = useApi();
   const lookupClanData = userData?.lookupClanData || [];
+  const lookupScoreThisMonthData = userData?.lookupScoreThisMonthData || [];
+  const lookupScoreLastMonthData = userData?.lookupScoreLastMonthData || [];
 
   const setLookupTag = (e) => {
     const updatedTag = e.target.value;
@@ -35,6 +37,8 @@ const ClanLookup = () => {
       e.preventDefault();
     }
   
+    await lookupScoreLastMonth();
+    await lookupScoreThisMonth();
     const result = await lookupClan(userData?.lookupClan?.id || '', 
       userData?.lookupClan?.clanTag || '', 
       userData?.lookupClan?.clanName || '', 
@@ -143,7 +147,57 @@ const ClanLookup = () => {
       {userData.busy ? (
         <LoadingSpinner />
       ) : Array.isArray(lookupClanData) && lookupClanData.length > 0 ? (
-        lookupClanData.length === 1 ? (
+        <>
+        <h2>This Month</h2>
+        <div className="table-container">
+          <table id="lastMonth">
+            <thead>
+              <tr>
+                  <th>Clan</th>
+                  <th>Experience</th>
+                  <th>Kills</th>
+                  <th>Flags</th>
+              </tr>
+            </thead>
+            <tbody>
+              {lookupScoreThisMonthData.map((rec, index) => (
+                <tr key={index}>
+                  <td>{rec.clan}</td>
+                  <td>{rec.experience.toLocaleString()}</td>
+                  <td>{rec.kills.toLocaleString()}</td>
+                  <td>{rec.flags.toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Last Month</h2>
+        <div className="table-container">
+          <table id="lastMonth">
+            <thead>
+              <tr>
+                  <th>Clan</th>
+                  <th>Experience</th>
+                  <th>Kills</th>
+                  <th>Flags</th>
+              </tr>
+            </thead>
+            <tbody>
+              {lookupScoreLastMonthData.map((rec, index) => (
+                <tr key={index}>
+                  <td>{rec.clan}</td>
+                  <td>{rec.experience.toLocaleString()}</td>
+                  <td>{rec.kills.toLocaleString()}</td>
+                  <td>{rec.flags.toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        
+        <h2>All Time</h2>
+        {lookupClanData.length === 1 ? (
           <SingleUserTable player={lookupClanData[0]} />
         ) : (
           <div className="table-container">
@@ -314,7 +368,8 @@ const ClanLookup = () => {
               </tbody>
             </table>
           </div>
-        )
+        )}
+        </>
       ) : (
         <div>No users to display</div>
       )}
