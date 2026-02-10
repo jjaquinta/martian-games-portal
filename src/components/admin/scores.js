@@ -336,6 +336,27 @@ const AdminScores = () => {
                         &#9660;
                       </span>
                     </th>
+                    <th>
+                      Clan
+                      <span
+                        style={{ 
+                          cursor: 'pointer',
+                          color: userData?.lookupScore?.orderup === 'clan' ? 'black' : 'inherit',
+                        }}                        
+                        onClick={() => sortUp('clan')}
+                      >
+                        &#9650;
+                      </span>
+                      <span
+                        style={{ 
+                          cursor: 'pointer',
+                          color: userData?.lookupScore?.orderdown === 'clan' ? 'black' : 'inherit',
+                        }}                        
+                        onClick={() => sortDown('clan')}
+                      >
+                        &#9660;
+                      </span>
+                    </th>
                     <th>Memo</th>
                 </tr>
               </thead>
@@ -365,6 +386,9 @@ const AdminScores = () => {
                       {rec.ip}
                       <AdminLinkIP val={rec.ip}/>
                     </td>
+                      <td>
+                        {rec.clan}
+                      </td>
                       <td>
                         {rec.memo}
                       </td>

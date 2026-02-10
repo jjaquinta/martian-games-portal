@@ -98,6 +98,11 @@ const AdminAnalysis = () => {
     await analysisCreate('dailystats', '', '', '');
   };
 
+  const handleClanContestSubmit = async (e) => {
+    e.preventDefault();
+    await analysisCreate('clancontest', '', '', '');
+  };
+
   const handleProgressSubmit = async (e) => {
     e.preventDefault();
     const progLoginIDValue = 'loginID='+progLoginID;
@@ -180,6 +185,14 @@ const AdminAnalysis = () => {
           Report on Daily Statistics&nbsp;
           <Tooltip title="Submit this analysis for processing on the server">
             <IconButton onClick={handleDailyStatsSubmit} color="error" aria-label="delete">
+              <PlayArrowIcon />
+            </IconButton>
+          </Tooltip>
+        </li>
+        <li>
+          Clan Contest Report&nbsp;
+          <Tooltip title="Submit this analysis for processing on the server">
+            <IconButton onClick={handleClanContestSubmit} color="error" aria-label="delete">
               <PlayArrowIcon />
             </IconButton>
           </Tooltip>

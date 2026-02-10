@@ -57,6 +57,8 @@ export const useApi = () => {
 
     try {
       setBusy(true);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 120000);
       const response = await fetch(url, {
         method,
         headers: {
@@ -64,7 +66,9 @@ export const useApi = () => {
           'Authorization': `Bearer ${api_token}`,
         },
         body: method !== 'GET' ? body : undefined,
+        signal: controller.signal,
       });
+      clearTimeout(timeoutId);
       setBusy(false);
   
       if (response.status === 200) {
