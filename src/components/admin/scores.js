@@ -62,6 +62,16 @@ const AdminScores = () => {
       },
     }));
   };
+  const setLookupClan = (e) => {
+    const updatedClan = e.target.value;
+    setUserData((prevData) => ({
+      ...prevData,
+      lookupScore: {
+        ...prevData.lookupScore,
+        clan: updatedClan,
+      },
+    }));
+  };
 
   const handleSubmit = async (e) => {
     if (e != null) {
@@ -72,8 +82,9 @@ const AdminScores = () => {
       userData?.lookupScore?.nickname || '', 
       userData?.lookupScore?.ip || '', 
       userData?.lookupScore?.time || '', 
-      userData?.lookupScore?.sortup || '', 
-      userData?.lookupScore?.sortdown || 'id');
+      userData?.lookupScore?.clan || '', 
+      userData?.lookupScore?.orderup || '', 
+      userData?.lookupScore?.orderdown || 'id');
 
     if (!result.success) {
       console.error('lookupScore failed:', result.error || result.status);
@@ -86,6 +97,7 @@ const AdminScores = () => {
       userData?.lookupScore?.nickname || '', 
       userData?.lookupScore?.ip || '', 
       userData?.lookupScore?.time || '', 
+      userData?.lookupScore?.clan || '', 
       column, 
       '');
 
@@ -100,6 +112,7 @@ const AdminScores = () => {
       userData?.lookupScore?.nickname || '', 
       userData?.lookupScore?.ip || '', 
       userData?.lookupScore?.time || '', 
+      userData?.lookupScore?.clan || '', 
       '', 
       column);
 
@@ -110,6 +123,7 @@ const AdminScores = () => {
 
   const doClear = async () => {
     const result = await lookupScore('', 
+      '', 
       '', 
       '', 
       '', 
@@ -132,6 +146,7 @@ const AdminScores = () => {
     var login = '';
     const result = await lookupScore(id, 
       login,
+      '', 
       '', 
       '', 
       '', 
@@ -165,14 +180,6 @@ const AdminScores = () => {
           </button>
           <input
             type="text"
-            name="lookupLoginID"
-            placeholder="LOGIN#"
-            value={userData?.lookupScore?.id || ''}
-            onChange={setLookupID}
-            className="input-field"
-          />
-          <input
-            type="text"
             name="lookupLogin"
             placeholder="Login"
             value={userData?.lookupScore?.login || ''}
@@ -201,6 +208,14 @@ const AdminScores = () => {
             placeholder="time"
             value={userData?.lookupScore?.time || ''}
             onChange={setLookupTime}
+            className="input-field"
+          />
+          <input
+            type="text"
+            name="lookupClan"
+            placeholder="clan"
+            value={userData?.lookupScore?.clan || ''}
+            onChange={setLookupClan}
             className="input-field"
           />
           <button

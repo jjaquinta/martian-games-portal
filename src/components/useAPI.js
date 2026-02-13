@@ -341,8 +341,8 @@ export const useApi = () => {
     }
   };
 
-  const lookupScore = async (id, login, nickname, ip, time, orderup, orderdown) => {
-    const bodyParams = { id, login, nickname, ip, time, orderup, orderdown, limit: 1000 };
+  const lookupScore = async (id, login, nickname, ip, time, clan, orderup, orderdown) => {
+    const bodyParams = { id, login, nickname, ip, time, clan, orderup, orderdown, limit: 1000 };
     updateUserData({ lookupScore: bodyParams });
     const url = `scores`;
 
