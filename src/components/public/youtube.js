@@ -16,12 +16,16 @@ const PublicYouTube = () => {
       <h3>Air Wars</h3>
       <ul>
         <li><a href="https://www.youtube.com/@dominator4619">Dominator</a></li>
+        <li><a href="https://www.youtube.com/@mikkamakkapilot9504">Gábor Katzenbach</a></li>
       </ul>
       
       <h3>Motor Wars</h3>
       <ul>
         <li><a href="https://www.youtube.com/@ArtemTankOff">Achilles</a></li>
         <li><a href="https://www.youtube.com/@cleverdude6297/featured">CleverDude</a></li>
+        <li><a href="https://www.youtube.com/@Dr.Snek02/videos?app=desktop">Dr. Snek</a></li>
+        <li><a href="https://www.youtube.com/@highestbudu4374">Highest Budu</a></li>
+        <li><a href="https://www.youtube.com/@WatchDog-nr6ei?app=desktop">๖ۣۜƤlคψers</a></li>
       </ul>
 
       <h3>Tank Off Classic</h3>
@@ -42,8 +46,14 @@ const PublicYouTube = () => {
 
       <h3>Tank Off 2</h3>
       <ul>
-        <li><a href="https://www.youtube.com/@nightmaretankoff2827">Nightmare Tank Off 2</a></li>
+        <li><a href="https://www.youtube.com/@irondestiny">Iron Destiny</a></li>
+        <li><a href="https://www.youtube.com/@badrobot2625">Bad Robot</a></li>
+        <li><a href="https://www.youtube.com/@fatumba7980">Fatumba</a></li>
         <li><a href="https://www.youtube.com/@-tankoff-3637">FURY Tank Off 2</a></li>
+        <li><a href="https://www.youtube.com/@jagdtigerthunder9161">JagdTiger Thunder</a></li>
+        <li><a href="https://www.youtube.com/@lastic1634">Lastic</a></li>
+        <li><a href="https://www.youtube.com/@nightmaretankoff2827">Nightmare Tank Off 2</a></li>
+        <li><a href="https://www.youtube.com/@33JBT81">OUTPOST#31</a></li>
       </ul>
 
       <p>
