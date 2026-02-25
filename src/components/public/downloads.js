@@ -33,6 +33,7 @@ const PublicDownloads = () => {
 
       <h3>Solwars</h3>
       <ul>
+        <li><a href="https://martiangames.com/pc/Solwars.zip">Sol Wars PC</a></li>
         <li><a href="https://www.crazygames.com/game/solwars">Sol Wars Web</a></li>
       </ul>
 

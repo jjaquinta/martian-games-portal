@@ -14,7 +14,7 @@ import AdminLinkIP from '../ctrl/AdminLinkIP';
 
 const AdminPlayers = () => {
   const { setUserData, userData } = useContext(UserContext);
-  const { lookupUser } = useApi();
+  const { lookupUser, setUserMetadata } = useApi();
   const lookupUserData = userData?.lookupUserData || [];
 
   const setLookupID = (e) => {
@@ -142,6 +142,16 @@ const AdminPlayers = () => {
     }
   };
 
+  
+  const doSetMetadata = async (login, key, val, op) => {
+    const result = await setUserMetadata(login, key, val, op);
+
+    if (!result.success) {
+      console.error('set metadata:', result.error || result.status);
+    }
+    handleSubmit(null);
+  };
+
   return (
     <div>
       <h1>{userData.gameInfo.gameDisplayName} Player Lookup</h1>
@@ -235,7 +245,7 @@ const AdminPlayers = () => {
         <LoadingSpinner />
       ) : Array.isArray(lookupUserData) && lookupUserData.length > 0 ? (
         lookupUserData.length === 1 ? (
-          <SingleUserTable player={lookupUserData[0]}/>
+          <SingleUserTable player={lookupUserData[0]} onSetMetadata={doSetMetadata} />
         ) : (
           <div className="table-container">
             <table id="matches">
@@ -427,7 +437,7 @@ const AdminPlayers = () => {
   );
 };
 
-const SingleUserTable = ({ player: user }) => {
+const SingleUserTable = ({ player: user, onSetMetadata }) => {
 
   return (
     <>
@@ -477,6 +487,70 @@ const SingleUserTable = ({ player: user }) => {
     <tr>
       <th>PC Key</th>
       <td>{user.current.pckey}</td>
+    </tr>
+    <tr>
+      <th>Gold</th>
+      <td>{user.current.gold}</td>
+    </tr>
+    <tr>
+      <th>Room Maker Flag</th>
+      <td>{user.current.roommaker ? 'Yes' : 'No'}</td>
+      <td>
+        <button
+          className="refresh-button"
+          onMouseOver={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(76, 175, 80, 1)';
+            e.currentTarget.style.transform = 'scale(1.05)';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(76, 175, 80, 0.7)';
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+          onClick={() => onSetMetadata(user.current.login, 'flags.roommaker', null, 'toggle')}
+        >
+          toggle
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <th>Lobby Chat Ban Flag</th>
+      <td>{user.current.nolobbychat ? 'Yes' : 'No'}</td>
+      <td>
+        <button
+          className="refresh-button"
+          onMouseOver={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(76, 175, 80, 1)';
+            e.currentTarget.style.transform = 'scale(1.05)';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(76, 175, 80, 0.7)';
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+          onClick={() => onSetMetadata(user.current.login, 'flags.nolobbychat', null, 'toggle')}
+        >
+          toggle
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <th>Game Chat Ban Flag</th>
+      <td>{user.current.nogamechat ? 'Yes' : 'No'}</td>
+      <td>
+        <button
+          className="refresh-button"
+          onMouseOver={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(76, 175, 80, 1)';
+            e.currentTarget.style.transform = 'scale(1.05)';
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(76, 175, 80, 0.7)';
+            e.currentTarget.style.transform = 'scale(1)';
+          }}
+          onClick={() => onSetMetadata(user.current.login, 'flags.nogamechat', null, 'toggle')}
+        >
+          toggle
+        </button>
+      </td>
     </tr>
     {user.current.password && user.current.password.trim() !== '' && (
       <>

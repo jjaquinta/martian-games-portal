@@ -209,6 +209,18 @@ export const useApi = () => {
       "User lookup request failed"
     );
   };
+
+  const setUserMetadata = async (login, key, value, op) => {
+    const bodyParams = { login, key, value, op };
+    const url = `playermetadata`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => console.log(data),
+      "User set metadata request failed"
+    );
+  };
   
   const lookupReport = async (id, login, nickname, level, reportlogin, reportnickname, reportlevel, room, chat, orderup, orderdown) => {
     const bodyParams = { id, login, nickname, level, reportlogin, reportnickname, reportlevel, room, chat, orderup, orderdown };
@@ -863,6 +875,7 @@ export const useApi = () => {
     lookupUserByNickname,
     lookupUserByLevel,
     lookupUserByIP,
+    setUserMetadata,
     takeAction,
     lookupReport,
     lookupReportByID,
