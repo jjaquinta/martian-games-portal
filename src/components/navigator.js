@@ -128,6 +128,9 @@ function Navigator() {
                 <Nav.Link as={Link} to="/portal/game/lookup" className={location.pathname === '/portal/game/lookup' ? 'glow' : ''}>
                   Player Lookup
                 </Nav.Link>
+                <Nav.Link as={Link} to="/portal/game/news" className={location.pathname === '/portal/game/news' ? 'glow' : ''}>
+                  News
+                </Nav.Link>
                 {userData?.gameInfo?.dblobby && (<Nav.Link as={Link} to="/portal/game/lobbychat" className={location.pathname === '/portal/game/lobbychat' ? 'glow' : ''}>
                   Lobby Chat
                 </Nav.Link>)}

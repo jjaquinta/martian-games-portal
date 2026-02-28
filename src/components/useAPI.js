@@ -221,6 +221,18 @@ export const useApi = () => {
       "User set metadata request failed"
     );
   };
+
+  const getGameMetadata = async (key, value, op) => {
+    const bodyParams = { key, value, op };
+    const url = `gamemetadata`;
+
+    return apiRequest(
+      url,
+      bodyParams,
+      (data) => updateUserData({ lookupGameData: data }),
+      "Game metadata request failed"
+    );
+  };
   
   const lookupReport = async (id, login, nickname, level, reportlogin, reportnickname, reportlevel, room, chat, orderup, orderdown) => {
     const bodyParams = { id, login, nickname, level, reportlogin, reportnickname, reportlevel, room, chat, orderup, orderdown };
@@ -924,5 +936,6 @@ export const useApi = () => {
     lookupNews,
     lookupScoreThisMonth,
     lookupScoreLastMonth,
+    getGameMetadata
   };
 };

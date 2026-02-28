@@ -21,6 +21,7 @@ import ClanLookup from './components/game/clanboard';
 import GameLookup from './components/game/lookup';
 import GameLobbyChat from './components/game/lobbychat';
 import GameAnalysis from './components/game/analysis';
+import GameNews from './components/game/news';
 import Policies from './components/public/policies';
 import ModConduct from './components/public/ModConduct';
 import Contact from './components/public/contact';
@@ -123,6 +124,7 @@ const router = createBrowserRouter([
           { path: "leaderboard", element: <GameLeaderboard /> },
           { path: "clans", element: <ClanLookup /> },
           { path: "lookup", element: <GameLookup /> },
+          { path: "news", element: <GameNews /> },
           { path: "lobbychat", element: <GameLobbyChat /> },
           { path: "analysis", element: <GameAnalysis /> },
         ]
